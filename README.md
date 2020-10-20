@@ -4,14 +4,15 @@
 ![BUILD](https://img.shields.io/badge/build-passing-green)
 
 
-**Knowledge sharing app that facilitates meetings between tutors and apprentices!**
+**Knowledge sharing app that connects tutors and apprentices!**
 
 # Table of Contents
 * About the Project
   * Built With
-* Usage
+* Installation
+* Contributing
 * License
-* Team Members
+* Our Team
 
 
 ## About The Project
