@@ -9,9 +9,10 @@
 # Table of Contents
 * About the Project
   * Built With
-* Usage
+* Installation
+* Contributing
 * License
-* Team Members
+* Our Team
 
 
 ## About The Project
