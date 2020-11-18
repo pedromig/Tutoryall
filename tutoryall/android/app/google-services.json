@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "319553655061",
+    "firebase_url": "https://tutory-all-app.firebaseio.com",
+    "project_id": "tutory-all-app",
+    "storage_bucket": "tutory-all-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:319553655061:android:a197bbf6e03796c5e5191c",
+        "android_client_info": {
+          "package_name": "com.pgi2020.tutoryall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "319553655061-5fr8l5jjpu4sbvgcaedodrufpm0vqd5n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjNom2LzmW7uZf2CmofqUP183KKoqGbt4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "319553655061-5fr8l5jjpu4sbvgcaedodrufpm0vqd5n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
