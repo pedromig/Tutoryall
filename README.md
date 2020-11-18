@@ -29,6 +29,9 @@ Our app aims to close the gap between tutors and apprentices!
 
 - [Flutter](https://flutter.dev/?gclid=CjwKCAjwlbr8BRA0EiwAnt4MTiSxWyIWeBEPpdzdW--yMy6iSjlMLKFMs-EagAhaxQ6Z36SD5it9nRoCi9IQAvD_BwE&gclsrc=aw.ds)
 
+### Legal Notice
+
+The contents contained in this project were made by students in the scope of a discipline - Management and Innovation Processes - from the 3rd year of the degree of Informatics Engineering at the Faculty of Sciences and Technology of the University of Coimbra (FCTUC), so FCTUC is not responsible for its content.
 
 ## Installation
 - [Flutter Instalation](https://flutter.dev/docs/get-started/install)
