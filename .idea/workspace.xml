@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="10d27307-2c54-4388-9712-0c27b65d40b4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/tutoryall/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/tutoryall/pubspec.lock" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1kTy3TmKBzRHjr2M01AKMcQtqxf" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="dart.settings" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RunManager" selected="Flutter.main.dart">
+    <configuration name="widget_test.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/tutoryall/test/widget_test.dart" />
+      <option name="workingDirectory" value="$PROJECT_DIR$/tutoryall" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/tutoryall/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Flutter.main.dart" />
+        <item itemvalue="Dart Command Line App.widget_test.dart" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="10d27307-2c54-4388-9712-0c27b65d40b4" name="Default Changelist" comment="" />
+      <created>1605738677002</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1605738677002</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605739082180">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1605739082180" />
+    <state x="392" y="93" key="#widget_test.dart" timestamp="1605739130604">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="392" y="93" key="#widget_test.dart/0.0.1366.728@0.0.1366.728" timestamp="1605739130604" />
+    <state x="466" y="159" key="FileChooserDialogImpl" timestamp="1605739125601">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="466" y="159" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1605739125601" />
+    <state width="1323" height="178" key="GridCell.Tab.0.bottom" timestamp="1605739666993">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="178" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1605739666993" />
+    <state width="1323" height="178" key="GridCell.Tab.0.center" timestamp="1605739666992">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="178" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1605739666992" />
+    <state width="1323" height="178" key="GridCell.Tab.0.left" timestamp="1605739666991">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="178" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1605739666991" />
+    <state width="1323" height="178" key="GridCell.Tab.0.right" timestamp="1605739666992">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="178" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1605739666992" />
+    <state x="184" y="9" key="SettingsEditor" timestamp="1605739664565">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="184" y="9" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1605739664565" />
+  </component>
+</project>
