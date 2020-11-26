@@ -52,6 +52,20 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/images/logo.png
+
+  fonts: 
+    - family: Minimo  
+      fonts: 
+        - asset: assets/fonts/Minimo-Bold-Oblique.otf
+        - asset: assets/fonts/Minimo-Bold.otf
+        - asset: assets/fonts/Minimo-Light-Oblique.otf
+        - asset: assets/fonts/Minimo-Light.otf
+        - asset: assets/fonts/Minimo-Medium.otf
+        - asset: assets/fonts/Minimo-Oblique.otf
+        - asset: assets/fonts/Minimo.otf
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
