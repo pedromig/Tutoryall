@@ -54,6 +54,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/logo.png
+    - assets/images/lightbulb.png
 
   fonts: 
     - family: Minimo  

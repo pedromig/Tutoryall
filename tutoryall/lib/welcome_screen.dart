@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tutoryall/login_screen.dart';
 import 'package:tutoryall/main.dart';
+import 'package:tutoryall/register_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   final String title;
@@ -14,8 +16,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget _loginButton() {
     return InkWell(
       onTap: () => {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => MyHomePage(title: "Hello")))
+        Navigator.push(context, 
+            MaterialPageRoute(builder: (context) => LoginScreen(title: "Login Page")))
       },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 13),
@@ -26,7 +28,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             color: Colors.white),
         child: Text(
           "Login",
-          style: TextStyle(fontSize: 25, fontFamily: 'Minimo'),
+          style: TextStyle(fontSize: 25, fontFamily: 'Minimo', fontWeight: FontWeight.w500),
         ),
       ),
     );
@@ -36,7 +38,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return InkWell(
       onTap: () => {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => MyHomePage(title: "Hello")))
+            MaterialPageRoute(builder: (context) => RegisterScreen(title: "Hello")))
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -49,7 +51,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         child: Text(
           'Register',
           style: TextStyle(
-              fontSize: 25, color: Colors.black, fontFamily: 'Minimo'),
+              fontSize: 25, color: Colors.black, fontFamily: 'Minimo', fontWeight: FontWeight.w500),
         ),
       ),
     );
