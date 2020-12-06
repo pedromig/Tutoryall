@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:tutoryall/welcome_screen.dart';
+import 'left_drawer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Tutory\'all',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: WelcomeScreen(title: "Welcome Screen"),
+      home: MyHomePage(title: 'Tutory\'all'),
     );
   }
 }
@@ -70,14 +71,17 @@ class _MyHomePageState extends State<MyHomePage> {
     //
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    // than having to individually chqange instances of widgets.
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-        centerTitle: true,
+         title: Text(widget.title),
+         centerTitle: true,
+      ),
+      drawer: Drawer(
+        child: LeftDrawer(),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
