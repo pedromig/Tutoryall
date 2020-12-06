@@ -81,7 +81,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image.asset("assets/images/logo.png", width: 300, height: 400),
+              Image.asset("assets/images/logo_alpha.png",
+                  width: 300, height: 400),
               SizedBox(
                 height: 60,
               ),
@@ -95,5 +96,5 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         ),
       ),
     );
-  } 
+  }
 }
