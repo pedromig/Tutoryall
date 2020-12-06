@@ -15,6 +15,12 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _password = TextEditingController();
   TextEditingController _email = TextEditingController();
 
+  void dispose() {
+    _password.dispose();
+    _email.dispose();
+    super.dispose();
+  }
+
   Widget _backButton() {
     return InkWell(
       onTap: () => Navigator.pop(context),
@@ -100,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
             decoration: InputDecoration(
               fillColor: Color(0xffffffff),
               filled: true,
-              prefixIcon: Icon(Icons.security, color: Colors.black, size: 30),
+              prefixIcon: Icon(Icons.lock, color: Colors.black, size: 30),
               suffixIcon: IconButton(
                 icon: Icon(Icons.remove_red_eye_rounded,
                     color: this._showPassword ? Colors.blue : Colors.grey),
@@ -159,7 +165,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: height * 0.17),
-                    Image.asset("assets/images/lightbulb.png", width: 100, height: 150),
+                  Image.asset("assets/images/lightbulb.png",
+                      width: 100, height: 150),
                   _loginTitle(),
                   SizedBox(height: 30),
                   Column(
