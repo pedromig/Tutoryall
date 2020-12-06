@@ -2,12 +2,33 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tutoryall/tile.dart';
 
+final List<String> entries = <String>['A', 'B', 'C'];
+final List<int> colorCodes = <int>[600, 500, 100];
+
 class Profile extends StatefulWidget {
   @override
   _ProfileState createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
+  Future<List<User>> _getData() async {
+    List<User> users = [];
+    User x;
+    List<Tag> tags = [];
+    Tag y;
+
+    for (var i = 0; i < 20; i++) {
+      for (var e = 0; e < 10; e++) {
+        y = Tag("tag $e");
+        tags.add(y);
+      }
+      x = User("Gabriel $i", tags);
+      print(x.tags.length);
+      users.add(x);
+    }
+    return users;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +50,7 @@ class _ProfileState extends State<Profile> {
                 width: double.infinity,
                 height: 150,
                 child: Container(
-                  alignment: Alignment(-1.0, 2),
+                  alignment: Alignment(-1.0, 2.5),
                   child: CircleAvatar(
                     backgroundImage: NetworkImage(
                         "https://tmssl.akamaized.net/images/portrait/header/283130-1542106491.png?lm=1542106523"),
@@ -39,10 +60,17 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
             ),
-            SizedBox(
-              width: double.infinity,
-              height: 30,
-            ),
+            Container(
+                width: double.infinity,
+                height: 50,
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  child: Icon(Icons.favorite_border, size: 30),
+                  decoration:
+                      BoxDecoration(shape: BoxShape.circle, color: Colors.blue),
+                ),
+                alignment: Alignment(0.7, 0)),
             Container(
               child: Text(
                 "God Marega",
@@ -61,34 +89,158 @@ class _ProfileState extends State<Profile> {
               padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
               width: double.infinity,
             ),
-            Container(
-              child: Text(
-                "\"Life is nothing But a Cruel Mistress\"",
-                style: TextStyle(fontSize: 15),
-                textAlign: TextAlign.center,
+            InkWell(
+              child: Container(
+                child: Text(
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                  style: TextStyle(fontSize: 15),
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.fade,
+                ),
+                padding: EdgeInsets.all(10),
+                width: double.infinity,
+                height: 100,
               ),
-              padding: EdgeInsets.all(10),
-              width: double.infinity,
+              onTap: () {
+                print("Fix me");
+              },
             ),
-            /* ListView(
-              children: <Widget>[
-                Container(
-                  height: 50,
-                  color: Colors.amber[600],
-                  child: const Center(child: Text('Entry A')),
+            Card(
+              child: Row(),
+            ),
+            Container(
+              width: double.infinity,
+              height: 50,
+              child: Row(
+                children: [
+                  Expanded(
+                      flex: 3,
+                      child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0.0),
+                          ),
+                          color: Colors.blue,
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Icons.mail),
+                                Text("atuamaeegay@gmail.com")
+                              ],
+                            ),
+                          ))),
+                  Expanded(
+                      child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0.0),
+                          ),
+                          color: Colors.blue,
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [Icon(Icons.star), Text("1.23")],
+                            ),
+                          ))),
+                ],
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerLeft,
+              padding: EdgeInsets.all(10),
+              child: Text(
+                "Featured in",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
-                Container(
-                  height: 50,
-                  color: Colors.amber[500],
-                  child: const Center(child: Text('Entry B')),
-                ),
-                Container(
-                  height: 50,
-                  color: Colors.amber[100],
-                  child: const Center(child: Text('Entry C')),
-                ),
+              ),
+            ),
+            /* Expanded(
+                child: ListView(
+              children: [
+                Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                    ),
+                    color: Colors.blue,
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [Icon(Icons.star), Text("1.23")],
+                      ),
+                    )),
+                Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                    ),
+                    color: Colors.blue,
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [Icon(Icons.star), Text("1.23")],
+                      ),
+                    )),
+                Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                    ),
+                    color: Colors.blue,
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [Icon(Icons.star), Text("1.23")],
+                      ),
+                    )),
+                Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                    ),
+                    color: Colors.blue,
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [Icon(Icons.star), Text("1.23")],
+                      ),
+                    )),
               ],
-            ) */
+            )) */
+            Expanded(
+              child: Container(
+                child: FutureBuilder(
+                  future: _getData(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.data == null) {
+                      return Container(child: Center(child: Text("Loading")));
+                    } else {
+                      return ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          /*return ListTile(
+                    title: Text(snapshot.data[index].name),
+                    trailing: CircleAvatar(),
+                  )
+                  ;
+                  */
+                          return CustomTile(snapshot: snapshot, index: index);
+                        },
+                      );
+                    }
+                  },
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -112,4 +264,16 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
+}
+
+class User {
+  final String name;
+  final List<Tag> tags;
+  User(this.name, this.tags);
+}
+
+class Tag {
+  final String tagName;
+
+  Tag(this.tagName);
 }
