@@ -29,6 +29,7 @@ class _ProfileState extends State<Profile> {
     return users;
   }
 
+  bool isFav = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,17 +61,31 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
             ),
-            Container(
-                width: double.infinity,
-                height: 50,
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  child: Icon(Icons.favorite_border, size: 30),
-                  decoration:
-                      BoxDecoration(shape: BoxShape.circle, color: Colors.blue),
-                ),
-                alignment: Alignment(0.7, 0)),
+            InkWell(
+              child: Container(
+                  width: double.infinity,
+                  height: 50,
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    child: isFav == true
+                        ? Icon(
+                            Icons.favorite,
+                            size: 30,
+                            color: Colors.red[800],
+                          )
+                        : Icon(Icons.favorite_border, size: 30),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle, color: Colors.blue),
+                  ),
+                  alignment: Alignment(0.7, 0)),
+              onTap: () {
+                setState(() {
+                  isFav = !isFav;
+                  //TODO: change here
+                });
+              },
+            ),
             Container(
               child: Text(
                 "God Marega",
@@ -102,7 +117,14 @@ class _ProfileState extends State<Profile> {
                 height: 100,
               ),
               onTap: () {
-                print("Fix me");
+                showDialog(
+                    context: context,
+                    builder: (_) => new AlertDialog(
+                          title: new Text("Bio"),
+                          content: new Text(
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                          ),
+                        ));
               },
             ),
             Card(
@@ -264,6 +286,31 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
+}
+
+Widget _test(BuildContext context) {
+  return Column(children: [
+    Container(
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: NetworkImage(
+                  "https://imgs.smoothradio.com/images/191589?crop=16_9&width=660&relax=1&signature=Rz93ikqcAz7BcX6SKiEC94zJnqo="),
+              fit: BoxFit.cover)),
+      child: Container(
+        width: double.infinity,
+        height: 150,
+        child: Container(
+          alignment: Alignment(-1.0, 2.5),
+          child: CircleAvatar(
+            backgroundImage: NetworkImage(
+                "https://tmssl.akamaized.net/images/portrait/header/283130-1542106491.png?lm=1542106523"),
+            radius: 50.0,
+            backgroundColor: Colors.white,
+          ),
+        ),
+      ),
+    ),
+  ]);
 }
 
 class User {
