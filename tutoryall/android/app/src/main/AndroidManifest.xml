@@ -2,7 +2,7 @@
     package="com.example.tutoryall">
    <application
         android:label="Tutory'all"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/tutoryall_launcher">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
