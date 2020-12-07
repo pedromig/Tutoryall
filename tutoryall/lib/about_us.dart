@@ -27,7 +27,7 @@ class _AboutUsState extends State<AboutUs> {
               ),
               Expanded(
                 child: Image.asset(
-                  "assets/logo.png",
+                  "assets/images/logo.png",
                   fit: BoxFit.scaleDown,
                 ),
               ),
