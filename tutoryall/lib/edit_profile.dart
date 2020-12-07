@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class editProfile extends StatefulWidget {
+class EditProfile extends StatefulWidget {
   @override
-  _editProfileState createState() => _editProfileState();
+  _EditProfileState createState() => _EditProfileState();
 }
 
-class _editProfileState extends State<editProfile> {
+class _EditProfileState extends State<EditProfile> {
   final _formKey = GlobalKey<FormState>();
 
   @override

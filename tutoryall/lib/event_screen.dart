@@ -7,9 +7,7 @@ class EventScreen extends StatefulWidget {
   EventScreen(this.event);
 
   @override
-  _EventScreenState createState() {
-    return _EventScreenState();
-  }
+  _EventScreenState createState() => _EventScreenState();
 }
 
 class _EventScreenState extends State<EventScreen> {

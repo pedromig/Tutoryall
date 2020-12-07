@@ -13,12 +13,12 @@ import 'package:tutoryall/tile.dart';
 final List<String> entries = <String>['A', 'B', 'C'];
 final List<int> colorCodes = <int>[600, 500, 100];
 
-class Profile extends StatefulWidget {
+class ProfileInfo extends StatefulWidget {
   @override
-  _ProfileState createState() => _ProfileState();
+  _ProfileInfoState createState() => _ProfileInfoState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfileInfoState extends State<ProfileInfo> {
   Future<List<User>> _getData() async {
     List<User> users = [];
     User x;

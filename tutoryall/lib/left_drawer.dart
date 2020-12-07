@@ -7,7 +7,7 @@
 */
 import 'package:flutter/material.dart';
 
-import 'profile_info.dart';
+import 'profile.dart';
 import 'settings.dart';
 import 'about_us.dart';
 import 'report_error.dart';
@@ -51,7 +51,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
       case 4:
         return Suggestion();
       case 5:
-        return Logout(); //TODO dummy
+        return Logout();
     }
     return null;
   }
