@@ -27,36 +27,77 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  String _emailError = "";
+  String _passwordError = "";
+  String _repeatPasswordError;
+
   void dispose() {
     _password.dispose();
     _email.dispose();
+    _repeatPassword.dispose();
     super.dispose();
   }
 
   void _register() async {
     try {
-      await _auth
-          .createUserWithEmailAndPassword(
-              email: _email.text, password: _password.text)
-          .then(
-            (value) => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => HomePage(title: value.user.email),
-              ),
-            ),
-          );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == "email-already-in-use") {
-        print("Already exists xD");
-      } else if (e.code == "invalid-email") {
-        print("Invalid email xD");
-      } else if (e.code == "weak-password") {
-        print("Weak password xD");
-      } else {
-        print("Error: Please setup configurations in your flutter page");
+      if (_repeatPassword.text == _password.text) {
+        showLoaderDialog(context);
+        await _auth
+            .createUserWithEmailAndPassword(
+                email: _email.text, password: _password.text)
+            .then(
+              (value) => {
+                Navigator.pop(context),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomePage(user: value.user),
+                  ),
+                ),
+              },
+            );
       }
+    } on FirebaseAuthException catch (e) {
+      _emailError = "";
+      _passwordError = "";
+      _repeatPasswordError = null;
+      setState(() {
+        if (e.code == "email-already-in-use") {
+          _emailError = "Email already in use";
+        } else if (e.code == "invalid-email") {
+          _emailError = "Invalid email";
+        } else if (e.code == "weak-password") {
+          _passwordError = "Password must have 6-12 characters";
+        } else {
+          if (_email.text.isEmpty) _emailError = "required";
+          if (_password.text.isEmpty) _passwordError = "required";
+          if (_repeatPassword.text.isEmpty) _repeatPasswordError = "required";
+        }
+      });
+      Navigator.pop(context);
     }
+  }
+
+  showLoaderDialog(BuildContext context) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          backgroundColor: Color(0xfff2f3f5),
+          content: new Row(
+            children: [
+              CircularProgressIndicator(),
+              Container(
+                  margin: EdgeInsets.only(left: 7),
+                  child: Text("Registering...")),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget _backButton() {
@@ -101,7 +142,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget _emailInput(String title) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -115,6 +155,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           TextFormField(
             controller: _email,
             decoration: InputDecoration(
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              errorStyle: TextStyle(
+                  fontFamily: 'Minimo',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 13),
+              errorText: _emailError.isEmpty ? null : _emailError,
               fillColor: Color(0xffffffff),
               filled: true,
               prefixIcon: Icon(Icons.email, color: Colors.black, size: 30),
@@ -125,13 +172,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  _controller(bool isRepeat) {
-    return isRepeat ? _repeatPassword : _password;
-  }
-
-  Widget _passwordInput(String title, bool isRepeat) {
+  Widget _passwordInput(String title) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      padding: EdgeInsets.symmetric(vertical: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -143,9 +186,52 @@ class _RegisterScreenState extends State<RegisterScreen> {
             height: 10,
           ),
           TextFormField(
-            controller: _controller(isRepeat),
+            controller: _password,
             obscureText: true,
             decoration: InputDecoration(
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              errorStyle: TextStyle(
+                  fontFamily: 'Minimo',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 13),
+              errorText: _passwordError.isEmpty ? null : _passwordError,
+              fillColor: Color(0xffffffff),
+              filled: true,
+              prefixIcon: Icon(Icons.lock, color: Colors.black, size: 30),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _repeatPasswordInput(String title) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            title,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextFormField(
+            controller: _repeatPassword,
+            obscureText: true,
+            decoration: InputDecoration(
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              errorStyle: TextStyle(
+                  fontFamily: 'Minimo',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 13),
+              errorText: _password.text != _repeatPassword.text &&
+                      _repeatPassword.text.isNotEmpty
+                  ? "Password mismatch"
+                  : _repeatPasswordError,
               fillColor: Color(0xffffffff),
               filled: true,
               prefixIcon: Icon(Icons.lock, color: Colors.black, size: 30),
@@ -197,19 +283,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(height: height * 0.17),
+                    SizedBox(height: height * 0.14),
                     Image.asset("assets/images/lightbulb.png",
                         width: 100, height: 150),
                     _registerTitle(),
-                    SizedBox(height: 30),
                     Column(
                       children: <Widget>[
                         _emailInput("Email"),
-                        _passwordInput("Password", false),
-                        _passwordInput("Repeat Password", true),
+                        _passwordInput("Password"),
+                        _repeatPasswordInput("Confirm Password"),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 35),
                     _registerButton(),
                     Container(
                       padding: EdgeInsets.symmetric(vertical: 20),

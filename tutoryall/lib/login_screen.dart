@@ -87,6 +87,8 @@ class _LoginScreenState extends State<LoginScreen> {
           TextField(
             controller: _email,
             decoration: InputDecoration(
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
               fillColor: Color(0xffffffff),
               filled: true,
               prefixIcon: Icon(Icons.email, color: Colors.black, size: 30),
@@ -114,6 +116,8 @@ class _LoginScreenState extends State<LoginScreen> {
             controller: _password,
             obscureText: !_showPassword,
             decoration: InputDecoration(
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
               fillColor: Color(0xffffffff),
               filled: true,
               prefixIcon: Icon(Icons.lock, color: Colors.black, size: 30),
@@ -133,10 +137,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _loginButton() {
     return InkWell(
       onTap: () => {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => HomePage(title: "Tutory'all")))
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => HomePage(user: null)))
       },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 13),
@@ -197,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomePage(title: "Hello")))
+                                builder: (context) => HomePage(user: null)))
                       },
                       child: Text('Forgot Password ?',
                           style: TextStyle(
