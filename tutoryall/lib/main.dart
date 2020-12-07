@@ -8,9 +8,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:tutoryall/welcome_screen.dart';
+
 // import 'left_drawer.dart';
 // import 'package:tutoryall/profile_info.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

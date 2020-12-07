@@ -79,10 +79,10 @@ class _HomePageState extends State<HomePage> {
                 colors: [Color(0xff82E3C4), Color(0xff7ceccc)]),
           ),
         ),
-        title: Image.asset(
-          "assets/images/text.png",
-          width: 170,
-          height: 38,
+        title: Text(
+          "tutory'all",
+          style: TextStyle(
+              fontSize: 35, fontFamily: 'Minimo', fontWeight: FontWeight.w800),
         ),
         centerTitle: true,
         backgroundColor: Color(0xff7ceccc),

@@ -165,7 +165,6 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Stack(
         children: <Widget>[
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
@@ -173,44 +172,48 @@ class _LoginScreenState extends State<LoginScreen> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [Color(0xff82E3C4), Color(0xff7ceccc)])),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(height: height * 0.17),
-                  Image.asset("assets/images/lightbulb.png",
-                      width: 100, height: 150),
-                  _loginTitle(),
-                  SizedBox(height: 30),
-                  Column(
+            child: ListView(
+              children: <Widget>[
+                _backButton(),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      _emailInput("Email"),
-                      _passwordInput("Password"),
+                      Image.asset("assets/images/lightbulb.png",
+                          height: MediaQuery.of(context).size.height * 0.2),
+                      _loginTitle(),
+                      SizedBox(height: 30),
+                      Column(
+                        children: <Widget>[
+                          _emailInput("Email"),
+                          _passwordInput("Password"),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      _loginButton(),
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          onTap: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage(user: null)))
+                          },
+                          child: Text('Forgot Password ?',
+                              style: TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.w500)),
+                        ),
+                      ),
                     ],
                   ),
-                  SizedBox(height: 20),
-                  _loginButton(),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    alignment: Alignment.centerRight,
-                    child: GestureDetector(
-                      onTap: () => {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomePage(user: null)))
-                      },
-                      child: Text('Forgot Password ?',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w500)),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-          Positioned(top: 40, left: 0, child: _backButton()),
         ],
       ),
     ));

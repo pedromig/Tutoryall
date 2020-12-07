@@ -270,7 +270,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Stack(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
@@ -278,36 +277,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [Color(0xff82E3C4), Color(0xff7ceccc)])),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: height * 0.14),
-                    Image.asset("assets/images/lightbulb.png",
-                        width: 100, height: 150),
-                    _registerTitle(),
-                    Column(
+              child: ListView(
+                children: <Widget>[
+                  _backButton(),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        _emailInput("Email"),
-                        _passwordInput("Password"),
-                        _repeatPasswordInput("Confirm Password"),
+                        Image.asset("assets/images/lightbulb.png",
+                            height: MediaQuery.of(context).size.height * 0.2),
+                        _registerTitle(),
+                        Column(
+                          children: <Widget>[
+                            _emailInput("Email"),
+                            _passwordInput("Password"),
+                            _repeatPasswordInput("Confirm Password"),
+                          ],
+                        ),
+                        SizedBox(height: 35),
+                        _registerButton(),
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 20),
+                          alignment: Alignment.centerRight,
+                          child: GestureDetector(
+                            child: Text(""),
+                          ),
+                        ),
                       ],
                     ),
-                    SizedBox(height: 35),
-                    _registerButton(),
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 20),
-                      alignment: Alignment.centerRight,
-                      child: GestureDetector(
-                        child: Text(""),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            Positioned(top: 40, left: 0, child: _backButton()),
           ],
         ),
       ),

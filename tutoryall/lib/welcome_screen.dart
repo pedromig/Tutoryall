@@ -89,16 +89,24 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image.asset("assets/images/logo_alpha.png",
-                  width: 300, height: 400),
               SizedBox(
-                height: 60,
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
+              Image.asset(
+                "assets/images/logo_alpha.png",
+                height: MediaQuery.of(context).size.height * 0.6,
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.08,
               ),
               _loginButton(),
               SizedBox(
-                height: 20,
+                height: MediaQuery.of(context).size.height * 0.02,
               ),
               _registerButton(),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.05,
+              ),
             ],
           ),
         ),
