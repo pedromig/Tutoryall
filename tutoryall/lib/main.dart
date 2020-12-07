@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:tutoryall/welcome_screen.dart';
 import 'left_drawer.dart';
+// import 'package:tutoryall/profileInfo.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: WelcomeScreen(title: 'Tutory\'all'),
+      // Eu sei duarte fui eu que tirei o home: Profile() ¯\_(ツ)_/¯
     );
   }
 }
