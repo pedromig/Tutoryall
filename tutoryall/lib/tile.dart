@@ -1,3 +1,11 @@
+/**
+ * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
+ * Projeto de PGI - Tutory'all 2020/2021
+ * 
+ * File Author: Gabriel Mendes Fernandes
+ *   
+*/
+
 import 'package:flutter/material.dart';
 
 class CustomTile extends StatelessWidget {

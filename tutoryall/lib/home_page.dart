@@ -1,39 +1,28 @@
+/**
+ * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
+ * Projeto de PGI - Tutory'all 2020/2021
+ * 
+ * File Author: Gabriel Mendes Fernandes
+ *   
+*/
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert';
 
+import 'left_drawer.dart';
 import 'tile.dart';
 
-void main() {
-  runApp(MyApp());
-}
+class HomePage extends StatefulWidget {
+  final String title;
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Home Page',
-      home: MyHomePage('Tutory\'all'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  String title;
-
-  MyHomePage(title) {
-    this.title = title;
-  }
+  HomePage({Key key, this.title});
 
   @override
-  _MyHomePageState createState() {
-    return _MyHomePageState();
-  }
+  _HomePageState createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
   //Function to read the info from the json file
   Future<List<User>> _getData() async {
     List<User> users = [];
@@ -71,54 +60,82 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
-        backgroundColor: Colors.blue[200],
+        leading: Builder(
+          builder: (context) => IconButton(
+              icon: Icon(
+                Icons.menu_rounded,
+                color: Colors.black,
+                size: 30,
+              ),
+              onPressed: () => {Scaffold.of(context).openDrawer()}),
+        ),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Color(0xff82E3C4), Color(0xff7ceccc)]),
+          ),
+        ),
+        title: Image.asset(
+          "assets/images/text.png",
+          width: 170,
+        ),
+        centerTitle: true,
+        backgroundColor: Color(0xff7ceccc),
+      ),
+      drawer: Drawer(
+        child: LeftDrawer(),
       ),
       bottomNavigationBar: BottomAppBar(
-          shape: const CircularNotchedRectangle(),
-          color: Colors.blue[200],
-          child: Container(
-              height: 20,
-              /*child: Align(
-                  alignment: Alignment.center, child: Text("bottom da app"))*/
-              child: Row(
-                children: <Widget>[
-                  ConstrainedBox(
-                      constraints: BoxConstraints(
-                          minWidth: MediaQuery.of(context).size.width / 3),
-                      child: Container(
-                          padding: EdgeInsets.only(left: 10, right: 10),
-                          child: IconButton(
-                            icon: Icon(Icons.favorite),
-                            onPressed: () {
-                              print(
-                                  "botão random que coloquei para serem três");
-                            },
-                          ))),
-                  ConstrainedBox(
-                      constraints: BoxConstraints(
-                          minWidth: MediaQuery.of(context).size.width / 3),
-                      child: Container(
-                          padding: EdgeInsets.only(left: 10, right: 10),
-                          child: IconButton(
-                            icon: Icon(Icons.search),
-                            onPressed: () {
-                              print("Botão de pesquisa");
-                            },
-                          ))),
-                  ConstrainedBox(
-                      constraints: BoxConstraints(
-                          minWidth: MediaQuery.of(context).size.width / 3),
-                      child: Container(
-                          padding: EdgeInsets.only(left: 10, right: 10),
-                          child: IconButton(
-                            icon: Icon(Icons.settings),
-                            onPressed: () {
-                              print("Botão de settings");
-                            }, //colocar o que fazer quando o icon for premido
-                          )))
-                ],
-              ))),
+        shape: const CircularNotchedRectangle(),
+        color: Color(0xff7ceccc),
+        child: Container(
+          child: Row(
+            children: <Widget>[
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                    minWidth: MediaQuery.of(context).size.width / 3),
+                child: Container(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  child: IconButton(
+                    icon: Icon(Icons.home),
+                    onPressed: () {
+                      print("botão random que coloquei para serem três");
+                    },
+                  ),
+                ),
+              ),
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                    minWidth: MediaQuery.of(context).size.width / 3),
+                child: Container(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  child: IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      print("Botão de pesquisa");
+                    },
+                  ),
+                ),
+              ),
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                    minWidth: MediaQuery.of(context).size.width / 3),
+                child: Container(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  child: IconButton(
+                    icon: Icon(Icons.add_circle_outlined),
+                    onPressed: () {
+                      print("Botão Adicionar Evento");
+                    }, //colocar o que fazer quando o icon for premido
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
       body: Container(
         child: FutureBuilder(
           future: _getData(),
@@ -146,6 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+// TODO:  Passar para um ficheiro .dart caso seja necessário usar esta classe
 //TODO implementar esta classe corretamente para suprimir as necessidades da aplicação
 //      Mudar o nome desta classe para Event
 //      Ter de ter um User associado ao evento

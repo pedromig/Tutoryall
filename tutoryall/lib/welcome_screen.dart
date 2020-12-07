@@ -1,3 +1,11 @@
+/**
+ * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
+ * Projeto de PGI - Tutory'all 2020/2021
+ * 
+ * File Author: Pedro Miguel Duque Rodrigues
+ *   
+*/
+
 import 'package:flutter/material.dart';
 import 'package:tutoryall/login_screen.dart';
 import 'package:tutoryall/register_screen.dart';

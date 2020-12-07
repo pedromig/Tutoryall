@@ -1,6 +1,16 @@
+/**
+ * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
+ * Projeto de PGI - Tutory'all 2020/2021
+ * 
+ * File Author: Pedro Miguel Duque Rodrigues
+ *   
+*/
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tutoryall/main.dart';
+
+import 'home_page.dart';
 
 class RegisterScreen extends StatefulWidget {
   final String title;
@@ -32,7 +42,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             (value) => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => MyHomePage(title: value.user.email),
+                builder: (context) => HomePage(title: value.user.email),
               ),
             ),
           );

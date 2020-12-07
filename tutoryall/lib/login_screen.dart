@@ -1,5 +1,15 @@
+/**
+ * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
+ * Projeto de PGI - Tutory'all 2020/2021
+ * 
+ * File Author: Pedro Miguel Duque Rodrigues
+ *   
+*/
+
 import 'package:flutter/material.dart';
 import 'package:tutoryall/main.dart';
+
+import 'home_page.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key, this.title}) : super(key: key);
@@ -123,8 +133,10 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _loginButton() {
     return InkWell(
       onTap: () => {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => MyHomePage(title: "Hello")))
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => HomePage(title: "Tutory'all")))
       },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 13),
@@ -185,8 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    MyHomePage(title: "Hello")))
+                                builder: (context) => HomePage(title: "Hello")))
                       },
                       child: Text('Forgot Password ?',
                           style: TextStyle(
