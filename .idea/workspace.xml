@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="10d27307-2c54-4388-9712-0c27b65d40b4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tutoryall/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/tutoryall/pubspec.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -65,6 +67,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="392" y="93" key="#widget_test.dart/0.0.1366.728@0.0.1366.728" timestamp="1605739130604" />
+    <state x="100" y="100" width="1166" height="528" key="AVDManager" timestamp="1606255793997">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="100" y="100" width="1166" height="528" key="AVDManager/0.0.1366.728@0.0.1366.728" timestamp="1606255793997" />
     <state x="466" y="159" key="FileChooserDialogImpl" timestamp="1605739125601">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       title: 'Tutory\'all',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        primaryColor: Color(0xff7ceccc),
       ),
       home: WelcomeScreen(title: 'Tutory\'all'),
       // Eu sei duarte fui eu que tirei o home: Profile() ¯\_(ツ)_/¯

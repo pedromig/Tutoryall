@@ -5,19 +5,20 @@
  * File Author: Miguel André Lourenço Rabuge
  *   
 */
+
 import 'package:flutter/material.dart';
 
-class Settings extends StatefulWidget {
+class Suggestion extends StatefulWidget {
   @override
-  _SettingsState createState() => _SettingsState();
+  _SuggestionState createState() => _SuggestionState();
 }
 
-class _SettingsState extends State<Settings> {
+class _SuggestionState extends State<Suggestion> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Settings"),
+        title: Text("Suggestions"),
         centerTitle: true,
       ),
     );

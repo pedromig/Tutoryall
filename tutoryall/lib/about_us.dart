@@ -7,6 +7,7 @@
 */
 
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class AboutUs extends StatefulWidget {
   @override
@@ -16,6 +17,8 @@ class AboutUs extends StatefulWidget {
 class _AboutUsState extends State<AboutUs> {
   @override
   Widget build(BuildContext context) {
+    double screenW = MediaQuery.of(context).size.width;
+    double screenH = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: Text("Sobre Nós"),
@@ -25,13 +28,17 @@ class _AboutUsState extends State<AboutUs> {
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text(
+              Container(
+                width: screenW * 0.9,
+                height: screenH * 0.4,
+                child: AutoSizeText(
                 "\nA nossa startup, Tutory’all, foca-se em ajudar as pessoas a encontrar a ajuda de alguém que está disponível e empolgado por partilhar conhecimento.\n\n" +
                     "O nosso objetivo é começar pelo ambiente escolar agilizando a comunicação entre os alunos.\n",
                 style: TextStyle(
                   fontSize: 20.0,
                 ),
                 textAlign: TextAlign.center,
+              ),
               ),
               Expanded(
                 child: Image.asset(
@@ -46,6 +53,10 @@ class _AboutUsState extends State<AboutUs> {
                   height: 50,
                   child: ElevatedButton(
                     child: Text("Fixe!"),
+                      style: ButtonStyle(
+                        foregroundColor: MaterialStateProperty.all<Color>(Color(0xff000000)),
+                        backgroundColor: MaterialStateProperty.all<Color>(Color(0xff7ceccc)),
+                      ),
                     onPressed: () {
                       Navigator.pop(context, true);
                     },

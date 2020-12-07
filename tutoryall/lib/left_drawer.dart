@@ -7,9 +7,12 @@
 */
 import 'package:flutter/material.dart';
 
+import 'profile_info.dart';
+import 'settings.dart';
 import 'about_us.dart';
 import 'report_error.dart';
-import 'settings.dart';
+import 'suggestions.dart';
+import 'logout.dart';
 
 class LeftDrawer extends StatefulWidget {
   @override
@@ -23,6 +26,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
     "About Us",
     "Report Bugs",
     "Sugestions",
+    "Logout",
   ];
 
   final List<IconData> icons = [
@@ -30,139 +34,74 @@ class _LeftDrawerState extends State<LeftDrawer> {
     Icons.settings_outlined,
     Icons.help_outline,
     Icons.bug_report_outlined,
-    Icons.help_outline
+    Icons.help_outline,
+    Icons.power_settings_new_outlined,
   ];
+
+  Widget selectTab(int index) {
+    switch (index) {
+      case 0:
+        return Profile();
+      case 1:
+        return Settings();
+      case 2:
+        return AboutUs();
+      case 3:
+        return ReportError();
+      case 4:
+        return Suggestion();
+      case 5:
+        return Logout(); //TODO dummy
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-        itemCount: 5,
-        padding: EdgeInsets.zero,
-        separatorBuilder: (BuildContext context, int index) => Divider(
-              thickness: 2,
+    return ListView(
+      children: <Widget>[
+        // padding: EdgeInsets.zero,
+        UserAccountsDrawerHeader(
+          accountName: Text(
+            "Miguel",
+            style: TextStyle(color: Colors.black),
+          ),
+          accountEmail: Text("miguelrabuge12@gmail.com",
+              style: TextStyle(color: Colors.black)),
+          currentAccountPicture: CircleAvatar(
+            backgroundColor: Colors.black,
+            backgroundImage: NetworkImage(
+                "https://thumbor.granitemedia.com/img/o0nPv1FPsHfn_Txo9tZ8NfAyIrw=/800x0/filters:format(webp):quality(80)/granite-web-prod/c6/4c/c64c62fe2b4e462fbe81589075036db4.jpg"),
+          ),
+          decoration: BoxDecoration(
+            color: Color(0xff7ceccc),
+            image: DecorationImage(
+              image: AssetImage('assets/images/text.png'),
+              fit: BoxFit.contain,
             ),
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            leading: Icon(icons[index]),
-            title: Text(names[index]),
-            onTap: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => {
-                    switch(index){
-                      case 0:
-                        return Profile();
-                      case 1:
-                        return Settings();
-                      case 2:
-                        return 
-                      case 3:
-                        return 
-                      case 4:
-                        return 
-                    },
-                  },
-                ),
-              ),
-            },
-          );
-        }
-        // children: <Widget>[
-        //   DrawerHeader(
-        //     child: Text('Drawer Header'),
-        //     decoration: BoxDecoration(
-        //       color: Color(0xff7ceccc),
-        //     ),
-        //   ),
-        //   ListTile(
-        //     leading: Icon(Icons.person),
-        //     title: Text('Profile'),
-        //     onTap: () {
-        //       // Update the state of the app.
-        //       // ...
-        //     },
-        //   ),
-        //   ListTile(
-        //     leading: Icon(Icons.settings_outlined),
-        //     title: Text('Settings'),
-        //     onTap: () {
-        //       // Update the state of the app.
-        //       // ...
-        //     },
-        //   ),
-        //   ListTile(
-        //     leading: Icon(Icons.help_outline),
-        //     title: Text('About Us'),
-        //     onTap: () {
-        //       // Update the state of the app.
-        //       // ...
-        //     },
-        //   ),
-        //   ListTile(
-        //     leading: Icon(Icons.bug_report_outlined),
-        //     title: Text("Reportar Erros"),
-        //     onTap: () {
-        //       // Update the state of the app.
-        //       // ...
-        //     },
-        //   ),
-        // ],
-        );
+          ),
+        ),
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Suporte"),
-        centerTitle: true,
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              child: OutlineButton.icon(
-                icon: Icon(Icons.settings_outlined),
-                label: Text("Definições"),
-                onPressed: () {
+        ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: 6,
+            // separatorBuilder: (BuildContext context, int index) => Divider(thickness: 2,), // +ara isto funcionar tem de ser ListView.separator
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                leading: Icon(icons[index]),
+                title: Text(names[index]),
+                onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Settings()),
+                    MaterialPageRoute(
+                      builder: (context) => selectTab(index),
+                    ),
                   );
                 },
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              child: OutlineButton.icon(
-                icon: Icon(Icons.help_outline),
-                label: Text("Sobre Nós"),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AboutUs()),
-                  );
-                },
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              child: OutlineButton.icon(
-                icon: Icon(Icons.bug_report_outlined),
-                label: Text("Reportar Erros"),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ReportError()),
-                  );
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
+              );
+            }),
+      ],
     );
   }
 }
