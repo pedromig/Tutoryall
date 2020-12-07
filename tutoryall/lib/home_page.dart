@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 /**
  * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
  * Projeto de PGI - Tutory'all 2020/2021
@@ -5,6 +6,7 @@
  * File Author: Gabriel Mendes Fernandes
  *   
 */
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 // import 'package:http/http.dart' as http;
@@ -14,9 +16,9 @@ import 'left_drawer.dart';
 import 'tile.dart';
 
 class HomePage extends StatefulWidget {
-  final String title;
+  final User user;
 
-  HomePage({Key key, this.title});
+  HomePage({Key key, this.user});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -24,9 +26,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   //Function to read the info from the json file
-  Future<List<User>> _getData() async {
-    List<User> users = [];
-    User x;
+  Future<List<OurUser>> _getData() async {
+    List<OurUser> users = [];
+    OurUser x;
     List<Tag> tags = [];
     Tag y;
 
@@ -35,7 +37,7 @@ class _HomePageState extends State<HomePage> {
         y = Tag("tag $e");
         tags.add(y);
       }
-      x = User("Gabriel $i", tags);
+      x = OurUser("Gabriel $i", tags);
       print(x.tags.length);
       users.add(x);
     }
@@ -80,6 +82,7 @@ class _HomePageState extends State<HomePage> {
         title: Image.asset(
           "assets/images/text.png",
           width: 170,
+          height: 38,
         ),
         centerTitle: true,
         backgroundColor: Color(0xff7ceccc),
@@ -168,10 +171,10 @@ class _HomePageState extends State<HomePage> {
 //      Mudar o nome desta classe para Event
 //      Ter de ter um User associado ao evento
 //      Criar a classe User com todos os dados de user
-class User {
+class OurUser {
   final String name;
   final List<Tag> tags;
-  User(this.name, this.tags);
+  OurUser(this.name, this.tags);
 }
 
 class Tag {

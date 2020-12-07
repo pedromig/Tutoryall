@@ -45,27 +45,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
           return ListTile(
             leading: Icon(icons[index]),
             title: Text(names[index]),
-            onTap: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => {
-                    switch(index){
-                      case 0:
-                        return Profile();
-                      case 1:
-                        return Settings();
-                      case 2:
-                        return 
-                      case 3:
-                        return 
-                      case 4:
-                        return 
-                    },
-                  },
-                ),
-              ),
-            },
+            onTap: () => {},
           );
         }
         // children: <Widget>[
