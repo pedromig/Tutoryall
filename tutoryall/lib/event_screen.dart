@@ -108,7 +108,7 @@ class Event {
   String name;
   String description;
   String date;
-  NetworkImage image;
+  Image image;
   String location;
   double rating;
   int lotation;
@@ -124,11 +124,14 @@ class User {
   int age;
   String contact;
   String bio;
-  List<Event> createdEvents;
-  List<Event> goingEvents;
-  NetworkImage
-      image; //vai ser string vai ser o que, como ir buscar esta imagem???
+  List<Event> createdEvents = [];
+  List<Event> goingEvents = [];
+  Image image; //vai ser string vai ser o que, como ir buscar esta imagem???
 
   User(this.name, this.age, this.contact, this.bio, this.createdEvents,
       this.goingEvents, this.image);
+
+  void addCreatedEvent(Event event) {
+    this.createdEvents.add(event);
+  }
 }
