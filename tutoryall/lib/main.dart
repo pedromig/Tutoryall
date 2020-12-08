@@ -9,8 +9,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:tutoryall/welcome_screen.dart';
 
-// import 'left_drawer.dart';
-// import 'package:tutoryall/profile_info.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -25,10 +23,9 @@ class MyApp extends StatelessWidget {
       title: 'Tutory\'all',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        primaryColor: Color(0xff7ceccc),
+        //   primaryColor: Color(0xff7ceccc), Tive que retirar isto senão os showDialogs ficam todos lixados
       ),
-      home: WelcomeScreen(title: 'Tutory\'all'),
-      // Eu sei duarte fui eu que tirei o home: Profile() ¯\_(ツ)_/¯
+      home: WelcomeScreen(),
     );
   }
 }

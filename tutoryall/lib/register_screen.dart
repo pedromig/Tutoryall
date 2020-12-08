@@ -41,17 +41,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void _register() async {
     try {
       if (_repeatPassword.text == _password.text) {
-        showLoaderDialog(context);
+        _showLoaderDialog(context);
         await _auth
             .createUserWithEmailAndPassword(
                 email: _email.text, password: _password.text)
             .then(
               (value) => {
+                setState(() {
+                  _passwordError = "";
+                  _emailError = "";
+                  _repeatPasswordError = null;
+                }),
                 Navigator.pop(context),
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => HomePage(user: value.user),
+                    builder: (context) => HomePage(),
                   ),
                 ),
               },
@@ -78,7 +83,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
-  showLoaderDialog(BuildContext context) {
+  _showLoaderDialog(BuildContext context) {
     showDialog(
       barrierDismissible: false,
       context: context,

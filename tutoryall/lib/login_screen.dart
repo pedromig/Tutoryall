@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 /**
  * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
  * Projeto de PGI - Tutory'all 2020/2021
@@ -7,8 +8,6 @@
 */
 
 import 'package:flutter/material.dart';
-import 'package:tutoryall/main.dart';
-
 import 'home_page.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -25,10 +24,77 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _password = TextEditingController();
   TextEditingController _email = TextEditingController();
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  String _passwordError = "";
+  String _emailError = "";
+
   void dispose() {
     _password.dispose();
     _email.dispose();
     super.dispose();
+  }
+
+  void _login() async {
+    try {
+      _showLoaderDialog(context);
+      await _auth
+          .signInWithEmailAndPassword(
+              email: _email.text, password: _password.text)
+          .then(
+            (value) => {
+              setState(() {
+                _passwordError = "";
+                _emailError = "";
+              }),
+              Navigator.pop(context),
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomePage(),
+                ),
+              ),
+            },
+          );
+    } on FirebaseAuthException catch (e) {
+      _passwordError = "";
+      _emailError = "";
+      setState(() {
+        if (e.code == "invalid-email") {
+          _emailError = "Invalid email";
+        } else if (e.code == "user-not-found") {
+          _emailError = "No user with such email";
+        } else if (e.code == "wrong-password") {
+          _passwordError = "Incorrect password";
+        } else {
+          if (_email.text.isEmpty) _emailError = "required";
+          if (_password.text.isEmpty) _passwordError = "required";
+        }
+      });
+      Navigator.pop(context);
+    }
+  }
+
+  _showLoaderDialog(BuildContext context) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          backgroundColor: Color(0xfff2f3f5),
+          content: new Row(
+            children: [
+              CircularProgressIndicator(),
+              Container(
+                  margin: EdgeInsets.only(left: 7),
+                  child: Text("Loging In...")),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget _backButton() {
@@ -84,11 +150,16 @@ class _LoginScreenState extends State<LoginScreen> {
           SizedBox(
             height: 10,
           ),
-          TextField(
+          TextFormField(
             controller: _email,
             decoration: InputDecoration(
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              errorStyle: TextStyle(
+                  fontFamily: 'Minimo',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 13),
+              errorText: _emailError.isEmpty ? null : _emailError,
               fillColor: Color(0xffffffff),
               filled: true,
               prefixIcon: Icon(Icons.email, color: Colors.black, size: 30),
@@ -112,12 +183,17 @@ class _LoginScreenState extends State<LoginScreen> {
           SizedBox(
             height: 10,
           ),
-          TextField(
+          TextFormField(
             controller: _password,
             obscureText: !_showPassword,
             decoration: InputDecoration(
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              errorStyle: TextStyle(
+                  fontFamily: 'Minimo',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 13),
+              errorText: _passwordError.isEmpty ? null : _passwordError,
               fillColor: Color(0xffffffff),
               filled: true,
               prefixIcon: Icon(Icons.lock, color: Colors.black, size: 30),
@@ -136,10 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _loginButton() {
     return InkWell(
-      onTap: () => {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => HomePage(user: null)))
-      },
+      onTap: _login,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 13),
         alignment: Alignment.center,
@@ -153,6 +226,44 @@ class _LoginScreenState extends State<LoginScreen> {
               fontSize: 25, fontFamily: 'Minimo', fontWeight: FontWeight.w500),
         ),
       ),
+    );
+  }
+
+  void _forgetPassword() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          backgroundColor: Color(0xfff2f3f5),
+          title: Text("Password recovery"),
+          content: Row(
+            children: <Widget>[
+              Expanded(
+                child: TextField(
+                  autofocus: true,
+                  decoration: new InputDecoration(
+                    labelText: "Email",
+                  ),
+                  onChanged: (value) {
+                    _auth.sendPasswordResetEmail(email: value);
+                  },
+                ),
+              )
+            ],
+          ),
+          actions: [
+            FlatButton(
+              child: Text("Submit"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -198,10 +309,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         alignment: Alignment.centerRight,
                         child: GestureDetector(
                           onTap: () => {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage(user: null)))
+                            _forgetPassword(),
                           },
                           child: Text('Forgot Password ?',
                               style: TextStyle(

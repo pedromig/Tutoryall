@@ -16,9 +16,8 @@ import 'left_drawer.dart';
 import 'tile.dart';
 
 class HomePage extends StatefulWidget {
-  final User user;
 
-  HomePage({Key key, this.user});
+  HomePage({Key key});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -82,7 +81,7 @@ class _HomePageState extends State<HomePage> {
         title: Text(
           "tutory'all",
           style: TextStyle(
-              fontSize: 35, fontFamily: 'Minimo', fontWeight: FontWeight.w800),
+              fontSize: 35, fontFamily: 'Minimo', fontWeight: FontWeight.w800, color: Colors.black),
         ),
         centerTitle: true,
         backgroundColor: Color(0xff7ceccc),

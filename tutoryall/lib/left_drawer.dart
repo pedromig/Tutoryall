@@ -39,22 +39,57 @@ class _LeftDrawerState extends State<LeftDrawer> {
     Icons.power_settings_new_outlined,
   ];
 
-  Widget selectTab(int index) {
+  void _selectTab(int index) {
     switch (index) {
       case 0:
-        return Profile();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Profile(),
+          ),
+        );
+        break;
       case 1:
-        return Settings();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Settings(),
+          ),
+        );
+        break;
       case 2:
-        return AboutUs();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AboutUs(),
+          ),
+        );
+        break;
       case 3:
-        return ReportError();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ReportError(),
+          ),
+        );
+        break;
       case 4:
-        return Suggestion();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Suggestion(),
+          ),
+        );
+        break;
       case 5:
-        return Logout();
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (BuildContext context) {
+            return Logout();
+          },
+        );
     }
-    return null;
   }
 
   @override
@@ -107,24 +142,20 @@ class _LeftDrawerState extends State<LeftDrawer> {
           thickness: 2,
         ),
         ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: 6,
-            // separatorBuilder: (BuildContext context, int index) => Divider(thickness: 2,), // +ara isto funcionar tem de ser ListView.separator
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                leading: Icon(icons[index]),
-                title: Text(names[index]),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => selectTab(index),
-                    ),
-                  );
-                },
-              );
-            }),
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemCount: 6,
+          // separatorBuilder: (BuildContext context, int index) => Divider(thickness: 2,), // +ara isto funcionar tem de ser ListView.separator
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              leading: Icon(icons[index]),
+              title: Text(names[index]),
+              onTap: () {
+                _selectTab(index);
+              },
+            );
+          },
+        ),
       ],
     );
   }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 /**
  * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
  * Projeto de PGI - Tutory'all 2020/2021
@@ -7,7 +8,7 @@
 */
 
 import 'package:flutter/material.dart';
-import 'package:auto_size_text/auto_size_text.dart';
+import 'package:tutoryall/welcome_screen.dart';
 
 class Logout extends StatefulWidget {
   @override
@@ -15,45 +16,47 @@ class Logout extends StatefulWidget {
 }
 
 class _LogoutState extends State<Logout> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0))),
       backgroundColor: Color(0xfff2f3f5),
-            title: Center(
-                  child: AutoSizeText('Logout'),
-                ),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Center(child: AutoSizeText('Do you wish to logout?')),
-                  SizedBox(
-                    height: 10,
-                  ),
-
-                  RaisedButton(
-                    color: Color(0xffed2a18),
-                    shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(30.0)),
-                    child: AutoSizeText('Logout', style: TextStyle(color: Colors.white)),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  
-                  RaisedButton(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(30.0)),
-                    child:  AutoSizeText('Cancel'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
+      title: Center(
+        child: Text('Logout'),
+      ),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: <Widget>[
+            Center(child: Text('Do you wish to logout?')),
+            SizedBox(
+              height: 10,
             ),
-            actions: <Widget>[
-        
-            ],
-          );
+            RaisedButton(
+              color: Color(0xffed2a18),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0)),
+              child: Text('Logout', style: TextStyle(color: Colors.white)),
+              onPressed: () {
+                _auth.signOut();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => WelcomeScreen()));
+              },
+            ),
+            RaisedButton(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0)),
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

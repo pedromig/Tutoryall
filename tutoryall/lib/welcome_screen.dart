@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 /**
  * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
  * Projeto de PGI - Tutory'all 2020/2021
@@ -10,10 +11,11 @@ import 'package:flutter/material.dart';
 import 'package:tutoryall/login_screen.dart';
 import 'package:tutoryall/register_screen.dart';
 
-class WelcomeScreen extends StatefulWidget {
-  final String title;
+import 'home_page.dart';
 
-  WelcomeScreen({Key key, this.title}) : super(key: key);
+class WelcomeScreen extends StatefulWidget {
+
+  WelcomeScreen({Key key}) : super(key: key);
 
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
@@ -74,6 +76,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAuth.instance.authStateChanges().listen((User user) {
+      if (user != null) {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => HomePage()));
+      }
+    });
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
