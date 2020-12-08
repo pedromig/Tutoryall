@@ -6,6 +6,7 @@
  *   
 */
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import 'profile.dart';
 import 'settings.dart';
@@ -62,12 +63,32 @@ class _LeftDrawerState extends State<LeftDrawer> {
       children: <Widget>[
         // padding: EdgeInsets.zero,
         UserAccountsDrawerHeader(
-          accountName: Text(
-            "Miguel",
-            style: TextStyle(color: Colors.black),
+          accountName: DecoratedBox(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                color: Colors.white),
+            child: Text(
+              " Miguel Rabuge ",
+              style: TextStyle(
+                fontSize: 20,
+                fontFamily: 'Minimo',
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
+            ),
           ),
-          accountEmail: Text("miguelrabuge12@gmail.com",
-              style: TextStyle(color: Colors.black)),
+          accountEmail: DecoratedBox(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                color: Colors.white),
+            child: Text(" miguelrabuge12@gmail.com ",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 15,
+                  fontFamily: 'Minimo',
+                  fontWeight: FontWeight.w600,
+                )),
+          ),
           currentAccountPicture: CircleAvatar(
             backgroundColor: Colors.black,
             backgroundImage: NetworkImage(
@@ -76,12 +97,15 @@ class _LeftDrawerState extends State<LeftDrawer> {
           decoration: BoxDecoration(
             color: Color(0xff7ceccc),
             image: DecorationImage(
-              image: AssetImage('assets/images/text.png'),
-              fit: BoxFit.contain,
+              image: NetworkImage(
+                  "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F6%2F2019%2F12%2Fempire-strikes-back-1-2000.jpg"),
+              fit: BoxFit.cover,
             ),
           ),
         ),
-
+        Divider(
+          thickness: 2,
+        ),
         ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,

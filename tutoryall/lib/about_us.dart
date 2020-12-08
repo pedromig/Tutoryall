@@ -21,7 +21,7 @@ class _AboutUsState extends State<AboutUs> {
     double screenH = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sobre Nós"),
+        title: Text("About Us"),
         centerTitle: true,
       ),
       body: Container(
@@ -32,18 +32,18 @@ class _AboutUsState extends State<AboutUs> {
                 width: screenW * 0.9,
                 height: screenH * 0.4,
                 child: AutoSizeText(
-                "\nA nossa startup, Tutory’all, foca-se em ajudar as pessoas a encontrar a ajuda de alguém que está disponível e empolgado por partilhar conhecimento.\n\n" +
-                    "O nosso objetivo é começar pelo ambiente escolar agilizando a comunicação entre os alunos.\n",
-                style: TextStyle(
-                  fontSize: 20.0,
+                  "\nA nossa startup, Tutory’all, foca-se em ajudar as pessoas a encontrar a ajuda de alguém que está disponível e empolgado por partilhar conhecimento.\n\n" +
+                      "O nosso objetivo é começar pelo ambiente escolar agilizando a comunicação entre os alunos.\n",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 35,
+                      fontFamily: 'Minimo',
+                      fontWeight: FontWeight.w600),
                 ),
-                textAlign: TextAlign.center,
-              ),
               ),
               Expanded(
                 child: Image.asset(
                   "assets/images/logo.png",
-                  fit: BoxFit.scaleDown,
                 ),
               ),
               Container(
@@ -52,11 +52,13 @@ class _AboutUsState extends State<AboutUs> {
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
-                    child: Text("Fixe!"),
-                      style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all<Color>(Color(0xff000000)),
-                        backgroundColor: MaterialStateProperty.all<Color>(Color(0xff7ceccc)),
-                      ),
+                    child: Text("Got it!"),
+                    style: ButtonStyle(
+                      foregroundColor:
+                          MaterialStateProperty.all<Color>(Color(0xff000000)),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Color(0xff7ceccc)),
+                    ),
                     onPressed: () {
                       Navigator.pop(context, true);
                     },
