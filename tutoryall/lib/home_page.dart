@@ -16,7 +16,6 @@ import 'left_drawer.dart';
 import 'tile.dart';
 
 class HomePage extends StatefulWidget {
-
   HomePage({Key key});
 
   @override
@@ -81,7 +80,10 @@ class _HomePageState extends State<HomePage> {
         title: Text(
           "tutory'all",
           style: TextStyle(
-              fontSize: 35, fontFamily: 'Minimo', fontWeight: FontWeight.w800, color: Colors.black),
+              fontSize: 35,
+              fontFamily: 'Minimo',
+              fontWeight: FontWeight.w800,
+              color: Colors.black),
         ),
         centerTitle: true,
         backgroundColor: Color(0xff7ceccc),

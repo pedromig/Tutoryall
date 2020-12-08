@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: Color(0xfff2f3f5),
           content: new Row(
             children: [
-              CircularProgressIndicator(),
+              CircularProgressIndicator(value: null),
               Container(
                   margin: EdgeInsets.only(left: 7),
                   child: Text("Loging In...")),
