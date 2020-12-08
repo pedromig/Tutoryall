@@ -15,7 +15,7 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text("Username"),
+        title: Text("God Marega"),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
