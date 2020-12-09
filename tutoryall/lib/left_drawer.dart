@@ -26,7 +26,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
     "Settings",
     "About Us",
     "Report Bugs",
-    "Sugestions",
+    "Suggestions",
     "Logout",
   ];
 
@@ -35,7 +35,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
     Icons.settings_outlined,
     Icons.help_outline,
     Icons.bug_report_outlined,
-    Icons.help_outline,
+    Icons.inbox_outlined,
     Icons.power_settings_new_outlined,
   ];
 
