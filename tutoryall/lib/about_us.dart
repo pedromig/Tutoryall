@@ -21,7 +21,11 @@ class _AboutUsState extends State<AboutUs> {
     double screenH = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: Text("About Us"),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Color(0xff7ceccc),
+        title: Text("About Us",style:TextStyle(color: Colors.black)),
         centerTitle: true,
       ),
       body: Container(

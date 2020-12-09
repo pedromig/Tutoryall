@@ -127,7 +127,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
           currentAccountPicture: CircleAvatar(
             backgroundColor: Colors.black,
             backgroundImage: NetworkImage(
-                "https://thumbor.granitemedia.com/img/o0nPv1FPsHfn_Txo9tZ8NfAyIrw=/800x0/filters:format(webp):quality(80)/granite-web-prod/c6/4c/c64c62fe2b4e462fbe81589075036db4.jpg"),
+                "https://steemitimages.com/DQmbaP5UJu7MYwAZFQgmHjgK7d5syHxdFuJvZt9UQKjVGS1/smile1.jpg"),
           ),
           decoration: BoxDecoration(
             color: Color(0xff7ceccc),

@@ -14,7 +14,11 @@ class _EditProfileState extends State<EditProfile> {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text("Edit Profile"),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Color(0xff7ceccc),
+        title: Text("Edit Profile",style:TextStyle(color:Colors.black)),
       ),
       body: Container(
         padding: EdgeInsets.all(10),

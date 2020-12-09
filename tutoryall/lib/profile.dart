@@ -15,13 +15,17 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text("Username"),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Color(0xff7ceccc),
+        title: Text("Username",style:TextStyle(color:Colors.black)),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
             icon: Icon(
               Icons.edit,
-              color: Colors.white,
+              color: Colors.black,
             ),
             onPressed: () {
               Navigator.push(
