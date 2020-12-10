@@ -15,14 +15,19 @@ import 'logout.dart';
 import 'tile.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key});
+  final bool isNewUser;
+  HomePage({Key key, this.isNewUser = false});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState(this.isNewUser);
 }
 
 class _HomePageState extends State<HomePage> {
-  //Function to read the info from the json file
+  final bool isNewUser;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  _HomePageState(this.isNewUser);
+
   Future<List<OurUser>> _getData() async {
     List<OurUser> users = [];
     OurUser x;
@@ -38,6 +43,50 @@ class _HomePageState extends State<HomePage> {
       users.add(x);
     }
     return users;
+  }
+
+  _newUserDialog() {
+    if (this.isNewUser) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            backgroundColor: Color(0xfff2f3f5),
+            title: Text("Insert your name"),
+            content: Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextField(
+                    autofocus: true,
+                    onChanged: (value) {
+                      _auth.currentUser.updateProfile(displayName: value);
+                    },
+                  ),
+                )
+              ],
+            ),
+            actions: [
+              FlatButton(
+                child: Text("Submit"),
+                onPressed: () {
+                  Navigator.pop(context);
+                  setState(() {});
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _newUserDialog());
   }
 
   @override
@@ -72,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                 size: 35.0,
               ),
             ),
-          )
+          ),
         ],
         title: Text(
           "tutory'all",
@@ -129,10 +178,10 @@ class _HomePageState extends State<HomePage> {
                     icon: Icon(Icons.add_circle_outlined),
                     onPressed: () {
                       print("Botão Adicionar Evento");
-                    }, //colocar o que fazer quando o icon for premido
+                    },
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

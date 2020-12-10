@@ -74,7 +74,7 @@ class _EventScreenState extends State<EventScreen> {
           Container(
               child: Center(
                   child: Text(
-            "${widget.event.location}\n${widget.event.date}",
+            "${widget.event.location}\n${widget.event.date.year}/${widget.event.date.month}/${widget.event.date.day}\n${widget.event.time.hour}h: ${widget.event.time.minute}m",
             textAlign: TextAlign.center,
           ))),
           Container(
@@ -94,7 +94,7 @@ class _EventScreenState extends State<EventScreen> {
     for (int i = 0; i < n; i++) {
       // User(this.name, this.age, this.contact, this.bio, this.createdEvents, this.goingEvents, this.image);
       User x = User("name$i", i, "$i@boda.com",
-          "Eu sou o name$i, gosto desta app.", null, null, null);
+          "Eu sou o name$i, gosto desta app.", null);
       l.add(x);
     }
     return l;
@@ -107,16 +107,17 @@ class _EventScreenState extends State<EventScreen> {
 class Event {
   String name;
   String description;
-  String date;
-  NetworkImage image;
+  DateTime date;
+  TimeOfDay time;
+  Image image;
   String location;
   double rating;
   int lotation;
   User creator;
   List<User> listGoing;
 
-  Event(this.name, this.description, this.date, this.image, this.creator,
-      this.listGoing, this.location, this.rating, this.lotation);
+  Event(this.name, this.description, this.date, this.time, this.image,
+      this.creator, this.listGoing, this.location, this.rating, this.lotation);
 }
 
 class User {
@@ -126,9 +127,19 @@ class User {
   String bio;
   List<Event> createdEvents;
   List<Event> goingEvents;
-  NetworkImage
-      image; //vai ser string vai ser o que, como ir buscar esta imagem???
+  Image image; //vai ser string vai ser o que, como ir buscar esta imagem???
 
-  User(this.name, this.age, this.contact, this.bio, this.createdEvents,
-      this.goingEvents, this.image);
+  User(String name, int age, String contact, String bio, Image image) {
+    this.name = name;
+    this.age = age;
+    this.contact = contact;
+    this.bio = bio;
+    this.image = image;
+    this.createdEvents = [];
+    this.goingEvents = [];
+  }
+
+  void addCreatedEvent(Event event) {
+    this.createdEvents.add(event);
+  }
 }
