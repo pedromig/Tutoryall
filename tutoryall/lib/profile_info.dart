@@ -9,6 +9,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tutoryall/tile.dart';
+import 'package:tutoryall/profile_events.dart';
 
 final List<String> entries = <String>['A', 'B', 'C'];
 final List<int> colorCodes = <int>[600, 500, 100];
@@ -19,28 +20,10 @@ class ProfileInfo extends StatefulWidget {
 }
 
 class _ProfileInfoState extends State<ProfileInfo> {
-  Future<List<User>> _getData() async {
-    List<User> users = [];
-    User x;
-    List<Tag> tags = [];
-    Tag y;
-
-    for (var i = 0; i < 20; i++) {
-      for (var e = 0; e < 10; e++) {
-        y = Tag("tag $e");
-        tags.add(y);
-      }
-      x = User("Gabriel $i", tags);
-      print(x.tags.length);
-      users.add(x);
-    }
-    return users;
-  }
-
   bool isFav = true;
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return SingleChildScrollView(
       child: Column(
         children: [
           Container(
@@ -58,15 +41,15 @@ class _ProfileInfoState extends State<ProfileInfo> {
                   backgroundImage: NetworkImage(
                       "https://tmssl.akamaized.net/images/portrait/header/283130-1542106491.png?lm=1542106523"),
                   radius: 50.0,
-                  backgroundColor: Colors.white,
+                  backgroundColor: Color(0xff03f4fc),
                 ),
               ),
             ),
           ),
-          InkWell(
-            child: Container(
-                width: double.infinity,
-                height: 50,
+          Container(
+              width: double.infinity,
+              height: 50,
+              child: InkWell(
                 child: Container(
                   width: 40,
                   height: 40,
@@ -77,17 +60,17 @@ class _ProfileInfoState extends State<ProfileInfo> {
                           color: Colors.red[800],
                         )
                       : Icon(Icons.favorite_border, size: 30),
-                  decoration:
-                      BoxDecoration(shape: BoxShape.circle, color: Colors.blue),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: Color(0xff82E3C4)),
                 ),
-                alignment: Alignment(0.7, 0)),
-            onTap: () {
-              setState(() {
-                isFav = !isFav;
-                //TODO: change here
-              });
-            },
-          ),
+                onTap: () {
+                  setState(() {
+                    isFav = !isFav;
+                    //TODO: change here
+                  });
+                },
+              ),
+              alignment: Alignment(0.7, 0)),
           Container(
             child: Text(
               "God Marega",
@@ -116,169 +99,100 @@ class _ProfileInfoState extends State<ProfileInfo> {
               ),
               padding: EdgeInsets.all(10),
               width: double.infinity,
-              height: 100,
+              height: 200,
             ),
             onTap: () {
               showDialog(
-                  context: context,
-                  builder: (_) => new AlertDialog(
-                        title: new Text("Bio"),
-                        content: new Text(
-                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        ),
-                      ));
+                context: context,
+                builder: (_) => new AlertDialog(
+                    title: new Text("Bio"),
+                    content: SingleChildScrollView(
+                      child: new Text(
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+                      ),
+                    )),
+              );
             },
           ),
-          Card(
-            child: Row(),
-          ),
           Container(
-            width: double.infinity,
-            height: 50,
             child: Row(
               children: [
                 Expanded(
-                    flex: 3,
-                    child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(0.0),
-                        ),
-                        color: Colors.blue,
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(Icons.mail),
-                              Text("atuamaeegay@gmail.com")
-                            ],
-                          ),
-                        ))),
+                  flex: 3,
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    margin: EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(Icons.mail),
+                        Text("notanemail@gmail.com")
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                      color: Color(0xff82E3C4),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
                 Expanded(
-                    child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(0.0),
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    margin: EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.local_fire_department,
+                          color: Colors.red,
                         ),
-                        color: Colors.blue,
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [Icon(Icons.star), Text("1.23")],
-                          ),
-                        ))),
+                        Text("4.89")
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                      color: Color(0xff82E3C4),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
           Container(
-            alignment: Alignment.centerLeft,
-            padding: EdgeInsets.all(10),
-            child: Text(
-              "Featured in",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+            margin: EdgeInsets.fromLTRB(40, 20, 40, 20),
+            child: InkWell(
+              child: Container(
+                padding: EdgeInsets.all(20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text("Check Featured Events"),
+                    Icon(Icons.arrow_forward),
+                  ],
+                ),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment(
+                        0.9, 0.0), // 10% of the width, so there are ten blinds.
+                    colors: [const Color(0xff82E3C4), const Color(0xff03f4fc)],
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                ),
               ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileEvent()),
+                );
+              },
             ),
           ),
-          /* Expanded(
-                child: ListView(
-              children: [
-                Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0.0),
-                    ),
-                    color: Colors.blue,
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [Icon(Icons.star), Text("1.23")],
-                      ),
-                    )),
-                Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0.0),
-                    ),
-                    color: Colors.blue,
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [Icon(Icons.star), Text("1.23")],
-                      ),
-                    )),
-                Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0.0),
-                    ),
-                    color: Colors.blue,
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [Icon(Icons.star), Text("1.23")],
-                      ),
-                    )),
-                Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0.0),
-                    ),
-                    color: Colors.blue,
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [Icon(Icons.star), Text("1.23")],
-                      ),
-                    )),
-              ],
-            )) */
-          Expanded(
-            child: Container(
-              child: FutureBuilder(
-                future: _getData(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.data == null) {
-                    return Container(child: Center(child: Text("Loading")));
-                  } else {
-                    return ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        /*return ListTile(
-                    title: Text(snapshot.data[index].name),
-                    trailing: CircleAvatar(),
-                  )
-                  ;
-                  */
-                        return CustomTile(snapshot: snapshot, index: index);
-                      },
-                    );
-                  }
-                },
-              ),
-            ),
-          )
         ],
       ),
     );
   }
-}
-
-class User {
-  final String name;
-  final List<Tag> tags;
-  User(this.name, this.tags);
-}
-
-class Tag {
-  final String tagName;
-
-  Tag(this.tagName);
 }
