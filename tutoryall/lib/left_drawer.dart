@@ -106,7 +106,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
                 borderRadius: BorderRadius.all(Radius.circular(30)),
                 color: Colors.white),
             child: Text(
-              " " + "Ghost" + " ",
+              " " + _auth.currentUser.displayName + " ",
               style: TextStyle(
                 fontSize: 20,
                 fontFamily: 'Minimo',
