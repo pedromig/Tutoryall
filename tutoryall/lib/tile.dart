@@ -23,38 +23,50 @@ class CustomTile extends StatelessWidget {
         children: <Widget>[
           Container(
             child: ListTile(
-              title: Text(this.snapshot.data[this.index].name),
-              trailing: InkWell(
-                  onTap: () {
-                    print("imagem premida");
-                  }, //adicionar o que faz quando a imagem de user e pressionada
-                  child: CircleAvatar()),
+              onTap: () => {print("Tapped!")},
+              leading: InkWell(
+                onTap: () => {print("imagem premida")},
+                child: CircleAvatar(),
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("Explicação de turtle",
+                      style: TextStyle(fontSize: 16, color: Colors.black)),
+                  Text("5ºfeira 18h - Coimbra"),
+                  Text("10/20 people are going"),
+                ],
+              ),
+              trailing: Column(
+                children: <Widget>[
+                  Expanded(
+                    child: Icon(
+                      Icons.star,
+                      color: Colors.yellow,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text("4.5"),
+                  ),
+                ],
+              ),
+              title: Text(
+                this.snapshot.data[this.index].name,
+                style: TextStyle(fontSize: 19),
+              ),
             ),
-          ), //serve para colocar a imagem do user
+          ),
           Container(
-            /*padding: EdgeInsets.all(20),
-          child: Align(alignment: Alignment.centerLeft, child: Text("Teste"))*/
             height: 30,
-            margin: EdgeInsets.only(left: 10, right: 10),
+            margin: EdgeInsets.only(left: 70, right: 50),
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: this.snapshot.data[this.index].tags.length,
               itemBuilder: (BuildContext context, int ind) {
-                int c = 100 + 100 * (ind % 2);
-                return InkWell(
-                  onTap: () {
-                    print("É suposto implementar algo quando a tag é premida?");
-                  }, //colocar aqui o que fazer quando a tag for premida (pode pesquisar automaticamente tudo o que tenha essa tag)
-                  child: Container(
-                    margin:
-                        EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
-                    color: Colors.blue[c],
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                          this.snapshot.data[this.index].tags[ind].tagName),
-                    ),
-                  ),
+                return Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  child: Text(this.snapshot.data[this.index].tags[ind].tagName),
                 );
               },
             ),

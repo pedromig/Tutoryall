@@ -9,10 +9,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'dart:async';
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';
 
 import 'left_drawer.dart';
+import 'logout.dart';
 import 'tile.dart';
 
 class HomePage extends StatefulWidget {
@@ -36,24 +35,9 @@ class _HomePageState extends State<HomePage> {
         tags.add(y);
       }
       x = OurUser("Gabriel $i", tags);
-      print(x.tags.length);
       users.add(x);
     }
     return users;
-
-    /*
-    var data = await http.get(); //put the link in here
-    var jsonData = json.decode(data.body);
-    List<User> users = [];
-
-    for (var i in jsonData) {
-      User user = User(i.name);
-
-      users.add(user);
-    }
-
-    return users;
-    */
   }
 
   @override
@@ -140,27 +124,39 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: Container(
-        child: FutureBuilder(
-          future: _getData(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.data == null) {
-              return Container(child: Center(child: Text("Loading")));
-            } else {
-              return ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  /*return ListTile(
-                    title: Text(snapshot.data[index].name),
-                    trailing: CircleAvatar(),
-                  )
-                  ;
-                  */
-                  return CustomTile(snapshot: snapshot, index: index);
-                },
-              );
-            }
-          },
+      body: WillPopScope(
+        onWillPop: () {
+          return showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (BuildContext context) {
+              return Logout();
+            },
+          );
+        },
+        child: Container(
+          child: FutureBuilder(
+            future: _getData(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.data == null) {
+                return Container(
+                  child: Center(
+                    child: Text("Loading"),
+                  ),
+                );
+              } else {
+                return ListView.separated(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return CustomTile(snapshot: snapshot, index: index);
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Divider(height: 1, thickness: 1);
+                  },
+                );
+              }
+            },
+          ),
         ),
       ),
     );

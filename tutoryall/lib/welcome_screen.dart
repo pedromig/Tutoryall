@@ -14,7 +14,6 @@ import 'package:tutoryall/register_screen.dart';
 import 'home_page.dart';
 
 class WelcomeScreen extends StatefulWidget {
-
   WelcomeScreen({Key key}) : super(key: key);
 
   @override
@@ -25,7 +24,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget _loginButton() {
     return InkWell(
       onTap: () => {
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             MaterialPageRoute(
                 builder: (context) => LoginScreen(title: "Login Page")))
@@ -49,7 +48,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget _registerButton() {
     return InkWell(
       onTap: () => {
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             MaterialPageRoute(
                 builder: (context) => RegisterScreen(title: "Hello")))
@@ -76,12 +75,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    FirebaseAuth.instance.authStateChanges().listen((User user) {
-      if (user != null) {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => HomePage()));
-      }
-    });
+    FirebaseAuth.instance.authStateChanges().listen(
+      (User user) {
+        if (user != null) {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => HomePage()));
+        }
+      },
+    );
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(

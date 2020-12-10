@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 /**
  * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
@@ -39,10 +41,15 @@ class _LogoutState extends State<Logout> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0)),
               child: Text('Logout', style: TextStyle(color: Colors.white)),
-              onPressed: () {
-                _auth.signOut();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => WelcomeScreen()));
+              onPressed: () async {
+                await _auth.signOut();
+                Navigator.pop(context); // Pop Logout AlertDialog
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => WelcomeScreen(),
+                  ),
+                );
               },
             ),
             RaisedButton(

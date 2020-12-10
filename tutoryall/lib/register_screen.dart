@@ -9,6 +9,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tutoryall/main.dart';
+import 'package:tutoryall/welcome_screen.dart';
 
 import 'home_page.dart';
 
@@ -53,7 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   _repeatPasswordError = null;
                 }),
                 Navigator.pop(context),
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => HomePage(),
@@ -107,7 +108,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget _backButton() {
     return InkWell(
-      onTap: () => Navigator.pop(context),
+      onTap: () => Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (contex) => WelcomeScreen()),
+      ),
       child: Container(
         child: Row(
           children: <Widget>[
@@ -269,54 +273,62 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    return Scaffold(
-      body: Container(
-        height: height,
-        child: Stack(
-          children: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Color(0xff82E3C4), Color(0xff7ceccc)])),
-              child: ListView(
-                children: <Widget>[
-                  _backButton(),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Image.asset("assets/images/lightbulb.png",
-                            height: MediaQuery.of(context).size.height * 0.2),
-                        _registerTitle(),
-                        Column(
-                          children: <Widget>[
-                            _emailInput("Email"),
-                            _passwordInput("Password"),
-                            _repeatPasswordInput("Confirm Password"),
-                          ],
-                        ),
-                        SizedBox(height: 35),
-                        _registerButton(),
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 20),
-                          alignment: Alignment.centerRight,
-                          child: GestureDetector(
-                            child: Text(""),
+    return WillPopScope(
+      onWillPop: () {
+        return Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => WelcomeScreen()),
+        );
+      },
+      child: Scaffold(
+        body: Container(
+          height: height,
+          child: Stack(
+            children: <Widget>[
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Color(0xff82E3C4), Color(0xff7ceccc)])),
+                child: ListView(
+                  children: <Widget>[
+                    _backButton(),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Image.asset("assets/images/lightbulb.png",
+                              height: MediaQuery.of(context).size.height * 0.2),
+                          _registerTitle(),
+                          Column(
+                            children: <Widget>[
+                              _emailInput("Email"),
+                              _passwordInput("Password"),
+                              _repeatPasswordInput("Confirm Password"),
+                            ],
                           ),
-                        ),
-                      ],
+                          SizedBox(height: 35),
+                          _registerButton(),
+                          Container(
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                            alignment: Alignment.centerRight,
+                            child: GestureDetector(
+                              child: Text(""),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
