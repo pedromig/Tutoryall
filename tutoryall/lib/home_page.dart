@@ -61,6 +61,19 @@ class _HomePageState extends State<HomePage> {
                 colors: [Color(0xff82E3C4), Color(0xff7ceccc)]),
           ),
         ),
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 15),
+            child: InkWell(
+              onTap: () => {print("Tapped Favorite")},
+              child: Icon(
+                Icons.favorite,
+                color: Colors.pink,
+                size: 35.0,
+              ),
+            ),
+          )
+        ],
         title: Text(
           "tutory'all",
           style: TextStyle(
@@ -151,7 +164,10 @@ class _HomePageState extends State<HomePage> {
                     return CustomTile(snapshot: snapshot, index: index);
                   },
                   separatorBuilder: (BuildContext context, int index) {
-                    return Divider(height: 1, thickness: 1);
+                    return Divider(
+                      height: 2,
+                      thickness: 2,
+                    );
                   },
                 );
               }
@@ -163,11 +179,6 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-// TODO:  Passar para um ficheiro .dart caso seja necessário usar esta classe
-//TODO implementar esta classe corretamente para suprimir as necessidades da aplicação
-//      Mudar o nome desta classe para Event
-//      Ter de ter um User associado ao evento
-//      Criar a classe User com todos os dados de user
 class OurUser {
   final String name;
   final List<Tag> tags;

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 /**
  * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
  * Projeto de PGI - Tutory'all 2020/2021
@@ -21,6 +22,8 @@ class LeftDrawer extends StatefulWidget {
 }
 
 class _LeftDrawerState extends State<LeftDrawer> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   final List<String> names = [
     "Profile",
     "Settings",
@@ -103,7 +106,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
                 borderRadius: BorderRadius.all(Radius.circular(30)),
                 color: Colors.white),
             child: Text(
-              " Miguel Rabuge ",
+              " " + "Ghost" + " ",
               style: TextStyle(
                 fontSize: 20,
                 fontFamily: 'Minimo',
@@ -116,7 +119,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(30)),
                 color: Colors.white),
-            child: Text(" miguelrabuge12@gmail.com ",
+            child: Text(" " + _auth.currentUser.email + " ",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 15,

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 /**
  * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
  * Projeto de PGI - Tutory'all 2020/2021
@@ -18,7 +19,11 @@ class CustomTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return InkWell(
+      customBorder: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18.0),
+        side: BorderSide(color: Colors.red),
+      ),
       child: Column(
         children: <Widget>[
           Container(
@@ -35,6 +40,25 @@ class CustomTile extends StatelessWidget {
                       style: TextStyle(fontSize: 16, color: Colors.black)),
                   Text("5ºfeira 18h - Coimbra"),
                   Text("10/20 people are going"),
+                  Wrap(
+                    spacing: 8.0,
+                    runSpacing: 1.0,
+                    children: <Widget>[
+                      Chip(
+                        avatar: CircleAvatar(
+                          backgroundColor: Colors.red,
+                          child: Icon(CupertinoIcons.flame),
+                        ),
+                        label: Text("Python"),
+                      ),
+                      Chip(
+                        label: Text("C/C++"),
+                      ),
+                      Chip(
+                        label: Text("Java"),
+                      ),
+                    ],
+                  ),
                 ],
               ),
               trailing: Column(
@@ -42,6 +66,7 @@ class CustomTile extends StatelessWidget {
                   Expanded(
                     child: Icon(
                       Icons.star,
+                      size: 70,
                       color: Colors.yellow,
                     ),
                   ),
@@ -56,21 +81,6 @@ class CustomTile extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            height: 30,
-            margin: EdgeInsets.only(left: 70, right: 50),
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: this.snapshot.data[this.index].tags.length,
-              itemBuilder: (BuildContext context, int ind) {
-                return Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  child: Text(this.snapshot.data[this.index].tags[ind].tagName),
-                );
-              },
-            ),
-          )
         ],
       ),
     );
