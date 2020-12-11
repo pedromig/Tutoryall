@@ -8,14 +8,15 @@ import 'package:flutter/cupertino.dart';
 */
 
 import 'package:flutter/material.dart';
+import 'package:tutoryall/core_screens/event_screens/event_screen.dart';
+import 'package:tutoryall/utils/event.dart';
+import 'package:tutoryall/utils/tutoryall_user.dart';
 
 class CustomTile extends StatelessWidget {
   final AsyncSnapshot snapshot;
   final int index;
 
-  CustomTile(
-      {this.snapshot,
-      this.index}); //assign the input parameter to this.snapshot
+  CustomTile(this.snapshot, this.index);
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +29,30 @@ class CustomTile extends StatelessWidget {
         children: <Widget>[
           Container(
             child: ListTile(
-              onTap: () => {print("Tapped!")},
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EventScreen(
+                      Event(
+                        "Explicação Turtle",
+                        "programação",
+                        DateTime.now(),
+                        TimeOfDay.now(),
+                        null,
+                        TutoryallUser("Miguel", ["Python", "C/C++"], 10,
+                            "9123123", "Um gajo", null),
+                        [],
+                        "Coimbra",
+                        4.5,
+                        10,
+                      ),
+                    ),
+                  ),
+                ),
+              },
               leading: InkWell(
-                onTap: () => {print("imagem premida")},
+                onTap: () => {print("Pressed Image")},
                 child: CircleAvatar(),
               ),
               subtitle: Column(

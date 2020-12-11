@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tutoryall/tile.dart';
+import 'package:tutoryall/utils/custom_tile.dart';
 
 class ProfileEvent extends StatefulWidget {
   @override
@@ -51,7 +51,7 @@ class _ProfileEventState extends State<ProfileEvent> {
                   )
                   ;
                   */
-                  return CustomTile(snapshot: snapshot, index: index);
+                  return CustomTile(snapshot, index);
                 },
               );
             }

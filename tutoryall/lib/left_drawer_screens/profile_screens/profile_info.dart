@@ -8,8 +8,8 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tutoryall/tile.dart';
-import 'package:tutoryall/profile_events.dart';
+import 'package:tutoryall/utils/custom_tile.dart';
+import 'package:tutoryall/left_drawer_screens/profile_screens/profile_events.dart';
 
 final List<String> entries = <String>['A', 'B', 'C'];
 final List<int> colorCodes = <int>[600, 500, 100];

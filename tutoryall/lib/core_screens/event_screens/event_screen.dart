@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:tutoryall/utils/event.dart';
+import 'package:tutoryall/utils/tutoryall_user.dart';
+
 
 class EventScreen extends StatefulWidget {
-  Event event; //store event object
+  final Event event; //store event object
 
   //receives a event object
   EventScreen(this.event);
@@ -89,11 +92,11 @@ class _EventScreenState extends State<EventScreen> {
     );
   }
 
-  List<User> createListUsers(int n) {
-    List<User> l = [];
+  List<TutoryallUser> createListUsers(int n) {
+    List<TutoryallUser> l = [];
     for (int i = 0; i < n; i++) {
       // User(this.name, this.age, this.contact, this.bio, this.createdEvents, this.goingEvents, this.image);
-      User x = User("name$i", i, "$i@boda.com",
+      TutoryallUser x = TutoryallUser("name$i", null, i, "$i@boda.com",
           "Eu sou o name$i, gosto desta app.", null);
       l.add(x);
     }
@@ -103,43 +106,3 @@ class _EventScreenState extends State<EventScreen> {
 
 //TODO verificar se determinado evento esta na lista do user para saber que icon colocar (check ou xCross)
 //? Vão haver vários objetos com a mesma informação, ou vai haver apenas um objeto e depois vários pointers para o mesmo objeto na base de dados
-
-class Event {
-  String name;
-  String description;
-  DateTime date;
-  TimeOfDay time;
-  Image image;
-  String location;
-  double rating;
-  int lotation;
-  User creator;
-  List<User> listGoing;
-
-  Event(this.name, this.description, this.date, this.time, this.image,
-      this.creator, this.listGoing, this.location, this.rating, this.lotation);
-}
-
-class User {
-  String name;
-  int age;
-  String contact;
-  String bio;
-  List<Event> createdEvents;
-  List<Event> goingEvents;
-  Image image; //vai ser string vai ser o que, como ir buscar esta imagem???
-
-  User(String name, int age, String contact, String bio, Image image) {
-    this.name = name;
-    this.age = age;
-    this.contact = contact;
-    this.bio = bio;
-    this.image = image;
-    this.createdEvents = [];
-    this.goingEvents = [];
-  }
-
-  void addCreatedEvent(Event event) {
-    this.createdEvents.add(event);
-  }
-}

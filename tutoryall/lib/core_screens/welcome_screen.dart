@@ -1,15 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-/**
- * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
- * Projeto de PGI - Tutory'all 2020/2021
- * 
- * File Author: Pedro Miguel Duque Rodrigues
- *   
-*/
-
 import 'package:flutter/material.dart';
-import 'package:tutoryall/login_screen.dart';
-import 'package:tutoryall/register_screen.dart';
+import 'package:tutoryall/app_auth_screens/login_screen.dart';
+import 'package:tutoryall/app_auth_screens/register_screen.dart';
 
 import 'home_page.dart';
 

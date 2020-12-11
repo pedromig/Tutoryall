@@ -139,10 +139,13 @@ class _EditEventScreenState extends State<EditEventScreen> {
 */
 
 import 'package:flutter/material.dart';
+import 'package:tutoryall/utils/event.dart';
+import 'package:tutoryall/utils/tutoryall_user.dart';
+
 import 'event_screen.dart'; //para ter acesso à classe Event
 
 class EditEventScreen extends StatefulWidget {
-  User user;
+  TutoryallUser user;
   Event event;
 
   EditEventScreen(this.user,

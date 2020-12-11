@@ -9,12 +9,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import 'profile.dart';
-import 'settings.dart';
-import 'about_us.dart';
-import 'report_error.dart';
-import 'suggestions.dart';
-import 'logout.dart';
+import '../left_drawer_screens/profile_screens/profile.dart';
+import '../left_drawer_screens/settings.dart';
+import '../left_drawer_screens/about_us.dart';
+import '../left_drawer_screens/report_error.dart';
+import '../left_drawer_screens/suggestions.dart';
+import '../left_drawer_screens/logout.dart';
 
 class LeftDrawer extends StatefulWidget {
   @override
@@ -99,7 +99,6 @@ class _LeftDrawerState extends State<LeftDrawer> {
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
-        // padding: EdgeInsets.zero,
         UserAccountsDrawerHeader(
           accountName: DecoratedBox(
             decoration: BoxDecoration(

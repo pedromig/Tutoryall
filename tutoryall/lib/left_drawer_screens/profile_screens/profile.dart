@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tutoryall/edit_profile.dart';
-import 'package:tutoryall/profile_info.dart';
+import 'package:tutoryall/left_drawer_screens/profile_screens/edit_profile.dart';
+import 'package:tutoryall/left_drawer_screens/profile_screens/profile_info.dart';
 
 class Profile extends StatefulWidget {
   @override

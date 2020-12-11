@@ -8,75 +8,82 @@ import 'package:firebase_auth/firebase_auth.dart';
 */
 
 import 'package:flutter/material.dart';
+import 'package:tutoryall/utils/custom_tile.dart';
+import 'package:tutoryall/utils/tutoryall_user.dart';
+
 import 'dart:async';
 
+import 'event_screens/create_event_screen.dart';
+import 'search_menu.dart';
 import 'left_drawer.dart';
-import 'logout.dart';
-import 'tile.dart';
+import '../left_drawer_screens/logout.dart';
 
 class HomePage extends StatefulWidget {
-  final bool isNewUser;
-  HomePage({Key key, this.isNewUser = false});
+  HomePage({Key key});
 
   @override
-  _HomePageState createState() => _HomePageState(this.isNewUser);
+  _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final bool isNewUser;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  _HomePageState(this.isNewUser);
+  _HomePageState();
 
-  Future<List<OurUser>> _getData() async {
-    List<OurUser> users = [];
-    OurUser x;
-    List<Tag> tags = [];
-    Tag y;
+  Future<List<TutoryallUser>> _getData() async {
+    List<TutoryallUser> users = [];
+
+    List<String> tags = [];
+    String y;
 
     for (var i = 0; i < 20; i++) {
       for (var e = 0; e < 10; e++) {
-        y = Tag("tag $e");
+        y = "tag $e";
         tags.add(y);
       }
-      x = OurUser("Gabriel $i", tags);
-      users.add(x);
+      users.add(
+        TutoryallUser("Gabriel $i", tags, 10, "924182731", "Lol", null),
+      );
     }
     return users;
   }
 
   _newUserDialog() {
-    if (this.isNewUser) {
+    if (_auth.currentUser.displayName == null ||
+        _auth.currentUser.displayName.isEmpty) {
       showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            backgroundColor: Color(0xfff2f3f5),
-            title: Text("Insert your name"),
-            content: Row(
-              children: <Widget>[
-                Expanded(
-                  child: TextField(
-                    autofocus: true,
-                    onChanged: (value) {
-                      _auth.currentUser.updateProfile(displayName: value);
-                    },
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              backgroundColor: Color(0xfff2f3f5),
+              title: Text("Insert your name"),
+              content: Row(
+                children: <Widget>[
+                  Center(
+                    child: TextField(
+                      autofocus: true,
+                      onChanged: (value) {
+                        _auth.currentUser.updateProfile(displayName: value);
+                      },
+                    ),
                   ),
-                )
+                ],
+              ),
+              actions: [
+                FlatButton(
+                  child: Text("Submit"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    setState(() {});
+                  },
+                ),
               ],
             ),
-            actions: [
-              FlatButton(
-                child: Text("Submit"),
-                onPressed: () {
-                  Navigator.pop(context);
-                  setState(() {});
-                },
-              ),
-            ],
           );
         },
       );
@@ -150,9 +157,7 @@ class _HomePageState extends State<HomePage> {
                   padding: EdgeInsets.only(left: 10, right: 10),
                   child: IconButton(
                     icon: Icon(Icons.home),
-                    onPressed: () {
-                      print("botão random que coloquei para serem três");
-                    },
+                    onPressed: () {},
                   ),
                 ),
               ),
@@ -164,7 +169,12 @@ class _HomePageState extends State<HomePage> {
                   child: IconButton(
                     icon: Icon(Icons.search),
                     onPressed: () {
-                      print("Botão de pesquisa");
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SearchMenu(),
+                        ),
+                      );
                     },
                   ),
                 ),
@@ -177,7 +187,12 @@ class _HomePageState extends State<HomePage> {
                   child: IconButton(
                     icon: Icon(Icons.add_circle_outlined),
                     onPressed: () {
-                      print("Botão Adicionar Evento");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CreateEventScreen(null),
+                        ),
+                      );
                     },
                   ),
                 ),
@@ -210,7 +225,7 @@ class _HomePageState extends State<HomePage> {
                 return ListView.separated(
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return CustomTile(snapshot: snapshot, index: index);
+                    return CustomTile(snapshot, index);
                   },
                   separatorBuilder: (BuildContext context, int index) {
                     return Divider(
@@ -226,16 +241,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-}
-
-class OurUser {
-  final String name;
-  final List<Tag> tags;
-  OurUser(this.name, this.tags);
-}
-
-class Tag {
-  final String tagName;
-
-  Tag(this.tagName);
 }

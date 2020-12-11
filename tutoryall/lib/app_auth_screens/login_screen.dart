@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 /**
  * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
  * Projeto de PGI - Tutory'all 2020/2021
@@ -6,78 +7,69 @@
  *   
 */
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tutoryall/main.dart';
-import 'package:tutoryall/welcome_screen.dart';
+import 'package:tutoryall/core_screens/welcome_screen.dart';
+import '../core_screens/home_page.dart';
 
-import 'home_page.dart';
+class LoginScreen extends StatefulWidget {
+  LoginScreen({Key key, this.title}) : super(key: key);
 
-class RegisterScreen extends StatefulWidget {
   final String title;
 
-  RegisterScreen({Key key, this.title}) : super(key: key);
   @override
-  _RegisterScreenState createState() => _RegisterScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
-  final TextEditingController _password = TextEditingController();
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _repeatPassword = TextEditingController();
+class _LoginScreenState extends State<LoginScreen> {
+  bool _showPassword = false;
+  TextEditingController _password = TextEditingController();
+  TextEditingController _email = TextEditingController();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  String _emailError = "";
   String _passwordError = "";
-  String _repeatPasswordError;
+  String _emailError = "";
 
   void dispose() {
     _password.dispose();
     _email.dispose();
-    _repeatPassword.dispose();
     super.dispose();
   }
 
-  void _register() async {
+  void _login() async {
     try {
-      if (_repeatPassword.text == _password.text) {
-        _showLoaderDialog(context);
-        await _auth
-            .createUserWithEmailAndPassword(
-                email: _email.text, password: _password.text)
-            .then(
-              (value) => {
-                setState(() {
-                  _passwordError = "";
-                  _emailError = "";
-                  _repeatPasswordError = null;
-                }),
-                Navigator.pop(context),
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HomePage(isNewUser: true),
-                  ),
+      _showLoaderDialog(context);
+      await _auth
+          .signInWithEmailAndPassword(
+              email: _email.text, password: _password.text)
+          .then(
+            (value) => {
+              setState(() {
+                _passwordError = "";
+                _emailError = "";
+              }),
+              Navigator.pop(context),
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomePage(),
                 ),
-              },
-            );
-      }
+              ),
+            },
+          );
     } on FirebaseAuthException catch (e) {
-      _emailError = "";
       _passwordError = "";
-      _repeatPasswordError = null;
+      _emailError = "";
       setState(() {
-        if (e.code == "email-already-in-use") {
-          _emailError = "Email already in use";
-        } else if (e.code == "invalid-email") {
+        if (e.code == "invalid-email") {
           _emailError = "Invalid email";
-        } else if (e.code == "weak-password") {
-          _passwordError = "Password must have 6-12 characters";
+        } else if (e.code == "user-not-found") {
+          _emailError = "No user with such email";
+        } else if (e.code == "wrong-password") {
+          _passwordError = "Incorrect password";
         } else {
           if (_email.text.isEmpty) _emailError = "required";
           if (_password.text.isEmpty) _passwordError = "required";
-          if (_repeatPassword.text.isEmpty) _repeatPasswordError = "required";
         }
       });
       Navigator.pop(context);
@@ -98,7 +90,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               CircularProgressIndicator(value: null),
               Container(
                   margin: EdgeInsets.only(left: 7),
-                  child: Text("Registering...")),
+                  child: Text("Loging In...")),
             ],
           ),
         );
@@ -110,7 +102,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return InkWell(
       onTap: () => Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (contex) => WelcomeScreen()),
+        MaterialPageRoute(builder: (context) => WelcomeScreen()),
       ),
       child: Container(
         child: Row(
@@ -131,14 +123,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _registerTitle() {
+  Widget _loginTitle() {
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Register",
+            'Login',
             style: TextStyle(
                 fontSize: 50,
                 fontFamily: "Minimo",
@@ -151,6 +143,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget _emailInput(String title) {
     return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -183,7 +176,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget _passwordInput(String title) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 20),
+      margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -196,7 +189,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           TextFormField(
             controller: _password,
-            obscureText: true,
+            obscureText: !_showPassword,
             decoration: InputDecoration(
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
@@ -208,6 +201,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               fillColor: Color(0xffffffff),
               filled: true,
               prefixIcon: Icon(Icons.lock, color: Colors.black, size: 30),
+              suffixIcon: IconButton(
+                icon: Icon(Icons.remove_red_eye_rounded,
+                    color: this._showPassword ? Colors.blue : Colors.grey),
+                onPressed: () =>
+                    {setState(() => this._showPassword = !this._showPassword)},
+              ),
             ),
           )
         ],
@@ -215,45 +214,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _repeatPasswordInput(String title) {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          TextFormField(
-            controller: _repeatPassword,
-            obscureText: true,
-            decoration: InputDecoration(
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-              errorStyle: TextStyle(
-                  fontFamily: 'Minimo',
-                  fontWeight: FontWeight.w500,
-                  fontSize: 13),
-              errorText: _password.text != _repeatPassword.text &&
-                      _repeatPassword.text.isNotEmpty
-                  ? "Password mismatch"
-                  : _repeatPasswordError,
-              fillColor: Color(0xffffffff),
-              filled: true,
-              prefixIcon: Icon(Icons.lock, color: Colors.black, size: 30),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _registerButton() {
+  Widget _loginButton() {
     return InkWell(
-      onTap: _register,
+      onTap: _login,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 13),
         alignment: Alignment.center,
@@ -270,15 +233,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+  void _forgetPassword() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          backgroundColor: Color(0xfff2f3f5),
+          title: Text("Password recovery"),
+          content: Row(
+            children: <Widget>[
+              Expanded(
+                child: TextField(
+                  autofocus: true,
+                  decoration: new InputDecoration(
+                    labelText: "Email",
+                  ),
+                  onChanged: (value) {
+                    _auth.sendPasswordResetEmail(email: value);
+                  },
+                ),
+              )
+            ],
+          ),
+          actions: [
+            FlatButton(
+              child: Text("Submit"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     return WillPopScope(
       onWillPop: () {
         return Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => WelcomeScreen()),
-        );
+            context, MaterialPageRoute(builder: (context) => WelcomeScreen()));
       },
       child: Scaffold(
         body: Container(
@@ -304,21 +303,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         children: <Widget>[
                           Image.asset("assets/images/lightbulb.png",
                               height: MediaQuery.of(context).size.height * 0.2),
-                          _registerTitle(),
+                          _loginTitle(),
+                          SizedBox(height: 30),
                           Column(
                             children: <Widget>[
                               _emailInput("Email"),
                               _passwordInput("Password"),
-                              _repeatPasswordInput("Confirm Password"),
                             ],
                           ),
-                          SizedBox(height: 35),
-                          _registerButton(),
+                          SizedBox(height: 20),
+                          _loginButton(),
                           Container(
                             padding: EdgeInsets.symmetric(vertical: 20),
                             alignment: Alignment.centerRight,
                             child: GestureDetector(
-                              child: Text(""),
+                              onTap: () => {
+                                _forgetPassword(),
+                              },
+                              child: Text('Forgot Password ?',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500)),
                             ),
                           ),
                         ],

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'event_screen.dart'; //para ter acesso à classe Event
+import 'package:tutoryall/utils/event.dart';
+import 'package:tutoryall/utils/tutoryall_user.dart';
 
-import 'package:date_field/date_field.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class CreateEventScreen extends StatefulWidget {
-  User user;
+  final TutoryallUser user; // se der bosta retirar o final
 
   CreateEventScreen(
       this.user); //para ter acesso ao user dentro do _CreateEventScreenState
@@ -23,7 +22,8 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   DateTime date;
   TimeOfDay time;
   Image image;
-  List<User> listGoing; //daqui sai vazia, mais tarde vão ser adicionados
+  List<TutoryallUser>
+      listGoing; //daqui sai vazia, mais tarde vão ser adicionados
   String location;
   double rating = 0; //pelo que percebi, vai ser calculado posteriormente
   int lotation;
@@ -36,7 +36,16 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Create event"),
+        title: Text(
+          "Create Event",
+          style: TextStyle(
+              fontSize: 35,
+              fontFamily: 'Minimo',
+              fontWeight: FontWeight.w800,
+              color: Colors.black),
+        ),
+        centerTitle: true,
+        backgroundColor: Color(0xff7ceccc),
       ),
       body: Form(
         key: formKey,
@@ -52,6 +61,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     if (value.trim().isEmpty) {
                       return "Invalid name.";
                     }
+                    return null;
                   },
                   onSaved: (value) {
                     name = value;
@@ -67,55 +77,12 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     if (value.trim().isEmpty) {
                       return "Empty description.";
                     }
+                    return null;
                   },
                   onSaved: (value) {
                     description = value;
                   },
                 )),
-            // ListTile(
-            //     title: Text("Date"),
-            //     subtitle: TextFormField(
-            //       keyboardType: TextInputType.datetime,
-            //       decoration:
-            //           InputDecoration(hintText: "insert date year/month/day"),
-            //       validator: (value) {
-            //         if (!value.trim().isEmpty) {
-            //           if (!isDate(value)) {
-            //             return "Invalid date.";
-            //           }
-            //         } else {
-            //           return "Empty date.";
-            //         }
-            //       },
-            //       onSaved: (value) {
-            //         date = value;
-            //       },
-            //     )),
-            // ListTile(
-            //     title: Text("Date"),
-            //     subtitle: DateTimeField(
-            //       mode: DateFieldPickerMode.date,
-            //       selectedDate: date,
-            //       onDateSelected: (DateTime _date) {
-            //         setState(() {
-            //           date = _date;
-            //         });
-            //       },
-            //       firstDate: now,
-            //     )),
-            // ListTile(
-            //     title: Text("Time"),
-            //     subtitle: DateTimeField(
-            //       mode: DateFieldPickerMode.time,
-            //       selectedDate: time,
-            //       onDateSelected: (DateTime _time) {
-            //         setState(() {
-            //           time = _time;
-            //         });
-            //       },
-            //       firstDate: now,
-            //     )),
-
             ListTile(
               title: Text("Date"),
               subtitle: date == null
@@ -154,23 +121,6 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                 });
               },
             ),
-            // ListTile(
-            //     title: Text("Time"),
-            //     subtitle: TextFormField(
-            //       decoration: InputDecoration(hintText: "insert time"),
-            //       validator: (value) {
-            //         if (!value.trim().isEmpty) {
-            //           if (!isTime(value)) {
-            //             return "Invalid time with date.";
-            //           }
-            //         } else {
-            //           return "Empty time.";
-            //         }
-            //       },
-            //       onSaved: (value) {
-            //         time = value;
-            //       },
-            //     )),
             ListTile(
                 title: Text("Location"),
                 subtitle: TextFormField(
@@ -179,6 +129,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     if (value.trim().isEmpty) {
                       return "Empty location";
                     }
+                    return null;
                   },
                   onSaved: (value) {
                     location = value;
@@ -189,10 +140,8 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                 subtitle: TextFormField(
                   decoration: InputDecoration(hintText: "insert lotation"),
                   validator: (value) {
-                    if (!value.trim().isEmpty) {
-                      if (!isIntNumber(value)) {
-                        return "Invalid lotation value.";
-                      }
+                    if (value.trim().isNotEmpty && !isIntNumber(value)) {
+                      return "Invalid lotation value.";
                     } else {
                       return "Empty lotation.";
                     }
@@ -202,6 +151,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   },
                 )),
             RaisedButton(
+              color: Color(0xff7ceccc),
               child: Text("Criar"),
               onPressed: () {
                 if (formKey.currentState.validate()) {
@@ -240,7 +190,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
     );
   }
 
-  //TODO completar isto
+  //to do: completar isto
   bool isDate(String date) {
     return true;
   }
