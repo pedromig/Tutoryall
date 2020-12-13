@@ -10,8 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tutoryall/utils/custom_tile.dart';
 import 'package:tutoryall/utils/database.dart';
-import 'package:tutoryall/utils/event.dart';
-import 'package:tutoryall/utils/tutoryall_user.dart';
+import 'package:tutoryall/utils/tutoryall_event.dart';
 
 import 'dart:async';
 import 'event_screens/create_event_screen.dart';
@@ -31,9 +30,9 @@ class _HomePageState extends State<HomePage> {
 
   _HomePageState();
 
-  Future<List<Event>> _getData() async {
+  Future<List<TutoryallEvent>> _getData() async {
     Database db = Database();
-    List<Event> eventList = await db.getEventList();
+    List<TutoryallEvent> eventList = await db.getEventList();
     return eventList;
   }
 

@@ -1,19 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'tutoryall_user.dart';
-import 'event.dart';
+import 'tutoryall_event.dart';
 
 class Database {
   String contents;
-  String jsonPath;
+  String jsonPath = "assets/database/data.json";
 
-  Database() {
-    this.jsonPath = "assets/database/data.json";
-  }
+  Database();
 
   TutoryallUser makeUserObj(dynamic dynamicUser) {
     return TutoryallUser(
@@ -22,13 +19,18 @@ class Database {
         dynamicUser["age"] as int,
         dynamicUser["contact"] as String,
         dynamicUser["bio"] as String,
+        List.from(dynamicUser["ratings"].values).length == 0
+            ? 0
+            : List.from(dynamicUser["ratings"].values).fold(
+                    0, (previousValue, element) => previousValue + element) /
+                List.from(dynamicUser["ratings"].values).length,
         dynamicUser["image"] as Image,
         List.from(dynamicUser["createdEventsIDs"]),
         List.from(dynamicUser["goingEventsIDs"]));
   }
 
-  Event makeEventObj(dynamic dynamicEvent) {
-    return Event(
+  TutoryallEvent makeEventObj(dynamic dynamicEvent) {
+    return TutoryallEvent(
         dynamicEvent["name"] as String,
         dynamicEvent["description"] as String,
         DateTime(
@@ -42,7 +44,6 @@ class Database {
         dynamicEvent["creatorID"] as String,
         List.from(dynamicEvent["listGoingIDs"]),
         dynamicEvent["location"] as String,
-        dynamicEvent["rating"] as double,
         dynamicEvent["lotation"] as int,
         List.from(dynamicEvent["tags"]));
   }
@@ -78,9 +79,9 @@ class Database {
     return (await _fetch())["events"];
   }
 
-  Future<List<Event>> getEventList() async {
+  Future<List<TutoryallEvent>> getEventList() async {
     Map events = await _getEventList();
-    List<Event> builtEvents = [];
+    List<TutoryallEvent> builtEvents = [];
     for (final key in events.keys) {
       dynamic dynamicEvent = events[key];
       builtEvents.add(makeEventObj(dynamicEvent));
@@ -88,19 +89,8 @@ class Database {
     return builtEvents;
   }
 
-  Future<Event> getEvent(String eventID) async {
+  Future<TutoryallEvent> getEvent(String eventID) async {
     dynamic dynamicEvent = (await _getEventList())[eventID];
     return makeEventObj(dynamicEvent);
-  }
-
-  void newUser(FirebaseAuth user) async {
-    String id = user.currentUser.uid;
-    String name = user.currentUser.displayName;
-    String contact = user.currentUser.email;
-    TutoryallUser newTutoryallUser =
-        TutoryallUser(id, name, 0, contact, "My bio", null, [], []);
-    // print(newTutoryallUser.toJson());
-    dynamic data = await _fetch();
-    data["users"][id] = newTutoryallUser;
   }
 }

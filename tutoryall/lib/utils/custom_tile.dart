@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tutoryall/core_screens/event_screens/event_screen.dart';
 import 'package:tutoryall/utils/database.dart';
-import 'package:tutoryall/utils/event.dart';
+import 'package:tutoryall/utils/tutoryall_event.dart';
 
 class CustomTile extends StatelessWidget {
   final AsyncSnapshot snapshot;
@@ -51,7 +51,7 @@ class CustomTile extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => EventScreen(
-                      Event(
+                      TutoryallEvent(
                         this.snapshot.data[this.index].name,
                         this.snapshot.data[this.index].description,
                         this.snapshot.data[this.index].date,
@@ -60,7 +60,6 @@ class CustomTile extends StatelessWidget {
                         this.snapshot.data[this.index].creatorID,
                         this.snapshot.data[this.index].listGoingIDs,
                         this.snapshot.data[this.index].location,
-                        this.snapshot.data[this.index].rating,
                         this.snapshot.data[this.index].lotation,
                         this.snapshot.data[this.index].tags,
                       ),
@@ -95,23 +94,36 @@ class CustomTile extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: Text("4.5"),
+                    child: FutureBuilder(
+                      future: Database()
+                          .getUser(this.snapshot.data[this.index].creatorID),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.data == null) {
+                          return Text("Loading");
+                        } else {
+                          return Text(
+                            snapshot.data.rating.toStringAsFixed(1),
+                            style: TextStyle(fontSize: 15),
+                          );
+                        }
+                      },
+                    ),
                   ),
                 ],
               ),
               title: FutureBuilder(
-                  future: Database()
-                      .getUser(this.snapshot.data[this.index].creatorID),
-                  builder: (BuildContext buildContext, AsyncSnapshot snapshot) {
-                    if (snapshot.data == null) {
-                      return Text("Loading");
-                    } else {
-                      return Text(
-                        snapshot.data.name,
-                        style: TextStyle(fontSize: 19),
-                      );
-                    }
+                future: Database()
+                    .getUser(this.snapshot.data[this.index].creatorID),
+                builder: (BuildContext buildContext, AsyncSnapshot snapshot) {
+                  if (snapshot.data == null) {
+                    return Text("Loading");
+                  } else {
+                    return Text(
+                      snapshot.data.name,
+                      style: TextStyle(fontSize: 19),
+                    );
                   }
+                },
               ),
             ),
           ),
