@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tutoryall/utils/database.dart';
 import 'package:tutoryall/utils/tutoryall_user.dart';
 
 class Event {
@@ -35,6 +34,36 @@ class Event {
     this.time = time;
     this.image = image;
     this.creatorID = creatorID;
+    this.listGoingIDs = listGoingIDs;
+    this.location = location;
+    this.rating = rating;
+    this.listGoingIDs = listGoingIDs;
+    this.location = location;
+    this.rating = rating;
+    this.listGoingIDs = listGoingIDs;
+    this.location = location;
+    this.rating = rating;
+    this.listGoingIDs = listGoingIDs;
+    this.location = location;
+    this.rating = rating;
+    this.listGoingIDs = listGoingIDs;
+    this.location = location;
+    this.rating = rating;
+    this.listGoingIDs = listGoingIDs;
+    this.location = location;
+    this.rating = rating;
+    this.listGoingIDs = listGoingIDs;
+    this.location = location;
+    this.rating = rating;
+    this.listGoingIDs = listGoingIDs;
+    this.location = location;
+    this.rating = rating;
+    this.listGoingIDs = listGoingIDs;
+    this.location = location;
+    this.rating = rating;
+    this.listGoingIDs = listGoingIDs;
+    this.location = location;
+    this.rating = rating;
     this.listGoingIDs = listGoingIDs;
     this.location = location;
     this.rating = rating;
