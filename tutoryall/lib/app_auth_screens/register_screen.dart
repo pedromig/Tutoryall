@@ -13,9 +13,7 @@ import 'package:tutoryall/core_screens/welcome_screen.dart';
 import '../core_screens/home_page.dart';
 
 class RegisterScreen extends StatefulWidget {
-  final String title;
-
-  RegisterScreen({Key key, this.title}) : super(key: key);
+  RegisterScreen({Key key}) : super(key: key);
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
@@ -113,20 +111,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
         context,
         MaterialPageRoute(builder: (contex) => WelcomeScreen()),
       ),
-      child: Container(
-        child: Row(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(left: 0, top: 30, bottom: 33),
-              child: Icon(Icons.keyboard_arrow_left,
-                  color: Colors.black, size: 30),
-            ),
-            Text('Back',
-                style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: "Minimo",
-                    fontWeight: FontWeight.w500))
-          ],
+      child: InkWell(
+        child: Container(
+          child: Row(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(left: 0, top: 30, bottom: 33),
+                child: Icon(Icons.keyboard_arrow_left,
+                    color: Colors.black, size: 30),
+              ),
+              Text('Back',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: "Minimo",
+                      fontWeight: FontWeight.w500))
+            ],
+          ),
         ),
       ),
     );
@@ -253,19 +253,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _registerButton() {
-    return InkWell(
-      onTap: _register,
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 13),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(30)),
-            border: Border.all(color: Colors.white, width: 2),
-            color: Colors.white),
-        child: Text(
-          "Submit",
-          style: TextStyle(
-              fontSize: 25, fontFamily: 'Minimo', fontWeight: FontWeight.w500),
+    return RaisedButton(
+      onPressed: _register,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+      padding: EdgeInsets.symmetric(horizontal: 1),
+      child: InkWell(
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 13),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              border: Border.all(color: Colors.white, width: 2),
+              color: Colors.white),
+          child: Text(
+            "Submit",
+            style: TextStyle(
+                fontSize: 25,
+                fontFamily: 'Minimo',
+                fontWeight: FontWeight.w500),
+          ),
         ),
       ),
     );

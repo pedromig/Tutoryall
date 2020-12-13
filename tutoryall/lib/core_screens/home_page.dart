@@ -12,7 +12,6 @@ import 'package:tutoryall/utils/custom_tile.dart';
 import 'package:tutoryall/utils/tutoryall_user.dart';
 
 import 'dart:async';
-
 import 'event_screens/create_event_screen.dart';
 import 'search_menu.dart';
 import 'left_drawer.dart';
@@ -32,7 +31,6 @@ class _HomePageState extends State<HomePage> {
 
   Future<List<TutoryallUser>> _getData() async {
     List<TutoryallUser> users = [];
-
     List<String> tags = [];
     String y;
 
@@ -61,28 +59,38 @@ class _HomePageState extends State<HomePage> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20.0))),
               backgroundColor: Color(0xfff2f3f5),
-              title: Text("Insert your name"),
-              content: Row(
-                children: <Widget>[
-                  Center(
-                    child: TextField(
-                      autofocus: true,
-                      onChanged: (value) {
-                        _auth.currentUser.updateProfile(displayName: value);
+              title: Text("Insert your name "),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Expanded(
+                      child: TextField(
+                        autofocus: true,
+                        onChanged: (value) async {
+                          if (value.isEmpty) value = "Anonymous";
+                          await _auth.currentUser
+                              .updateProfile(displayName: value);
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    RaisedButton(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0)),
+                      child:
+                          Text('Submit', style: TextStyle(color: Colors.black)),
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        setState(() {});
                       },
                     ),
-                  ),
-                ],
-              ),
-              actions: [
-                FlatButton(
-                  child: Text("Submit"),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    setState(() {});
-                  },
+                  ],
                 ),
-              ],
+              ),
             ),
           );
         },

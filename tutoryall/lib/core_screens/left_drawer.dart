@@ -95,6 +95,11 @@ class _LeftDrawerState extends State<LeftDrawer> {
     }
   }
 
+  _updateDisplayName() async {
+    await _auth.currentUser.reload();
+    return _auth.currentUser.displayName;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -104,14 +109,30 @@ class _LeftDrawerState extends State<LeftDrawer> {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(30)),
                 color: Colors.white),
-            child: Text(
-              " " + _auth.currentUser.displayName + " ",
-              style: TextStyle(
-                fontSize: 20,
-                fontFamily: 'Minimo',
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-              ),
+            child: FutureBuilder(
+              future: _updateDisplayName(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.data == null || snapshot.data.isEmpty) {
+                  return Text(
+                    "Loading...",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'Minimo',
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
+                  );
+                } else
+                  return Text(
+                    " " + snapshot.data + " ",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'Minimo',
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
+                  );
+              },
             ),
           ),
           accountEmail: DecoratedBox(
@@ -147,7 +168,6 @@ class _LeftDrawerState extends State<LeftDrawer> {
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
           itemCount: 6,
-          // separatorBuilder: (BuildContext context, int index) => Divider(thickness: 2,), // +ara isto funcionar tem de ser ListView.separator
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
               leading: Icon(icons[index]),

@@ -14,55 +14,68 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget _loginButton() {
-    return InkWell(
-      onTap: () => {
+    return RaisedButton(
+      onPressed: () => {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
                 builder: (context) => LoginScreen(title: "Login Page")))
       },
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 13),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(30)),
-            border: Border.all(color: Colors.white, width: 2),
-            color: Colors.white),
-        child: Text(
-          "Login",
-          style: TextStyle(
-              fontSize: 25, fontFamily: 'Minimo', fontWeight: FontWeight.w500),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+      padding: EdgeInsets.symmetric(horizontal: 1),
+      child: InkWell(
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 13),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              border: Border.all(color: Colors.white, width: 2),
+              color: Colors.white),
+          child: Text(
+            "Login",
+            style: TextStyle(
+                fontSize: 25,
+                fontFamily: 'Minimo',
+                fontWeight: FontWeight.w500),
+          ),
         ),
       ),
     );
   }
 
   Widget _registerButton() {
-    return InkWell(
-      onTap: () => {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => RegisterScreen(title: "Hello")))
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(vertical: 13),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(30)),
-          border: Border.all(color: Colors.white, width: 2),
-        ),
-        child: Text(
-          'Register',
-          style: TextStyle(
-              fontSize: 25,
-              color: Colors.black,
-              fontFamily: 'Minimo',
-              fontWeight: FontWeight.w500),
-        ),
-      ),
-    );
+    return RaisedButton(
+        onPressed: () => {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RegisterScreen(),
+                ),
+              )
+            },
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+        padding: EdgeInsets.symmetric(horizontal: 1),
+        color: Color(0xff7ceccc).withOpacity(0.9),
+        child: InkWell(
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            padding: EdgeInsets.symmetric(vertical: 13),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              border: Border.all(color: Colors.white, width: 2),
+            ),
+            child: Text(
+              'Register',
+              style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.black,
+                  fontFamily: 'Minimo',
+                  fontWeight: FontWeight.w500),
+            ),
+          ),
+        ));
   }
 
   @override

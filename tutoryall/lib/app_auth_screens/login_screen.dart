@@ -104,20 +104,22 @@ class _LoginScreenState extends State<LoginScreen> {
         context,
         MaterialPageRoute(builder: (context) => WelcomeScreen()),
       ),
-      child: Container(
-        child: Row(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(left: 0, top: 30, bottom: 33),
-              child: Icon(Icons.keyboard_arrow_left,
-                  color: Colors.black, size: 30),
-            ),
-            Text('Back',
-                style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: "Minimo",
-                    fontWeight: FontWeight.w500))
-          ],
+      child: InkWell(
+        child: Container(
+          child: Row(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(left: 0, top: 30, bottom: 33),
+                child: Icon(Icons.keyboard_arrow_left,
+                    color: Colors.black, size: 30),
+              ),
+              Text('Back',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: "Minimo",
+                      fontWeight: FontWeight.w500))
+            ],
+          ),
         ),
       ),
     );
@@ -215,19 +217,25 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _loginButton() {
-    return InkWell(
-      onTap: _login,
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 13),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(30)),
-            border: Border.all(color: Colors.white, width: 2),
-            color: Colors.white),
-        child: Text(
-          "Submit",
-          style: TextStyle(
-              fontSize: 25, fontFamily: 'Minimo', fontWeight: FontWeight.w500),
+    return RaisedButton(
+      onPressed: _login,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+      padding: EdgeInsets.symmetric(horizontal: 1),
+      child: InkWell(
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 13),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              border: Border.all(color: Colors.white, width: 2),
+              color: Colors.white),
+          child: Text(
+            "Submit",
+            style: TextStyle(
+                fontSize: 25,
+                fontFamily: 'Minimo',
+                fontWeight: FontWeight.w500),
+          ),
         ),
       ),
     );
@@ -243,29 +251,37 @@ class _LoginScreenState extends State<LoginScreen> {
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
           backgroundColor: Color(0xfff2f3f5),
           title: Text("Password recovery"),
-          content: Row(
-            children: <Widget>[
-              Expanded(
-                child: TextField(
-                  autofocus: true,
-                  decoration: new InputDecoration(
-                    labelText: "Email",
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Expanded(
+                  child: TextField(
+                    autofocus: true,
+                    decoration: new InputDecoration(
+                      labelText: "Email",
+                    ),
+                    onChanged: (value) {
+                      _auth.sendPasswordResetEmail(email: value);
+                    },
                   ),
-                  onChanged: (value) {
-                    _auth.sendPasswordResetEmail(email: value);
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                RaisedButton(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0)),
+                  child: Text('Submit', style: TextStyle(color: Colors.black)),
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    setState(() {});
                   },
                 ),
-              )
-            ],
-          ),
-          actions: [
-            FlatButton(
-              child: Text("Submit"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              ],
             ),
-          ],
+          ),
         );
       },
     );
