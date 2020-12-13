@@ -71,6 +71,7 @@ flutter:
 
   assets:
      - assets/images/
+     - assets/database/
 
   fonts: 
     - family: Minimo  

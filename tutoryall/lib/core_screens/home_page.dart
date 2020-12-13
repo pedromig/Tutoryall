@@ -9,6 +9,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:tutoryall/utils/custom_tile.dart';
+import 'package:tutoryall/utils/database.dart';
+import 'package:tutoryall/utils/event.dart';
 import 'package:tutoryall/utils/tutoryall_user.dart';
 
 import 'dart:async';
@@ -30,22 +32,10 @@ class _HomePageState extends State<HomePage> {
 
   _HomePageState();
 
-  Future<List<TutoryallUser>> _getData() async {
-    List<TutoryallUser> users = [];
-
-    List<String> tags = [];
-    String y;
-
-    for (var i = 0; i < 20; i++) {
-      for (var e = 0; e < 10; e++) {
-        y = "tag $e";
-        tags.add(y);
-      }
-      users.add(
-        TutoryallUser("Gabriel $i", tags, 10, "924182731", "Lol", null),
-      );
-    }
-    return users;
+  Future<List<Event>> _getData() async {
+    Database db = Database();
+    List<Event> eventList = await db.getEventList();
+    return eventList;
   }
 
   _newUserDialog() {
@@ -64,7 +54,7 @@ class _HomePageState extends State<HomePage> {
               title: Text("Insert your name"),
               content: Row(
                 children: <Widget>[
-                  Center(
+                  Expanded(
                     child: TextField(
                       autofocus: true,
                       onChanged: (value) {
@@ -87,6 +77,7 @@ class _HomePageState extends State<HomePage> {
           );
         },
       );
+      // Database().newUser(_auth);
     }
   }
 
@@ -171,8 +162,13 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => SearchMenu(),
+                        PageRouteBuilder(
+                          pageBuilder: (BuildContext context,
+                              Animation<double> animation,
+                              Animation<double> secondaryAnimation) {
+                            return SearchMenu();
+                          },
+                          transitionDuration: Duration(seconds: 0),
                         ),
                       );
                     },

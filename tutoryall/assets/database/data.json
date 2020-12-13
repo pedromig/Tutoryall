@@ -1,0 +1,76 @@
+{
+    "users": {
+        "adsfasfas1":{   
+            "id":"adsfasfas1",
+            "name": "Miguel0",
+            "age": 0,
+            "contact":"miguel@dei.uc.pt",
+            "bio": "A vnice guy 0",
+            "image": null,
+            "createdEventsIDs":["adsfasfas1#0"],
+            "goingEventsIDs":["adsfasfas1#0"]
+        },
+        "adsfasfas2":{   
+            "id":"adsfasfas2",
+            "name": "Miguel1",
+            "age": 1,
+            "contact":"123456789",
+            "bio": "A vnice guy 1",
+            "image": null,
+            "createdEventsIDs":["adsfasfas2#0"],
+            "goingEventsIDs":["adsfasfas1#0","adsfasfas2#0"]
+        }
+    },
+    "events": {
+        "adsfasfas1#0":{
+        "name": "Evento fixe",
+        "description": "Evento mesmo fixe",
+        "date": {
+            "year": 2020,
+            "month": 12,
+            "day": 22
+        },
+        "time": {
+            "hour":14,
+            "minute":30
+        },
+        "image": null,
+        "creatorID": "adsfasfas1",
+        "listGoingIDs":["adsfasfas1","adsfasfas2"],
+        "location":"Coimbra",
+        "rating": 4.8,
+        "lotation":20,
+        "tags":[
+          "Python0",    
+          "C/C++0"
+        ]
+      }, 
+      "adsfasfas2#0":{
+        "name": "Google Hash Code++",
+        "description": "Evento mesmo fixe",
+        "date": {
+            "year": 2020,
+            "month": 12,
+            "day": 24
+        },
+        "time": {
+            "hour":12,
+            "minute":32
+        },
+        "image": null,
+        "creatorID": "adsfasfas2",
+        "listGoingIDs":["adsfasfas2","adsfasfas1"],
+        "location":"Coimbra",
+        "rating": 4.1,
+        "lotation":20,
+        "tags":[
+          "Python1",    
+          "C/C++1"
+        ]
+      }
+    }
+}
+
+
+
+
