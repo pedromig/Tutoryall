@@ -1,11 +1,9 @@
-
 import 'package:flutter/material.dart';
-import 'package:tutoryall/utils/event.dart';
-import 'package:tutoryall/utils/tutoryall_user.dart';
-
+import 'package:tutoryall/utils/database.dart';
+import 'package:tutoryall/utils/tutoryall_event.dart';
 
 class EventScreen extends StatefulWidget {
-  final Event event; //store event object
+  final TutoryallEvent event; //store event object
 
   //receives a event object
   EventScreen(this.event);
@@ -20,20 +18,20 @@ class _EventScreenState extends State<EventScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle:true,
+        centerTitle: true,
         iconTheme: IconThemeData(
           color: Colors.black,
         ),
         backgroundColor: Color(0xff7ceccc),
-        title:FittedBox(
-          fit: BoxFit.fitWidth, 
+        title: FittedBox(
+          fit: BoxFit.fitWidth,
           child: Text(
-          widget.event.name,
-          style: TextStyle(
-              fontSize: 25,
-              fontFamily: 'Minimo',
-              fontWeight: FontWeight.w600,
-              color: Colors.black),
+            widget.event.name,
+            style: TextStyle(
+                fontSize: 25,
+                fontFamily: 'Minimo',
+                fontWeight: FontWeight.w600,
+                color: Colors.black),
           ),
         ),
       ),
@@ -79,10 +77,23 @@ class _EventScreenState extends State<EventScreen> {
                 },
               )),
           ListTile(
-              title: Text(
-                "Rating",
-              ),
-              trailing: Text("${widget.event.rating}")),
+            title: Text(
+              "Rating",
+            ),
+            trailing: FutureBuilder(
+              future: Database().getUser(widget.event.creatorID),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.data == null) {
+                  return Text("Loading");
+                } else {
+                  return Text(
+                    snapshot.data.rating.toStringAsFixed(1),
+                    style: TextStyle(fontSize: 15),
+                  );
+                }
+              },
+            ),
+          ),
           ListTile(
               title: Text(
                 "Lotation",

@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:tutoryall/utils/database.dart';
 import 'package:tutoryall/utils/tutoryall_user.dart';
 
-class Event {
+class TutoryallEvent {
   String name;
   String description;
   DateTime date;
   TimeOfDay time;
   Image image;
   String location;
-  double rating;
   int lotation;
   String creatorID;
   TutoryallUser creator;
@@ -17,7 +16,7 @@ class Event {
   List<TutoryallUser> listGoing = [];
   List<String> tags;
 
-  Event(
+  TutoryallEvent(
       String name,
       String description,
       DateTime date,
@@ -26,7 +25,6 @@ class Event {
       String creatorID,
       List<String> listGoingIDs,
       String location,
-      double rating,
       int lotation,
       List<String> tags) {
     this.name = name;
@@ -37,7 +35,6 @@ class Event {
     this.creatorID = creatorID;
     this.listGoingIDs = listGoingIDs;
     this.location = location;
-    this.rating = rating;
     this.lotation = lotation;
     this.tags = tags;
   }

@@ -7,8 +7,12 @@
             "contact":"miguel@dei.uc.pt",
             "bio": "A vnice guy 0",
             "image": null,
+            "favUsers":["adsfasfas2"],
             "createdEventsIDs":["adsfasfas1#0"],
-            "goingEventsIDs":["adsfasfas1#0"]
+            "goingEventsIDs":["adsfasfas1#0"],
+            "ratings": {
+              
+            }
         },
         "adsfasfas2":{   
             "id":"adsfasfas2",
@@ -17,8 +21,16 @@
             "contact":"123456789",
             "bio": "A vnice guy 1",
             "image": null,
+            "favUsers":["adsfasfas1"],
             "createdEventsIDs":["adsfasfas2#0"],
-            "goingEventsIDs":["adsfasfas1#0","adsfasfas2#0"]
+            "goingEventsIDs":["adsfasfas1#0","adsfasfas2#0"],
+            "ratings": {
+                "adsfasfas1": 3.8,
+                "adsfasfas3": 3.1,
+                "adsfasfas4": 2,
+                "adsfasfas5": 4,
+                "adsfasfas6": 5
+            }
         }
     },
     "events": {
@@ -38,7 +50,6 @@
         "creatorID": "adsfasfas1",
         "listGoingIDs":["adsfasfas1","adsfasfas2"],
         "location":"Coimbra",
-        "rating": 4.8,
         "lotation":20,
         "tags":[
           "Python0",    
@@ -61,7 +72,6 @@
         "creatorID": "adsfasfas2",
         "listGoingIDs":["adsfasfas2","adsfasfas1"],
         "location":"Coimbra",
-        "rating": 4.1,
         "lotation":20,
         "tags":[
           "Python1",    

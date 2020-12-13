@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tutoryall/utils/event.dart';
+import 'package:tutoryall/utils/tutoryall_event.dart';
 import 'package:tutoryall/utils/tutoryall_user.dart';
 
 class CreateEventScreen extends StatefulWidget {
@@ -15,7 +15,7 @@ class CreateEventScreen extends StatefulWidget {
 }
 
 class _CreateEventScreenState extends State<CreateEventScreen> {
-  Event event;
+  TutoryallEvent event;
   String name;
   String description;
   DateTime date;
@@ -169,8 +169,8 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     //create event
                     // event = Event(name, description, date, time, image,
                     //     widget.user, listGoing, location, rating, lotation);
-                    event = Event(name, description, date, time, image,
-                        widget.user.id, [], location, rating, lotation, tags);
+                    event = TutoryallEvent(name, description, date, time, image,
+                        widget.user.id, [], location, lotation, tags);
                     print(event.name + event.description);
                     //assign event to the creator
                     widget.user.addCreatedEvent(event);
