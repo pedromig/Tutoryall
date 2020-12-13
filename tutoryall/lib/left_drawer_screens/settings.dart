@@ -21,7 +21,14 @@ class _SettingsState extends State<Settings> {
           color: Colors.black,
         ),
         backgroundColor: Color(0xff7ceccc),
-        title: Text("Settings",style: TextStyle(color: Colors.black),),
+        title: Text(
+          "Settings",
+          style: TextStyle(
+              fontSize: 35,
+              fontFamily: 'Minimo',
+              fontWeight: FontWeight.w800,
+              color: Colors.black),
+        ),
         centerTitle: true,
       ),
     );

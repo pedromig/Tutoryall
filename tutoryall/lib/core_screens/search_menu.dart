@@ -6,6 +6,7 @@
 */
 
 import 'package:flutter/material.dart';
+import 'event_screens/create_event_screen.dart';
 import 'home_page.dart';
 
 class SearchMenu extends StatefulWidget {
@@ -45,8 +46,13 @@ class _SearchMenuState extends State<SearchMenu> {
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => HomePage(),
+                        PageRouteBuilder(
+                          pageBuilder: (BuildContext context,
+                              Animation<double> animation,
+                              Animation<double> secondaryAnimation) {
+                            return HomePage();
+                          },
+                          transitionDuration: Duration(seconds: 0),
                         ),
                       );
                     },
@@ -72,7 +78,12 @@ class _SearchMenuState extends State<SearchMenu> {
                   child: IconButton(
                     icon: Icon(Icons.add_circle_outlined),
                     onPressed: () {
-                      print("Botão Adicionar Evento");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CreateEventScreen(null),
+                        ),
+                      );
                     },
                   ),
                 ),
@@ -85,12 +96,16 @@ class _SearchMenuState extends State<SearchMenu> {
         onWillPop: () {
           return Navigator.pushReplacement(
             context,
-            MaterialPageRoute(
-              builder: (context) => HomePage(),
+            PageRouteBuilder(
+              pageBuilder: (BuildContext context, Animation<double> animation,
+                  Animation<double> secondaryAnimation) {
+                return HomePage();
+              },
+              transitionDuration: Duration(seconds: 0),
             ),
           );
         },
-        child: Container(child:Center(child:Text("ola"))),
+        child: Container(child: Center(child: Text("ola"))),
       ),
     );
   }

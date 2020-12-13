@@ -26,7 +26,6 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _email = TextEditingController();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
   String _passwordError = "";
   String _emailError = "";
 

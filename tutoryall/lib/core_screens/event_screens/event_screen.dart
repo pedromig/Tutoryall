@@ -20,7 +20,22 @@ class _EventScreenState extends State<EventScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.event.name),
+        centerTitle:true,
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Color(0xff7ceccc),
+        title:FittedBox(
+          fit: BoxFit.fitWidth, 
+          child: Text(
+          widget.event.name,
+          style: TextStyle(
+              fontSize: 25,
+              fontFamily: 'Minimo',
+              fontWeight: FontWeight.w600,
+              color: Colors.black),
+          ),
+        ),
       ),
       body: Column(
         children: [
@@ -74,11 +89,11 @@ class _EventScreenState extends State<EventScreen> {
               ),
               trailing: //Text("${widget.event.listGoing.length}/${widget.event.lotation}")),
                   Text(
-                      "${createListUsers(10).length}/${widget.event.lotation}")),
+                      "${widget.event.listGoingIDs.length}/${widget.event.lotation}")),
           Container(
               child: Center(
                   child: Text(
-            "${widget.event.location}\n${widget.event.date.year}/${widget.event.date.month}/${widget.event.date.day}\n${widget.event.time.hour}h: ${widget.event.time.minute}m",
+            "${widget.event.location}\n${widget.event.date.day}/${widget.event.date.month}/${widget.event.date.year}\n${widget.event.time.hour}h${widget.event.time.minute}m",
             textAlign: TextAlign.center,
           ))),
           Container(
@@ -92,18 +107,4 @@ class _EventScreenState extends State<EventScreen> {
       ),
     );
   }
-
-  List<TutoryallUser> createListUsers(int n) {
-    List<TutoryallUser> l = [];
-    for (int i = 0; i < n; i++) {
-      // User(this.name, this.age, this.contact, this.bio, this.createdEvents, this.goingEvents, this.image);
-      TutoryallUser x = TutoryallUser("name$i", null, i, "$i@boda.com",
-          "Eu sou o name$i, gosto desta app.", null);
-      l.add(x);
-    }
-    return l;
-  }
 }
-
-//TODO verificar se determinado evento esta na lista do user para saber que icon colocar (check ou xCross)
-//? Vão haver vários objetos com a mesma informação, ou vai haver apenas um objeto e depois vários pointers para o mesmo objeto na base de dados

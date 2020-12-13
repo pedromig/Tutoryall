@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tutoryall/utils/event.dart';
 import 'package:tutoryall/utils/tutoryall_user.dart';
 
-
 class CreateEventScreen extends StatefulWidget {
   final TutoryallUser user; // se der bosta retirar o final
 
@@ -22,11 +21,10 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   DateTime date;
   TimeOfDay time;
   Image image;
-  List<TutoryallUser>
-      listGoing; //daqui sai vazia, mais tarde vão ser adicionados
   String location;
   double rating = 0; //pelo que percebi, vai ser calculado posteriormente
   int lotation;
+  List<String> tags;
 
   DateTime now = DateTime.now();
 
@@ -169,10 +167,11 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         });
                   } else {
                     //create event
+                    // event = Event(name, description, date, time, image,
+                    //     widget.user, listGoing, location, rating, lotation);
                     event = Event(name, description, date, time, image,
-                        widget.user, listGoing, location, rating, lotation);
-
-                    //print(event.name + event.description);
+                        widget.user.id, [], location, rating, lotation, tags);
+                    print(event.name + event.description);
                     //assign event to the creator
                     widget.user.addCreatedEvent(event);
                   }

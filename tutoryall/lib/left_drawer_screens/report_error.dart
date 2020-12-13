@@ -26,7 +26,7 @@ class _ReportErrorState extends State<ReportError> {
           color: Colors.black,
         ),
         backgroundColor: Color(0xff7ceccc),
-        title: Text("Report Bugs",style:TextStyle(color:Colors.black)),
+        title: Text("Report Bugs", style: TextStyle(color: Colors.black)),
         centerTitle: true,
       ),
       body: Container(
@@ -38,25 +38,26 @@ class _ReportErrorState extends State<ReportError> {
             Container(
               height: screenH * 0.35,
               child: AutoSizeText(
-                  "A tua ajuda é muito importante!\n\n" + 
-                  "Caso encontres algum bug, carrega no botão abaixo!",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 25,
-                      fontFamily: 'Minimo',
-                      fontWeight: FontWeight.w600),
-                ),
+                "A tua ajuda é muito importante!\n\n" +
+                    "Caso encontres algum bug, carrega no botão abaixo!",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 25,
+                    fontFamily: 'Minimo',
+                    fontWeight: FontWeight.w600),
+              ),
             ),
             Center(
               child: RaisedButton(
                 color: Color(0xff7ceccc),
-                onPressed: () => _launchURL('miguelrabuge12@gmail.com',
-                    '[ERROR REPORT]', '<B>Report</B><br><br><u>What Happened:</u><br><br><u>Where:</u><br><br><u>Short guide to reproduce the error:</u><br><br><br>(Feel free to attach any screenshots)<br><br>Thank you!<br><br> - <u>Tutory\'all Development Team</u><br>'),
+                onPressed: () => _launchURL(
+                    'tutoryall@gmail.com',
+                    '[ERROR REPORT]',
+                    '<B>Report</B><br><br><u>What Happened:</u><br><br><u>Where:</u><br><br><u>Short guide to reproduce the error:</u><br><br><br>(Feel free to attach any screenshots)<br><br>Thank you!<br><br> - <u>Tutory\'all Development Team</u><br>'),
                 child: Text('Reportar'),
               ),
             ),
           ],
-          
         ),
       ),
     );
@@ -65,7 +66,7 @@ class _ReportErrorState extends State<ReportError> {
   _launchURL(String toMailId, String subject, String body) async {
     var url = 'mailto:$toMailId?subject=$subject&body=$body';
     if (await canLaunch(url)) {
-        await launch(url);
+      await launch(url);
     } else {
       throw 'Could not launch $url';
     }

@@ -52,7 +52,7 @@ class _SuggestionState extends State<Suggestion> {
               child: RaisedButton(
                 color: Color(0xff7ceccc),
                 onPressed: () => _launchURL(
-                    'miguelrabuge12@gmail.com',
+                    'tutoryall@gmail.com',
                     '[SUGGESTION]',
                     '<B>Suggestion</B><br><br><u>Motive:</u><br><br><u>What\'s on your mind?</u><br><br><br>Thank you!<br><br> - <u>Tutory\'all Development Team</u><br>'),
                 child: Text('Tenho uma ideia!'),
