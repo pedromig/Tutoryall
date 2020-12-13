@@ -11,7 +11,7 @@
             "createdEventsIDs":["adsfasfas1#0"],
             "goingEventsIDs":["adsfasfas1#0"],
             "ratings": {
-              
+                "adsfasfas2": 3.1
             }
         },
         "adsfasfas2":{   
@@ -25,11 +25,7 @@
             "createdEventsIDs":["adsfasfas2#0"],
             "goingEventsIDs":["adsfasfas1#0","adsfasfas2#0"],
             "ratings": {
-                "adsfasfas1": 3.8,
-                "adsfasfas3": 3.1,
-                "adsfasfas4": 2,
-                "adsfasfas5": 4,
-                "adsfasfas6": 5
+                "adsfasfas1": 3.8
             }
         }
     },
