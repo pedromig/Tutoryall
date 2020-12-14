@@ -10,6 +10,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tutoryall/left_drawer_screens/profile_screens/profile_events.dart';
+import 'package:tutoryall/utils/database.dart';
 import 'package:tutoryall/utils/tutoryall_user.dart';
 
 class ProfileInfo extends StatefulWidget {
@@ -28,25 +29,34 @@ class _ProfileInfoState extends State<ProfileInfo> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          Container(
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: NetworkImage(
-                        "https://cdn.record.pt/images/2019-03/img_920x518\$2019_03_06_21_25_15_1514388.jpg"),
-                    fit: BoxFit.cover)),
-            child: Container(
-              width: double.infinity,
-              height: 150,
-              child: Container(
-                alignment: Alignment(-1.0, 2.5),
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      "https://tmssl.akamaized.net/images/portrait/header/283130-1542106491.png?lm=1542106523"),
-                  radius: 50.0,
-                  backgroundColor: Color(0xff03f4fc),
-                ),
-              ),
-            ),
+          FutureBuilder(
+            future: Database.getUserBackgroundImage(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.data != null) {
+                return Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: snapshot.data,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  child: Container(
+                    width: double.infinity,
+                    height: 150,
+                    child: Container(
+                      alignment: Alignment(-0.95, 2.1),
+                      child: CircleAvatar(
+                        backgroundImage: Database.getUserProfilePicture(),
+                        radius: 50.0,
+                        backgroundColor: Colors.black,
+                      ),
+                    ),
+                  ),
+                );
+              } else {
+                return Text("Loading...");
+              }
+            },
           ),
           Container(
               width: double.infinity,
@@ -103,8 +113,12 @@ class _ProfileInfoState extends State<ProfileInfo> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Expanded(flex:20,child:Center(child:Icon(Icons.mail))),
-                      Expanded(flex:100,child:Center(child:SelectableText(" ${widget.user.contact}")))
+                      Expanded(
+                          flex: 20, child: Center(child: Icon(Icons.mail))),
+                      Expanded(
+                          flex: 100,
+                          child: Center(
+                              child: SelectableText(" ${widget.user.contact}")))
                     ],
                   ),
                   decoration: BoxDecoration(
@@ -132,7 +146,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
-              SizedBox(width: screenW * 0.05),
+                SizedBox(width: screenW * 0.05),
               ],
             ),
           ),

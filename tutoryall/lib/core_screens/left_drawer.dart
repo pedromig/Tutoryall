@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 */
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:tutoryall/utils/database.dart';
 
 import '../left_drawer_screens/profile_screens/profile.dart';
 import '../left_drawer_screens/settings.dart';
@@ -22,8 +23,6 @@ class LeftDrawer extends StatefulWidget {
 }
 
 class _LeftDrawerState extends State<LeftDrawer> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
   final List<String> names = [
     "Profile",
     "Settings",
@@ -48,7 +47,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Profile(_auth.currentUser.uid),
+            builder: (context) => Profile(Database.authenticatedUser().uid),
           ),
         );
         break;
@@ -95,71 +94,76 @@ class _LeftDrawerState extends State<LeftDrawer> {
     }
   }
 
-  _updateDisplayName() async {
-    await _auth.currentUser.reload();
-    return _auth.currentUser.displayName;
-  }
-
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
-        UserAccountsDrawerHeader(
-          accountName: DecoratedBox(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(30)),
-                color: Colors.white),
-            child: FutureBuilder(
-              future: _updateDisplayName(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.data == null || snapshot.data.isEmpty) {
-                  return Text(
-                    "Loading...",
+        FutureBuilder(
+          future: Database.getUserBackgroundImage(),
+          builder: (BuildContext context, AsyncSnapshot drawerSnapshot) {
+            if (drawerSnapshot.data != null) {
+              return UserAccountsDrawerHeader(
+                accountName: DecoratedBox(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      color: Colors.white),
+                  child: FutureBuilder(
+                    future: Database.getUserDisplayName(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.data == null || snapshot.data.isEmpty) {
+                        return Text(
+                          "Loading...",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'Minimo',
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        );
+                      } else
+                        return Text(
+                          " " + snapshot.data + " ",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'Minimo',
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        );
+                    },
+                  ),
+                ),
+                accountEmail: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    color: Colors.white,
+                  ),
+                  child: Text(
+                    " " + Database.authenticatedUser().email + " ",
                     style: TextStyle(
-                      fontSize: 20,
+                      color: Colors.black,
+                      fontSize: 15,
                       fontFamily: 'Minimo',
                       fontWeight: FontWeight.w600,
-                      color: Colors.black,
                     ),
-                  );
-                } else
-                  return Text(
-                    " " + snapshot.data + " ",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontFamily: 'Minimo',
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
-                  );
-              },
-            ),
-          ),
-          accountEmail: DecoratedBox(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(30)),
-                color: Colors.white),
-            child: Text(" " + _auth.currentUser.email + " ",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 15,
-                  fontFamily: 'Minimo',
-                  fontWeight: FontWeight.w600,
-                )),
-          ),
-          currentAccountPicture: CircleAvatar(
-            backgroundColor: Colors.black,
-            backgroundImage: NetworkImage(
-                "https://steemitimages.com/DQmbaP5UJu7MYwAZFQgmHjgK7d5syHxdFuJvZt9UQKjVGS1/smile1.jpg"),
-          ),
-          decoration: BoxDecoration(
-            color: Color(0xff7ceccc),
-            image: DecorationImage(
-              image: NetworkImage(
-                  "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F6%2F2019%2F12%2Fempire-strikes-back-1-2000.jpg"),
-              fit: BoxFit.cover,
-            ),
-          ),
+                  ),
+                ),
+                currentAccountPicture: CircleAvatar(
+                  backgroundColor: Colors.black,
+                  backgroundImage: Database.getUserProfilePicture(),
+                ),
+                decoration: BoxDecoration(
+                  color: Color(0xff7ceccc),
+                  image: DecorationImage(
+                    image: drawerSnapshot.data,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              );
+            } else {
+              return Text("Loading...");
+            }
+          },
         ),
         Divider(
           thickness: 2,
@@ -171,7 +175,9 @@ class _LeftDrawerState extends State<LeftDrawer> {
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
               leading: Icon(icons[index]),
-              title: Text(names[index]),
+              title: Text(
+                names[index],
+              ),
               onTap: () {
                 _selectTab(index);
               },

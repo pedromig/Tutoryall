@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 /**
  * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
  * Projeto de PGI - Tutory'all 2020/2021
@@ -27,8 +26,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
   _HomePageState();
 
   Future<List<TutoryallEvent>> _getData() async {
@@ -37,8 +34,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   _newUserDialog() {
-    if (_auth.currentUser.displayName == null ||
-        _auth.currentUser.displayName.isEmpty) {
+    if (Database.authenticatedUser().displayName == null ||
+        Database.authenticatedUser().displayName.isEmpty) {
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -58,23 +55,17 @@ class _HomePageState extends State<HomePage> {
                         autofocus: true,
                         onChanged: (value) async {
                           if (value.isEmpty) value = "Anonymous";
-                          await _auth.currentUser
+                          await Database.authenticatedUser()
                               .updateProfile(displayName: value);
-                          Database.newUser(
-                            TutoryallUser(
-                              _auth.currentUser.uid,
-                              _auth.currentUser.displayName,
+                          Database.newUser(TutoryallUser(
+                              Database.authenticatedUser().uid,
+                              Database.authenticatedUser().displayName,
                               "City",
                               -1,
-                              _auth.currentUser.email,
+                              Database.authenticatedUser().email,
                               "Tell us more about you!",
                               0,
-                              null,
-                              [],
-                              [],
-                              []
-                            )
-                          );
+                              null, [], [], []));
                         },
                       ),
                     ),

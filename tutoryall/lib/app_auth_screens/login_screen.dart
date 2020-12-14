@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 /**
  * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
  * Projeto de PGI - Tutory'all 2020/2021
@@ -7,8 +6,10 @@ import 'package:firebase_auth/firebase_auth.dart';
  *   
 */
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tutoryall/core_screens/welcome_screen.dart';
+import 'package:tutoryall/utils/database.dart';
 import '../core_screens/home_page.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -25,7 +26,6 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _password = TextEditingController();
   TextEditingController _email = TextEditingController();
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   String _passwordError = "";
   String _emailError = "";
 
@@ -38,24 +38,21 @@ class _LoginScreenState extends State<LoginScreen> {
   void _login() async {
     try {
       _showLoaderDialog(context);
-      await _auth
-          .signInWithEmailAndPassword(
-              email: _email.text, password: _password.text)
-          .then(
-            (value) => {
-              setState(() {
-                _passwordError = "";
-                _emailError = "";
-              }),
-              Navigator.pop(context),
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomePage(),
-                ),
-              ),
-            },
-          );
+      await Database.signIn(_email.text, _password.text).then(
+        (value) => {
+          setState(() {
+            _passwordError = "";
+            _emailError = "";
+          }),
+          Navigator.pop(context),
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomePage(),
+            ),
+          ),
+        },
+      );
     } on FirebaseAuthException catch (e) {
       _passwordError = "";
       _emailError = "";
@@ -82,7 +79,10 @@ class _LoginScreenState extends State<LoginScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            borderRadius: BorderRadius.all(
+              Radius.circular(20.0),
+            ),
+          ),
           backgroundColor: Color(0xfff2f3f5),
           content: new Row(
             children: [
@@ -225,9 +225,10 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: EdgeInsets.symmetric(vertical: 13),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              border: Border.all(color: Colors.white, width: 2),
-              color: Colors.white),
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+            border: Border.all(color: Colors.white, width: 2),
+            color: Colors.white,
+          ),
           child: Text(
             "Submit",
             style: TextStyle(
@@ -259,9 +260,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: new InputDecoration(
                       labelText: "Email",
                     ),
-                    onChanged: (value) {
-                      _auth.sendPasswordResetEmail(email: value);
-                    },
+                    onChanged: (value) => Database.recoverPassword(value),
                   ),
                 ),
                 SizedBox(
@@ -295,6 +294,7 @@ class _LoginScreenState extends State<LoginScreen> {
             context, MaterialPageRoute(builder: (context) => WelcomeScreen()));
       },
       child: Scaffold(
+        resizeToAvoidBottomPadding: true,
         body: Container(
           height: height,
           child: Stack(

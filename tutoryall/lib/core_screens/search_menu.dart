@@ -22,10 +22,11 @@ class _SearchMenuState extends State<SearchMenu> {
         title: Text(
           "Search",
           style: TextStyle(
-              fontSize: 35,
-              fontFamily: 'Minimo',
-              fontWeight: FontWeight.w800,
-              color: Colors.black),
+            fontSize: 35,
+            fontFamily: 'Minimo',
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
         ),
         centerTitle: true,
         backgroundColor: Color(0xff7ceccc),

@@ -9,6 +9,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tutoryall/core_screens/welcome_screen.dart';
+import 'package:tutoryall/utils/database.dart';
 
 import '../core_screens/home_page.dart';
 
@@ -22,8 +23,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _password = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _repeatPassword = TextEditingController();
-
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   String _emailError = "";
   String _passwordError = "";
@@ -40,27 +39,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
     try {
       if (_repeatPassword.text == _password.text) {
         _showLoaderDialog(context);
-        await _auth
-            .createUserWithEmailAndPassword(
-              email: _email.text,
-              password: _password.text,
-            )
-            .then(
-              (value) => {
-                setState(() {
-                  _passwordError = "";
-                  _emailError = "";
-                  _repeatPasswordError = null;
-                }),
-                Navigator.pop(context),
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HomePage(),
-                  ),
-                ),
-              },
-            );
+        await Database.register(
+          _email.text,
+          _password.text,
+        ).then(
+          (value) => {
+            setState(() {
+              _passwordError = "";
+              _emailError = "";
+              _repeatPasswordError = null;
+            }),
+            Navigator.pop(context),
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomePage(),
+              ),
+            ),
+          },
+        );
       }
     } on FirebaseAuthException catch (e) {
       _emailError = "";
@@ -288,6 +285,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         );
       },
       child: Scaffold(
+        resizeToAvoidBottomPadding: true,
         body: Container(
           height: height,
           child: Stack(

@@ -15,7 +15,7 @@ class TutoryallUser {
   List<String> goingEventsIDs;
   List<TutoryallEvent> createdEvents = [];
   List<TutoryallEvent> goingEvents = [];
-  Image image;
+  String image;
 
   TutoryallUser(
       String id,
@@ -25,7 +25,7 @@ class TutoryallUser {
       String contact,
       String bio,
       double rating,
-      Image image,
+      String image,
       List<String> favUsersIDs,
       List<String> createdEventsIDs,
       List<String> goingEventsIDs) {
