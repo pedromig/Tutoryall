@@ -81,7 +81,7 @@ class _EventScreenState extends State<EventScreen> {
               "Rating",
             ),
             trailing: FutureBuilder(
-              future: Database().getUser(widget.event.creatorID),
+              future: Database.getUser(widget.event.creatorID),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.data == null) {
                   return Text("Loading");

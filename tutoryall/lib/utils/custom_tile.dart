@@ -95,7 +95,7 @@ class CustomTile extends StatelessWidget {
                   ),
                   Expanded(
                     child: FutureBuilder(
-                      future: Database()
+                      future: Database
                           .getUser(this.snapshot.data[this.index].creatorID),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (snapshot.data == null) {
@@ -112,7 +112,7 @@ class CustomTile extends StatelessWidget {
                 ],
               ),
               title: FutureBuilder(
-                future: Database()
+                future: Database
                     .getUser(this.snapshot.data[this.index].creatorID),
                 builder: (BuildContext buildContext, AsyncSnapshot snapshot) {
                   if (snapshot.data == null) {

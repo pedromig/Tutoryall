@@ -1,5 +1,4 @@
-import 'package:flutter/services.dart' show rootBundle;
-import 'dart:convert';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -7,29 +6,35 @@ import 'tutoryall_user.dart';
 import 'tutoryall_event.dart';
 
 class Database {
-  String contents;
-  String jsonPath = "assets/database/data.json";
+  static final FirebaseDatabase fb = FirebaseDatabase.instance;
 
-  Database();
-
-  TutoryallUser makeUserObj(dynamic dynamicUser) {
+  static TutoryallUser makeUserObj(Map dynamicUser) {
     return TutoryallUser(
         dynamicUser["id"] as String,
         dynamicUser["name"] as String,
+        dynamicUser["location"] as String,
         dynamicUser["age"] as int,
         dynamicUser["contact"] as String,
         dynamicUser["bio"] as String,
-        List.from(dynamicUser["ratings"].values).length == 0
+        (dynamicUser["ratings"] == null)
             ? 0
-            : List.from(dynamicUser["ratings"].values).fold(
+            : (List.from(dynamicUser["ratings"].values).fold(
                     0, (previousValue, element) => previousValue + element) /
-                List.from(dynamicUser["ratings"].values).length,
-        dynamicUser["image"] as Image,
-        List.from(dynamicUser["createdEventsIDs"]),
-        List.from(dynamicUser["goingEventsIDs"]));
+                List.from(dynamicUser["ratings"].values).length),
+      (dynamicUser["image"] == null) ? null : dynamicUser["image"] as Image,
+       (dynamicUser["favUsersIDs"] == null)
+            ? []
+            : List.from(dynamicUser["favUsersIDs"]),
+        (dynamicUser["createdEventsIDs"] == null)
+            ? []
+            : List.from(dynamicUser["createdEventsIDs"]),
+        (dynamicUser["goingEventsIDs"] == null)
+            ? []
+            : List.from(dynamicUser["goingEventsIDs"])
+        );
   }
 
-  TutoryallEvent makeEventObj(dynamic dynamicEvent) {
+  static TutoryallEvent makeEventObj(Map dynamicEvent) {
     return TutoryallEvent(
         dynamicEvent["name"] as String,
         dynamicEvent["description"] as String,
@@ -40,57 +45,51 @@ class Database {
         TimeOfDay(
             hour: dynamicEvent["time"]["hour"] as int,
             minute: dynamicEvent["time"]["minute"] as int),
-        dynamicEvent["image"] as Image,
+        dynamicEvent["image"] == null ? null : dynamicEvent["image"] as Image,
         dynamicEvent["creatorID"] as String,
-        List.from(dynamicEvent["listGoingIDs"]),
+        dynamicEvent["listGoingIDs"] == null ? [] : List.from(dynamicEvent["listGoingIDs"]),
         dynamicEvent["location"] as String,
         dynamicEvent["lotation"] as int,
-        List.from(dynamicEvent["tags"]));
+        dynamicEvent["tags"] == null ? [] : List.from(dynamicEvent["tags"]));
   }
 
-  Future<String> getJson() {
-    return rootBundle.loadString(jsonPath);
-  }
-
-  dynamic _fetch() async {
-    return jsonDecode(await getJson());
-  }
-
-  dynamic _getUserList() async {
-    return (await _fetch())["users"];
-  }
-
-  Future<List<TutoryallUser>> getUserList() async {
-    Map users = await _getUserList();
+  static Future<List<TutoryallUser>> getUserList() async {
+    DataSnapshot parent = await fb.reference().child("users").once();
+    Map users = parent.value;
     List<TutoryallUser> builtUsers = [];
     for (final key in users.keys) {
-      dynamic dynamicUser = users[key];
+      Map dynamicUser = users[key];
       builtUsers.add(makeUserObj(dynamicUser));
     }
     return builtUsers;
   }
 
-  Future<TutoryallUser> getUser(String userID) async {
-    dynamic dynamicUser = (await _getUserList())[userID];
-    return makeUserObj(dynamicUser);
+  static Future<TutoryallUser> getUser(String userID) async {
+    DataSnapshot parent =
+        await fb.reference().child("users").child(userID).once();
+    Map map = parent.value;
+    return makeUserObj(map);
   }
 
-  dynamic _getEventList() async {
-    return (await _fetch())["events"];
+  static void newUser(TutoryallUser user) {
+    fb.reference().child("users").child(user.id).set(user.toJson());
   }
 
-  Future<List<TutoryallEvent>> getEventList() async {
-    Map events = await _getEventList();
+  static Future<List<TutoryallEvent>> getEventList() async {
+    DataSnapshot parent = await fb.reference().child("events").once();
+    Map events = parent.value;
     List<TutoryallEvent> builtEvents = [];
     for (final key in events.keys) {
-      dynamic dynamicEvent = events[key];
+      Map dynamicEvent = events[key];
       builtEvents.add(makeEventObj(dynamicEvent));
     }
     return builtEvents;
   }
 
-  Future<TutoryallEvent> getEvent(String eventID) async {
-    dynamic dynamicEvent = (await _getEventList())[eventID];
-    return makeEventObj(dynamicEvent);
+  static Future<TutoryallEvent> getEvent(String eventID) async {
+    DataSnapshot parent =
+        await fb.reference().child("events").child(eventID).once();
+    Map map = parent.value;
+    return makeEventObj(map);
   }
 }

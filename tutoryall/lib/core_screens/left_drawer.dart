@@ -43,13 +43,12 @@ class _LeftDrawerState extends State<LeftDrawer> {
   ];
 
   void _selectTab(int index) {
-    print(_auth.currentUser.uid);
     switch (index) {
       case 0:
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Profile(),
+            builder: (context) => Profile(_auth.currentUser.uid),
           ),
         );
         break;

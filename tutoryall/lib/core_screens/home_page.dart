@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:tutoryall/utils/custom_tile.dart';
 import 'package:tutoryall/utils/database.dart';
 import 'package:tutoryall/utils/tutoryall_event.dart';
+import 'package:tutoryall/utils/tutoryall_user.dart';
 
 import 'dart:async';
 import 'event_screens/create_event_screen.dart';
@@ -31,8 +32,7 @@ class _HomePageState extends State<HomePage> {
   _HomePageState();
 
   Future<List<TutoryallEvent>> _getData() async {
-    Database db = Database();
-    List<TutoryallEvent> eventList = await db.getEventList();
+    List<TutoryallEvent> eventList = await Database.getEventList();
     return eventList;
   }
 
@@ -60,6 +60,21 @@ class _HomePageState extends State<HomePage> {
                           if (value.isEmpty) value = "Anonymous";
                           await _auth.currentUser
                               .updateProfile(displayName: value);
+                          Database.newUser(
+                            TutoryallUser(
+                              _auth.currentUser.uid,
+                              _auth.currentUser.displayName,
+                              "City",
+                              -1,
+                              _auth.currentUser.email,
+                              "Tell us more about you!",
+                              0,
+                              null,
+                              [],
+                              [],
+                              []
+                            )
+                          );
                         },
                       ),
                     ),

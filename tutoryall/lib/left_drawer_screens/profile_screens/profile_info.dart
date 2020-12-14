@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 /**
  * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
  * Projeto de PGI - Tutory'all 2020/2021
@@ -8,13 +9,13 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tutoryall/utils/custom_tile.dart';
 import 'package:tutoryall/left_drawer_screens/profile_screens/profile_events.dart';
-
-final List<String> entries = <String>['A', 'B', 'C'];
-final List<int> colorCodes = <int>[600, 500, 100];
+import 'package:tutoryall/utils/tutoryall_user.dart';
 
 class ProfileInfo extends StatefulWidget {
+  final TutoryallUser user;
+  ProfileInfo(this.user);
+
   @override
   _ProfileInfoState createState() => _ProfileInfoState();
 }
@@ -23,6 +24,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
   bool isFav = true;
   @override
   Widget build(BuildContext context) {
+    double screenW = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -70,36 +72,81 @@ class _ProfileInfoState extends State<ProfileInfo> {
                   });
                 },
               ),
-              alignment: Alignment(0.7, 0)),
+              alignment: Alignment.center),
           Container(
             child: Text(
-              "God Marega",
+              widget.user.name,
               style: TextStyle(fontSize: 20),
-              textAlign: TextAlign.left,
+              textAlign: TextAlign.center,
             ),
             padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
             width: double.infinity,
           ),
           Container(
             child: Text(
-              "Amadora, 28",
+              "${widget.user.location}, ${widget.user.age}",
               style: TextStyle(fontSize: 15),
-              textAlign: TextAlign.left,
+              textAlign: TextAlign.center,
             ),
             padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
             width: double.infinity,
           ),
+          Divider(),
+          Container(
+            child: Row(
+              children: [
+                SizedBox(width: screenW * 0.05),
+                Container(
+                  width: screenW * 0.65,
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(flex:20,child:Center(child:Icon(Icons.mail))),
+                      Expanded(flex:100,child:Center(child:SelectableText(" ${widget.user.contact}")))
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color(0xff82E3C4),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                SizedBox(width: screenW * 0.05),
+                Container(
+                  width: screenW * 0.20,
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.star,
+                        color: Colors.yellow,
+                      ),
+                      Text("${widget.user.rating}")
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color(0xff82E3C4),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              SizedBox(width: screenW * 0.05),
+              ],
+            ),
+          ),
+          Divider(),
           InkWell(
             child: Container(
               child: Text(
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                "${widget.user.bio}",
                 style: TextStyle(fontSize: 15),
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.fade,
               ),
               padding: EdgeInsets.all(10),
               width: double.infinity,
-              height: 200,
             ),
             onTap: () {
               showDialog(
@@ -108,58 +155,13 @@ class _ProfileInfoState extends State<ProfileInfo> {
                     title: new Text("Bio"),
                     content: SingleChildScrollView(
                       child: new Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+                        "${widget.user.bio}",
                       ),
                     )),
               );
             },
           ),
-          Container(
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    margin: EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(Icons.mail),
-                        Text("notanemail@gmail.com")
-                      ],
-                    ),
-                    decoration: BoxDecoration(
-                      color: Color(0xff82E3C4),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    margin: EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.local_fire_department,
-                          color: Colors.red,
-                        ),
-                        Text("4.89")
-                      ],
-                    ),
-                    decoration: BoxDecoration(
-                      color: Color(0xff82E3C4),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          Divider(),
           Container(
             margin: EdgeInsets.fromLTRB(40, 20, 40, 20),
             child: InkWell(
