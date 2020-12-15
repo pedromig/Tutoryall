@@ -99,7 +99,8 @@ class _LeftDrawerState extends State<LeftDrawer> {
     return ListView(
       children: <Widget>[
         FutureBuilder(
-          future: Database.getUserBackgroundImage(),
+          future:
+              Database.getUserBackgroundImage(Database.authenticatedUser().uid),
           builder: (BuildContext context, AsyncSnapshot drawerSnapshot) {
             if (drawerSnapshot.data != null) {
               return UserAccountsDrawerHeader(
@@ -148,9 +149,21 @@ class _LeftDrawerState extends State<LeftDrawer> {
                     ),
                   ),
                 ),
-                currentAccountPicture: CircleAvatar(
-                  backgroundColor: Colors.black,
-                  backgroundImage: Database.getUserProfilePicture(),
+                currentAccountPicture: FutureBuilder(
+                  future: Database.getUserProfilePicture(
+                      Database.authenticatedUser().uid),
+                  builder: (contex, snapshot) {
+                    if (snapshot.data != null) {
+                      return CircleAvatar(
+                        backgroundColor: Colors.black,
+                        backgroundImage: snapshot.data,
+                      );
+                    } else {
+                      return CircleAvatar(
+                        backgroundColor: Colors.black,
+                      );
+                    }
+                  },
                 ),
                 decoration: BoxDecoration(
                   color: Color(0xff7ceccc),

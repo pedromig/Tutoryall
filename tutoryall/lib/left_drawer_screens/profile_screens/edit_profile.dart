@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tutoryall/utils/database.dart';
 
 class EditProfile extends StatefulWidget {
@@ -9,6 +12,25 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   final _formKey = GlobalKey<FormState>();
+  final ImagePicker _imagePicker = ImagePicker();
+
+  _editProfileImage() async {
+    PickedFile image = await _imagePicker.getImage(
+      source: ImageSource.gallery,
+    );
+    Database.updateProfileImage(
+      File(image.path),
+    );
+  }
+
+  _editBackgroundImage() async {
+    PickedFile image = await _imagePicker.getImage(
+      source: ImageSource.gallery,
+    );
+    Database.updateBackGroundImage(
+      File(image.path),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +57,8 @@ class _EditProfileState extends State<EditProfile> {
           children: [
             // User and Background Image Stack
             FutureBuilder(
-              future: Database.getUserBackgroundImage(),
+              future: Database.getUserBackgroundImage(
+                  Database.authenticatedUser().uid),
               builder: (BuildContext context,
                   AsyncSnapshot backgroundImageSnapshot) {
                 if (backgroundImageSnapshot.data != null) {
@@ -57,12 +80,24 @@ class _EditProfileState extends State<EditProfile> {
                                 alignment: Alignment(-0.95, 2.1),
                                 child: GestureDetector(
                                   child: InkWell(
-                                    onTap: () => {print("Edit Profile")},
-                                    child: CircleAvatar(
-                                      backgroundImage: Database.getUserProfilePicture(),
-                                      radius: 50.0,
-                                      backgroundColor: Colors.black,
-                                      
+                                    onTap: _editProfileImage,
+                                    child: FutureBuilder(
+                                      future: Database.getUserProfilePicture(
+                                          Database.authenticatedUser().uid),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.data != null) {
+                                          return CircleAvatar(
+                                            backgroundImage: snapshot.data,
+                                            radius: 50.0,
+                                            backgroundColor: Colors.black,
+                                          );
+                                        } else {
+                                          return CircleAvatar(
+                                            radius: 50.0,
+                                            backgroundColor: Colors.black,
+                                          );
+                                        }
+                                      },
                                     ),
                                   ),
                                 ),
@@ -77,7 +112,7 @@ class _EditProfileState extends State<EditProfile> {
                         padding: EdgeInsets.fromLTRB(
                             MediaQuery.of(context).size.width - 50, 5, 0, 0),
                         child: InkWell(
-                          onTap: () => {print("Edit Background Image")},
+                          onTap: _editBackgroundImage,
                           child: CircleAvatar(
                             backgroundColor: Colors.red,
                             radius: 17.0,
@@ -104,7 +139,7 @@ class _EditProfileState extends State<EditProfile> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   InkWell(
-                    onTap: () => {print("Edit Profile")},
+                    onTap: _editProfileImage,
                     child: CircleAvatar(
                       backgroundColor: Colors.red,
                       radius: 20.0,

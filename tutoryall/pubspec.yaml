@@ -38,8 +38,9 @@ dependencies:
   firebase_analytics: ^6.2.0
   url_launcher: "^3.0.1"
   firebase_database: ^4.4.0
-  
-
+  firebase_storage: ^5.2.0
+  image_picker: ^0.6.7+15
+  path_provider: ^1.6.24
 
 dev_dependencies:
   flutter_launcher_icons: "^0.8.0"

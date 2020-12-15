@@ -1,14 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'tutoryall_user.dart';
 import 'tutoryall_event.dart';
 
+import 'dart:async';
+import 'dart:io';
+
 class Database {
   static final FirebaseDatabase fb = FirebaseDatabase.instance;
   static final FirebaseAuth auth = FirebaseAuth.instance;
+  static final FirebaseStorage storage = FirebaseStorage.instance;
 
   static TutoryallUser makeUserObj(Map dynamicUser) {
     return TutoryallUser(
@@ -87,6 +92,10 @@ class Database {
     fb.reference().child("users").child(user.id).set(user.toJson());
   }
 
+  static Future<void> updateUser(String uid, String key, dynamic value) async {
+    await fb.reference().child("user").child(uid).child(key).set(value);
+  }
+
   static Future<List<TutoryallEvent>> getEventList() async {
     DataSnapshot parent = await fb.reference().child("events").once();
     Map events = parent.value;
@@ -105,22 +114,25 @@ class Database {
     return makeEventObj(map);
   }
 
-  static ImageProvider<Object> getUserProfilePicture() {
-    return auth.currentUser.photoURL == null
+  static Future<ImageProvider<Object>> getUserProfilePicture(String uid) async {
+    Reference uri = storage.ref().child("${uid}_profile");
+    String url = await uri.getDownloadURL().catchError((value) {
+      return value.code;
+    });
+    return url == "object-not-found"
         ? AssetImage("assets/images/default_user.png")
-        : NetworkImage(auth.currentUser.photoURL);
+        : NetworkImage(url);
   }
 
-  static Future<String> _fetchBackgroundImage() async {
-    TutoryallUser user = await Database.getUser(auth.currentUser.uid);
-    return user.image;
-  }
-
-  static Future<ImageProvider<Object>> getUserBackgroundImage() async {
-    String uri = await _fetchBackgroundImage();
-    return uri == null
+  static Future<ImageProvider<Object>> getUserBackgroundImage(
+      String uid) async {
+    Reference uri = storage.ref().child("${uid}_background");
+    String url = await uri.getDownloadURL().catchError((value) {
+      return value.code;
+    });
+    return url == "object-not-found"
         ? AssetImage("assets/images/cover_pic.png")
-        : NetworkImage(uri);
+        : NetworkImage(url);
   }
 
   static Future<UserCredential> signIn(String _email, String _password) async {
@@ -135,5 +147,18 @@ class Database {
 
   static Future<void> recoverPassword(String _email) async {
     return await auth.sendPasswordResetEmail(email: _email);
+  }
+
+  static void updateProfileImage(File image) async {
+    User user = Database.authenticatedUser();
+    String uid = user.uid;
+
+    storage.ref().child("${uid}_profile").putFile(image);
+  }
+
+  static Future<void> updateBackGroundImage(File image) async {
+    String uid = Database.authenticatedUser().uid;
+
+    storage.ref().child("${uid}_background").putFile(image);
   }
 }

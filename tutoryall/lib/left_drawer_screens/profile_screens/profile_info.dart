@@ -30,7 +30,8 @@ class _ProfileInfoState extends State<ProfileInfo> {
       child: Column(
         children: [
           FutureBuilder(
-            future: Database.getUserBackgroundImage(),
+            future: Database.getUserBackgroundImage(
+                Database.authenticatedUser().uid),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.data != null) {
                 return Container(
@@ -45,10 +46,23 @@ class _ProfileInfoState extends State<ProfileInfo> {
                     height: 150,
                     child: Container(
                       alignment: Alignment(-0.95, 2.1),
-                      child: CircleAvatar(
-                        backgroundImage: Database.getUserProfilePicture(),
-                        radius: 50.0,
-                        backgroundColor: Colors.black,
+                      child: FutureBuilder(
+                        future: Database.getUserProfilePicture(
+                            Database.authenticatedUser().uid),
+                        builder: (context, snapshot) {
+                          if (snapshot.data != null) {
+                            return CircleAvatar(
+                              backgroundImage: snapshot.data,
+                              radius: 50.0,
+                              backgroundColor: Colors.black,
+                            );
+                          } else {
+                            return CircleAvatar(
+                              radius: 50.0,
+                              backgroundColor: Colors.black,
+                            );
+                          }
+                        },
                       ),
                     ),
                   ),
@@ -73,7 +87,9 @@ class _ProfileInfoState extends State<ProfileInfo> {
                         )
                       : Icon(Icons.favorite_border, size: 30),
                   decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: Color(0xff82E3C4)),
+                    shape: BoxShape.circle,
+                    color: Color(0xff82E3C4),
+                  ),
                 ),
                 onTap: () {
                   setState(() {
