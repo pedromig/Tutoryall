@@ -18,6 +18,7 @@ class _ProfileState extends State<Profile> {
   bool isFav = true;
   @override
   Widget build(BuildContext context) {
+    print(widget.userID);
     return FutureBuilder(
         future: Database.getUser(widget.userID),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -41,11 +42,15 @@ class _ProfileState extends State<Profile> {
                   color: Colors.black,
                 ),
                 backgroundColor: Color(0xff7ceccc),
-                title: Text(snapshot.data.name,
-                    style: TextStyle(color: Colors.black)),
+                title: Text("Profile",
+                    style: TextStyle(
+                        fontSize: 25,
+                        fontFamily: 'Minimo',
+                        fontWeight: FontWeight.w800,
+                        color: Colors.black)),
                 centerTitle: true,
                 actions: <Widget>[
-                  widget.userID != widget.auth.currentUser.uid
+                  widget.userID == widget.auth.currentUser.uid
                       ? IconButton(
                           icon: Icon(
                             Icons.edit,

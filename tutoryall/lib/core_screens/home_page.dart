@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 */
 
 import 'package:flutter/material.dart';
+import 'package:tutoryall/core_screens/favorites_screen.dart';
 import 'package:tutoryall/utils/custom_tile.dart';
 import 'package:tutoryall/utils/database.dart';
 import 'package:tutoryall/utils/tutoryall_event.dart';
@@ -60,8 +61,7 @@ class _HomePageState extends State<HomePage> {
                           if (value.isEmpty) value = "Anonymous";
                           await _auth.currentUser
                               .updateProfile(displayName: value);
-                          Database.newUser(
-                            TutoryallUser(
+                          Database.newUser(TutoryallUser(
                               _auth.currentUser.uid,
                               _auth.currentUser.displayName,
                               "City",
@@ -69,12 +69,7 @@ class _HomePageState extends State<HomePage> {
                               _auth.currentUser.email,
                               "Tell us more about you!",
                               0,
-                              null,
-                              [],
-                              [],
-                              []
-                            )
-                          );
+                              null, [], [], []));
                         },
                       ),
                     ),
@@ -130,17 +125,19 @@ class _HomePageState extends State<HomePage> {
                 colors: [Color(0xff82E3C4), Color(0xff7ceccc)]),
           ),
         ),
-        actions: [
-          Container(
-            margin: EdgeInsets.only(right: 15),
-            child: InkWell(
-              onTap: () => {print("Tapped Favorite")},
-              child: Icon(
-                Icons.favorite,
-                color: Colors.pink,
-                size: 35.0,
-              ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.favorite,
+              color: Colors.pink,
+              size: 35.0,
             ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FavoritesScreen(_auth.currentUser.uid)),
+              );
+            },
           ),
         ],
         title: Text(

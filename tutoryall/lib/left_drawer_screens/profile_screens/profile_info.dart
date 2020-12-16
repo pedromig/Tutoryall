@@ -59,7 +59,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
           ),
           Container(
             child: Text(
-              "${widget.user.location}, ${widget.user.age == -1? "Age" : widget.user.age}",
+              "${widget.user.location}, ${widget.user.age == -1 ? "Age" : widget.user.age}",
               style: TextStyle(fontSize: 15),
               textAlign: TextAlign.center,
             ),
@@ -77,8 +77,12 @@ class _ProfileInfoState extends State<ProfileInfo> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Expanded(flex:20,child:Center(child:Icon(Icons.mail))),
-                      Expanded(flex:100,child:Center(child:SelectableText(" ${widget.user.contact}")))
+                      Expanded(
+                          flex: 20, child: Center(child: Icon(Icons.mail))),
+                      Expanded(
+                          flex: 100,
+                          child: Center(
+                              child: SelectableText(" ${widget.user.contact}")))
                     ],
                   ),
                   decoration: BoxDecoration(
@@ -106,7 +110,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
-              SizedBox(width: screenW * 0.05),
+                SizedBox(width: screenW * 0.05),
               ],
             ),
           ),
@@ -145,7 +149,12 @@ class _ProfileInfoState extends State<ProfileInfo> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("Check Featured Events"),
+                    Text("Check Featured Events",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: 'Minimo',
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black)),
                     Icon(Icons.arrow_forward),
                   ],
                 ),
@@ -162,7 +171,8 @@ class _ProfileInfoState extends State<ProfileInfo> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ProfileEvent()),
+                  MaterialPageRoute(
+                      builder: (context) => ProfileEvent(widget.user)),
                 );
               },
             ),
