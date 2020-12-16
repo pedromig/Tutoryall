@@ -21,7 +21,7 @@ class CustomTile extends StatelessWidget {
 
   List<Widget> getTags() {
     List<Widget> tags = [];
-    for (int i = 0; i < this.snapshot.data[this.index].tags.length; i++) {
+    for (int i = 0; i < this.snapshot.data[this.index].tags.length && i < 3; i++) {
       if (i == 0) {
         tags.add(Chip(
             avatar: CircleAvatar(
@@ -77,7 +77,15 @@ class CustomTile extends StatelessWidget {
                             Profile(this.snapshot.data[this.index].creatorID)),
                   )
                 },
-                child: CircleAvatar(),
+                child: FutureBuilder(
+                  future: Database.getUserProfilePicture(
+                      this.snapshot.data[this.index].creatorID),
+                  builder: (context, snapshot) {
+                    return CircleAvatar(
+                      backgroundImage: snapshot.data,
+                    );
+                  },
+                ),
               ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,32 +100,9 @@ class CustomTile extends StatelessWidget {
                   Wrap(spacing: 8.0, runSpacing: 1.0, children: getTags()),
                 ],
               ),
-              trailing: Column(
-                children: <Widget>[
-                  Expanded(
-                    child: Icon(
-                      Icons.star,
-                      size: 70,
-                      color: Colors.yellow,
-                    ),
-                  ),
-                  Expanded(
-                    child: FutureBuilder(
-                      future: Database.getUser(
-                          this.snapshot.data[this.index].creatorID),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.data == null) {
-                          return Text("Loading");
-                        } else {
-                          return Text(
-                            snapshot.data.rating.toStringAsFixed(1),
-                            style: TextStyle(fontSize: 15),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ],
+              trailing: Icon(
+                Icons.event_note,
+                size: 50,
               ),
               title: FutureBuilder(
                 future:
