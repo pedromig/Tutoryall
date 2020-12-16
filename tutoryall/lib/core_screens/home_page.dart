@@ -7,6 +7,7 @@
 */
 
 import 'package:flutter/material.dart';
+import 'package:tutoryall/core_screens/favorites_screen.dart';
 import 'package:tutoryall/utils/custom_tile.dart';
 import 'package:tutoryall/utils/database.dart';
 import 'package:tutoryall/utils/tutoryall_event.dart';
@@ -121,17 +122,21 @@ class _HomePageState extends State<HomePage> {
                 colors: [Color(0xff82E3C4), Color(0xff7ceccc)]),
           ),
         ),
-        actions: [
-          Container(
-            margin: EdgeInsets.only(right: 15),
-            child: InkWell(
-              onTap: () => {print("Tapped Favorite")},
-              child: Icon(
-                Icons.favorite,
-                color: Colors.pink,
-                size: 35.0,
-              ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.favorite,
+              color: Colors.pink,
+              size: 35.0,
             ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        FavoritesScreen(Database.authenticatedUser().uid)),
+              );
+            },
           ),
         ],
         title: Text(

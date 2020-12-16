@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:tutoryall/core_screens/event_screens/event_screen.dart';
+import 'package:tutoryall/left_drawer_screens/profile_screens/profile.dart';
 import 'package:tutoryall/utils/database.dart';
 import 'package:tutoryall/utils/tutoryall_event.dart';
 
@@ -68,7 +69,14 @@ class CustomTile extends StatelessWidget {
                 ),
               },
               leading: InkWell(
-                onTap: () => {print("Pressed Image")},
+                onTap: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            Profile(this.snapshot.data[this.index].creatorID)),
+                  )
+                },
                 child: CircleAvatar(),
               ),
               subtitle: Column(
@@ -95,8 +103,8 @@ class CustomTile extends StatelessWidget {
                   ),
                   Expanded(
                     child: FutureBuilder(
-                      future: Database
-                          .getUser(this.snapshot.data[this.index].creatorID),
+                      future: Database.getUser(
+                          this.snapshot.data[this.index].creatorID),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (snapshot.data == null) {
                           return Text("Loading");
@@ -112,8 +120,8 @@ class CustomTile extends StatelessWidget {
                 ],
               ),
               title: FutureBuilder(
-                future: Database
-                    .getUser(this.snapshot.data[this.index].creatorID),
+                future:
+                    Database.getUser(this.snapshot.data[this.index].creatorID),
                 builder: (BuildContext buildContext, AsyncSnapshot snapshot) {
                   if (snapshot.data == null) {
                     return Text("Loading");

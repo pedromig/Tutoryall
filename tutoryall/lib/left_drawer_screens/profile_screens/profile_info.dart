@@ -105,16 +105,15 @@ class _ProfileInfoState extends State<ProfileInfo> {
               style: TextStyle(fontSize: 20),
               textAlign: TextAlign.center,
             ),
-            padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
             width: double.infinity,
           ),
           Container(
             child: Text(
-              "${widget.user.location}, ${widget.user.age}",
+              "${widget.user.location}, ${widget.user.age == -1 ? "Age" : widget.user.age}",
               style: TextStyle(fontSize: 15),
               textAlign: TextAlign.center,
             ),
-            padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
             width: double.infinity,
           ),
           Divider(),
@@ -201,7 +200,12 @@ class _ProfileInfoState extends State<ProfileInfo> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("Check Featured Events"),
+                    Text("Check Featured Events",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: 'Minimo',
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black)),
                     Icon(Icons.arrow_forward),
                   ],
                 ),
@@ -218,7 +222,8 @@ class _ProfileInfoState extends State<ProfileInfo> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ProfileEvent()),
+                  MaterialPageRoute(
+                      builder: (context) => ProfileEvent(widget.user)),
                 );
               },
             ),

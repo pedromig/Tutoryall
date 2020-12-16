@@ -1,8 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tutoryall/utils/custom_tile.dart';
+import 'package:tutoryall/utils/database.dart';
+import 'package:tutoryall/utils/tutoryall_event.dart';
+import 'package:tutoryall/utils/tutoryall_user.dart';
 
 class ProfileEvent extends StatefulWidget {
+  final TutoryallUser user;
+  ProfileEvent(this.user);
   @override
   _ProfileEventState createState() => _ProfileEventState();
 }
@@ -10,22 +15,16 @@ class ProfileEvent extends StatefulWidget {
 class _ProfileEventState extends State<ProfileEvent> {
   final _formKey = GlobalKey<FormState>();
 
-  Future<List<User>> _getData() async {
-    List<User> users = [];
-    User x;
-    List<Tag> tags = [];
-    Tag y;
-
-    for (var i = 0; i < 20; i++) {
-      for (var e = 0; e < 10; e++) {
-        y = Tag("tag $e");
-        tags.add(y);
+  Future<List<TutoryallEvent>> _getData() async {
+    List<TutoryallEvent> eventList = await Database.getEventList();
+    List<TutoryallEvent> filteredEvents = [];
+    for (final ev in eventList) {
+      if ((ev.creatorID == widget.user.id) ||
+          (widget.user.goingEventsIDs.contains(ev.creatorID))) {
+        filteredEvents.add(ev);
       }
-      x = User("Gabriel $i", tags);
-      print(x.tags.length);
-      users.add(x);
     }
-    return users;
+    return filteredEvents;
   }
 
   @override
@@ -33,7 +32,41 @@ class _ProfileEventState extends State<ProfileEvent> {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text("Featured Events"),
+        centerTitle: true,
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Color(0xff7ceccc),
+        title: Text(
+          "Featured Events",
+          style: TextStyle(
+            fontSize: 25,
+            fontFamily: 'Minimo',
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.refresh,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (BuildContext context,
+                      Animation<double> animation,
+                      Animation<double> secondaryAnimation) {
+                    return ProfileEvent(widget.user);
+                  },
+                  transitionDuration: Duration(seconds: 0),
+                ),
+              );
+            },
+          )
+        ],
       ),
       body: Container(
         child: FutureBuilder(
@@ -42,34 +75,22 @@ class _ProfileEventState extends State<ProfileEvent> {
             if (snapshot.data == null) {
               return Container(child: Center(child: Text("Loading")));
             } else {
-              return ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  /*return ListTile(
-                    title: Text(snapshot.data[index].name),
-                    trailing: CircleAvatar(),
-                  )
-                  ;
-                  */
-                  return CustomTile(snapshot, index);
-                },
-              );
+              if (snapshot.data.length != 0) {
+                return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return CustomTile(snapshot, index);
+                  },
+                );
+              } else {
+                return Center(
+                  child: Text("No Featured events to display"),
+                );
+              }
             }
           },
         ),
       ),
     );
   }
-}
-
-class User {
-  final String name;
-  final List<Tag> tags;
-  User(this.name, this.tags);
-}
-
-class Tag {
-  final String tagName;
-
-  Tag(this.tagName);
 }

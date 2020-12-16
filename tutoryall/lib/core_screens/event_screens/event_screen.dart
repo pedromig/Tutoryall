@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tutoryall/left_drawer_screens/profile_screens/profile.dart';
 import 'package:tutoryall/utils/database.dart';
 import 'package:tutoryall/utils/tutoryall_event.dart';
 
@@ -48,8 +49,11 @@ class _EventScreenState extends State<EventScreen> {
               height: 150,
               child: GestureDetector(
                   onTap: () {
-                    //à partida dará para ir usando widget.event.creator
-                    print("ir para o perfil do user");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                Profile(widget.event.creatorID)));
                   },
                   child: Container(
                     alignment: Alignment(-1.0, 2.5),
