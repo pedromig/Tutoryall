@@ -84,7 +84,6 @@ class Database {
   }
 
   static Future<String> getUserDisplayName() async {
-    await auth.currentUser.reload();
     return auth.currentUser.displayName;
   }
 
@@ -118,7 +117,7 @@ class Database {
     Reference uri = storage.ref().child("${uid}_profile");
     String url = await uri.getDownloadURL().catchError((value) {
       return value.code;
-    });
+    }).whenComplete(() => null);
     return url == "object-not-found"
         ? AssetImage("assets/images/default_user.png")
         : NetworkImage(url);
@@ -127,9 +126,11 @@ class Database {
   static Future<ImageProvider<Object>> getUserBackgroundImage(
       String uid) async {
     Reference uri = storage.ref().child("${uid}_background");
+
     String url = await uri.getDownloadURL().catchError((value) {
       return value.code;
-    });
+    }).whenComplete(() => null);
+
     return url == "object-not-found"
         ? AssetImage("assets/images/cover_pic.png")
         : NetworkImage(url);
@@ -149,16 +150,16 @@ class Database {
     return await auth.sendPasswordResetEmail(email: _email);
   }
 
-  static void updateProfileImage(File image) async {
+  static Future<void> updateProfileImage(File image) async {
     User user = Database.authenticatedUser();
     String uid = user.uid;
 
-    storage.ref().child("${uid}_profile").putFile(image);
+    await storage.ref().child("${uid}_profile").putFile(image);
   }
 
   static Future<void> updateBackGroundImage(File image) async {
     String uid = Database.authenticatedUser().uid;
 
-    storage.ref().child("${uid}_background").putFile(image);
+    await storage.ref().child("${uid}_background").putFile(image);
   }
 }

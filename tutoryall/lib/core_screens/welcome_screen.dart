@@ -45,37 +45,38 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   Widget _registerButton() {
     return RaisedButton(
-        onPressed: () => {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RegisterScreen(),
-                ),
-              )
-            },
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-        padding: EdgeInsets.symmetric(horizontal: 1),
-        color: Color(0xff7ceccc).withOpacity(0.9),
-        child: InkWell(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.symmetric(vertical: 13),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              border: Border.all(color: Colors.white, width: 2),
-            ),
-            child: Text(
-              'Register',
-              style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.black,
-                  fontFamily: 'Minimo',
-                  fontWeight: FontWeight.w500),
-            ),
+      onPressed: () => {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => RegisterScreen(),
           ),
-        ));
+        )
+      },
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+      padding: EdgeInsets.symmetric(horizontal: 1),
+      color: Color(0xff7ceccc).withOpacity(0.9),
+      child: InkWell(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.symmetric(vertical: 13),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: Color(0xff7ceccc).withOpacity(0.9),
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+            border: Border.all(color: Colors.white, width: 2),
+          ),
+          child: Text(
+            'Register',
+            style: TextStyle(
+                fontSize: 25,
+                color: Colors.black,
+                fontFamily: 'Minimo',
+                fontWeight: FontWeight.w500),
+          ),
+        ),
+      ),
+    );
   }
 
   @override

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tutoryall/left_drawer_screens/profile_screens/profile.dart';
 import 'package:tutoryall/utils/database.dart';
 
 class EditProfile extends StatefulWidget {
@@ -14,6 +15,9 @@ class _EditProfileState extends State<EditProfile> {
   final _formKey = GlobalKey<FormState>();
   final ImagePicker _imagePicker = ImagePicker();
 
+  Future _profileFuture;
+  Future _backgroundFuture;
+
   _editProfileImage() async {
     PickedFile image = await _imagePicker.getImage(
       source: ImageSource.gallery,
@@ -21,6 +25,31 @@ class _EditProfileState extends State<EditProfile> {
     Database.updateProfileImage(
       File(image.path),
     );
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          backgroundColor: Color(0xfff2f3f5),
+          content: new Row(
+            children: [
+              CircularProgressIndicator(value: null),
+              Container(
+                  margin: EdgeInsets.only(left: 7),
+                  child: Text("Uploading...")),
+            ],
+          ),
+        );
+      },
+    );
+    Future.delayed(const Duration(milliseconds: 3000), () {
+      setState(() {
+        _profileFuture = _getProfileImage();
+      });
+      Navigator.pop(context);
+    });
   }
 
   _editBackgroundImage() async {
@@ -30,6 +59,60 @@ class _EditProfileState extends State<EditProfile> {
     Database.updateBackGroundImage(
       File(image.path),
     );
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          backgroundColor: Color(0xfff2f3f5),
+          content: new Row(
+            children: [
+              CircularProgressIndicator(value: null),
+              Container(
+                  margin: EdgeInsets.only(left: 7),
+                  child: Text("Uploading...")),
+            ],
+          ),
+        );
+      },
+    );
+    Future.delayed(const Duration(milliseconds: 3000), () {
+      setState(() {
+        _backgroundFuture = _getBackgroundImage();
+      });
+      Navigator.pop(context);
+    });
+  }
+
+  _getBackgroundImage() async {
+    return await Database.getUserBackgroundImage(
+        Database.authenticatedUser().uid);
+  }
+
+  _getProfileImage() async {
+    return await Database.getUserProfilePicture(
+        Database.authenticatedUser().uid);
+  }
+
+  _returnButton() {
+    Navigator.pop(context);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return Profile(Database.authenticatedUser().uid);
+        },
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _profileFuture = _getProfileImage();
+    _backgroundFuture = _getBackgroundImage();
   }
 
   @override
@@ -37,6 +120,16 @@ class _EditProfileState extends State<EditProfile> {
     return Scaffold(
       resizeToAvoidBottomPadding: true,
       appBar: AppBar(
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+              size: 25,
+            ),
+            onPressed: _returnButton,
+          ),
+        ),
         iconTheme: IconThemeData(
           color: Colors.black,
         ),
@@ -57,8 +150,7 @@ class _EditProfileState extends State<EditProfile> {
           children: [
             // User and Background Image Stack
             FutureBuilder(
-              future: Database.getUserBackgroundImage(
-                  Database.authenticatedUser().uid),
+              future: _backgroundFuture,
               builder: (BuildContext context,
                   AsyncSnapshot backgroundImageSnapshot) {
                 if (backgroundImageSnapshot.data != null) {
@@ -82,8 +174,7 @@ class _EditProfileState extends State<EditProfile> {
                                   child: InkWell(
                                     onTap: _editProfileImage,
                                     child: FutureBuilder(
-                                      future: Database.getUserProfilePicture(
-                                          Database.authenticatedUser().uid),
+                                      future: _profileFuture,
                                       builder: (context, snapshot) {
                                         if (snapshot.data != null) {
                                           return CircleAvatar(
