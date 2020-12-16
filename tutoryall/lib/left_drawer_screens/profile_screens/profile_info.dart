@@ -30,8 +30,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
       child: Column(
         children: [
           FutureBuilder(
-            future: Database.getUserBackgroundImage(
-                Database.authenticatedUser().uid),
+            future: Database.getUserBackgroundImage(widget.user.id),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.data != null) {
                 return Container(
@@ -48,7 +47,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                       alignment: Alignment(-0.95, 2.1),
                       child: FutureBuilder(
                         future: Database.getUserProfilePicture(
-                            Database.authenticatedUser().uid),
+                            widget.user.id),
                         builder: (context, snapshot) {
                           if (snapshot.data != null) {
                             return CircleAvatar(
@@ -73,39 +72,12 @@ class _ProfileInfoState extends State<ProfileInfo> {
             },
           ),
           Container(
-              width: double.infinity,
-              height: 50,
-              child: InkWell(
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  child: isFav == true
-                      ? Icon(
-                          Icons.favorite,
-                          size: 30,
-                          color: Colors.red[800],
-                        )
-                      : Icon(Icons.favorite_border, size: 30),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xff82E3C4),
-                  ),
-                ),
-                onTap: () {
-                  setState(() {
-                    isFav = !isFav;
-                    //TODO: change here
-                  });
-                },
-              ),
-              alignment: Alignment.center),
-          Container(
             child: Text(
               widget.user.name,
               style: TextStyle(fontSize: 20),
               textAlign: TextAlign.center,
             ),
-            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+            padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
             width: double.infinity,
           ),
           Container(

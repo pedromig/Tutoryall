@@ -15,6 +15,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  List<String> aux;
   bool isFav = true;
   @override
   Widget build(BuildContext context) {
@@ -65,18 +66,31 @@ class _ProfileState extends State<Profile> {
                           },
                         )
                       : IconButton(
-                          icon: isFav == true
-                              ? Icon(
-                                  Icons.favorite,
-                                  color: Colors.red,
-                                )
-                              : Icon(
-                                  Icons.favorite_outline,
-                                ),
+                          icon:
+                              true // snapshot.data.favUsersIDs.contains(widget.userID)
+                                  ? Icon(
+                                      Icons.favorite,
+                                      color: Colors.red,
+                                    )
+                                  : Icon(
+                                      Icons.favorite_outline,
+                                    ),
                           onPressed: () {
-                            setState(() {
-                              isFav = !isFav;
-                            });
+                            // setState(() {
+                              // if (snapshot.data.favUsersIDs
+                              //     .contains(widget.userID)) {
+                              //   print("removeu");
+                              //   snapshot.data.favUsersIDs.remove(widget.userID);
+                              //   // Database.updateUser(widget.userID,
+                              //   //     "favUsersIDs", snapshot.data.favUsersIDs);
+                              // } else {
+                              //   print("adicionou");
+                              //   snapshot.data.favUsersIDs.add(widget.userID);
+                              //   Database.updateUser(widget.userID,
+                              //       "favUsersIDs", snapshot.data.favUsersIDs);
+                              // }
+                            // }
+                            
                           }),
                 ],
               ),
