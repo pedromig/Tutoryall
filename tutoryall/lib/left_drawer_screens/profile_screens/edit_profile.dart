@@ -137,7 +137,7 @@ class _EditProfileState extends State<EditProfile> {
         title: Text(
           "Edit Profile",
           style: TextStyle(
-            fontSize: 35,
+            fontSize: 25,
             fontFamily: 'Minimo',
             fontWeight: FontWeight.w800,
             color: Colors.black,
