@@ -95,7 +95,7 @@ class _CustomTileState extends State<CustomTile> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => Profile(
-                            widget.snapshot.data[widget.index].creatorID)),
+                            widget.snapshot.data[widget.index].creatorID,true)),
                   )
                 },
                 child: FutureBuilder(

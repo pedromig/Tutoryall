@@ -77,10 +77,16 @@ class _ProfileEventState extends State<ProfileEvent> {
               return Container(child: Center(child: Text("Loading")));
             } else {
               if (snapshot.data.length != 0) {
-                return ListView.builder(
+                return ListView.separated(
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return CustomTile(snapshot, index, "ProfileEvents");
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Divider(
+                      height: 2,
+                      thickness: 2,
+                    );
                   },
                 );
               } else {

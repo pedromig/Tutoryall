@@ -9,7 +9,8 @@ import 'package:tutoryall/utils/tutoryall_user.dart';
 class Profile extends StatefulWidget {
   final String userID;
   final FirebaseAuth auth = FirebaseAuth.instance;
-  Profile(this.userID);
+  final bool readOnly;
+  Profile(this.userID, this.readOnly);
 
   @override
   _ProfileState createState() => _ProfileState();
@@ -64,20 +65,22 @@ class _ProfileState extends State<Profile> {
                 centerTitle: true,
                 actions: <Widget>[
                   widget.userID == widget.auth.currentUser.uid
-                      ? IconButton(
-                          icon: Icon(
-                            Icons.edit,
-                            color: Colors.black,
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EditProfile(
-                                      snapshot.data[windowUserIdx])),
-                            );
-                          },
-                        )
+                      ? (widget.readOnly
+                          ? Container()
+                          : IconButton(
+                              icon: Icon(
+                                Icons.edit,
+                                color: Colors.black,
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => EditProfile(
+                                          snapshot.data[windowUserIdx])),
+                                );
+                              },
+                            ))
                       : IconButton(
                           icon: snapshot.data[loggedUserIdx].favUsersIDs
                                   .contains(widget.userID)

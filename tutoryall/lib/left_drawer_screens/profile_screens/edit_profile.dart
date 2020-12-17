@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tutoryall/core_screens/home_page.dart';
 import 'package:tutoryall/left_drawer_screens/profile_screens/profile.dart';
 import 'package:tutoryall/utils/database.dart';
 import 'package:tutoryall/utils/tutoryall_user.dart';
@@ -124,13 +125,14 @@ class _EditProfileState extends State<EditProfile> {
       );
 
       Future.delayed(Duration(seconds: 3), () {
-        Navigator.pop(context);
-        Navigator.pop(context);
+        Navigator.pop(context); //dialog
+        Navigator.pop(context);//editprofile
+        Navigator.pop(context);//profile
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (BuildContext context) {
-              return Profile(Database.authenticatedUser().uid);
+              return HomePage();
             },
           ),
         );

@@ -130,11 +130,11 @@ class _EventScreenState extends State<EventScreen> {
                         height: 150,
                         child: GestureDetector(
                             onTap: () {
-                              Navigator.push(
+                              Navigator.push( 
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          Profile(widget.event.creatorID)));
+                                          Profile(widget.event.creatorID,true)));
                             },
                             child: Container(
                               alignment: Alignment(-1.0, 2.5),

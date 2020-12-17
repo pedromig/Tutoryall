@@ -47,7 +47,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Profile(Database.authenticatedUser().uid),
+            builder: (context) => Profile(Database.authenticatedUser().uid,false),
           ),
         );
         break;
