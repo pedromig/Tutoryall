@@ -5,10 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tutoryall/left_drawer_screens/profile_screens/profile.dart';
 import 'package:tutoryall/utils/database.dart';
+import 'package:tutoryall/utils/tutoryall_user.dart';
 
 class EditProfile extends StatefulWidget {
+  TutoryallUser user;
+
+  EditProfile(this.user);
+
   @override
   _EditProfileState createState() => _EditProfileState();
+}
+
+class FormModel {
+  String name;
+  String email;
+  FormModel({this.name, this.email});
 }
 
 class _EditProfileState extends State<EditProfile> {
@@ -298,6 +309,8 @@ class _EditProfileState extends State<EditProfile> {
                       children: <Widget>[
                         Flexible(
                           child: TextFormField(
+                            initialValue:
+                                Database.authenticatedUser().displayName,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10)),
@@ -345,6 +358,7 @@ class _EditProfileState extends State<EditProfile> {
                       children: <Widget>[
                         Flexible(
                           child: TextFormField(
+                            initialValue: widget.user.contact,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10)),
@@ -392,9 +406,13 @@ class _EditProfileState extends State<EditProfile> {
                       children: <Widget>[
                         Flexible(
                           child: TextFormField(
+                            initialValue: widget.user.age != -1
+                                ? widget.user.age.toString()
+                                : "",
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10)),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                             ),
                             validator: (value) {
                               if (value.isEmpty) {
@@ -403,8 +421,7 @@ class _EditProfileState extends State<EditProfile> {
                               if (int.parse(value) > 90 ||
                                   int.parse(value) < 10)
                                 return 'Please Insert a valid age';
-                              else
-                                return null;
+                              // Database.updateUser(Database., key, value);
                             },
                           ),
                         ),
@@ -443,6 +460,9 @@ class _EditProfileState extends State<EditProfile> {
                       children: <Widget>[
                         Flexible(
                           child: TextFormField(
+                            initialValue: widget.user.location != "City"
+                                ? widget.user.location
+                                : "",
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10)),
@@ -494,6 +514,7 @@ class _EditProfileState extends State<EditProfile> {
                       children: <Widget>[
                         Flexible(
                           child: TextFormField(
+                            initialValue: widget.user.bio,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10)),

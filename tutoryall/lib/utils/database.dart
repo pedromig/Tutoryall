@@ -77,7 +77,7 @@ class Database {
         await fb.reference().child("users").child(userID).once();
     Map map = parent.value;
     return makeUserObj(map);
-  }
+  } 
 
   static User authenticatedUser() {
     return auth.currentUser;
@@ -92,6 +92,8 @@ class Database {
   }
 
   static Future<void> updateUser(String uid, String key, dynamic value) async {
+    if (key == "name")
+      await Database.authenticatedUser().updateProfile(displayName: value);
     await fb.reference().child("users").child(uid).child(key).set(value);
   }
 

@@ -108,7 +108,7 @@ class CustomTile extends StatelessWidget {
                 future:
                     Database.getUser(this.snapshot.data[this.index].creatorID),
                 builder: (BuildContext buildContext, AsyncSnapshot snapshot) {
-                  if (snapshot.data == null) {
+                  if (snapshot.data.name == null) {
                     return Text("Loading");
                   } else {
                     return Text(
