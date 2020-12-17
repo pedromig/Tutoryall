@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tutoryall/utils/tutoryall_user.dart';
 
 class TutoryallEvent {
+  String eventID;
   String name;
   String description;
   DateTime date;
@@ -16,6 +17,7 @@ class TutoryallEvent {
   List<String> tags;
 
   TutoryallEvent(
+      String eventID,
       String name,
       String description,
       DateTime date,
@@ -26,6 +28,7 @@ class TutoryallEvent {
       String location,
       int lotation,
       List<String> tags) {
+    this.eventID = eventID;
     this.name = name;
     this.description = description;
     this.date = date;

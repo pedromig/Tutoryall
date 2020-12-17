@@ -16,6 +16,7 @@ class CreateEventScreen extends StatefulWidget {
 
 class _CreateEventScreenState extends State<CreateEventScreen> {
   TutoryallEvent event;
+  String eventID;
   String name;
   String description;
   DateTime date;
@@ -169,8 +170,8 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     //create event
                     // event = Event(name, description, date, time, image,
                     //     widget.user, listGoing, location, rating, lotation);
-                    event = TutoryallEvent(name, description, date, time, image,
-                        widget.user.id, [], location, lotation, tags);
+                    event = TutoryallEvent(eventID, name, description, date, time,
+                        image, widget.user.id, [], location, lotation, tags);
                     print(event.name + event.description);
                     //assign event to the creator
                     widget.user.addCreatedEvent(event);

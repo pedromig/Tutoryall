@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tutoryall/left_drawer_screens/profile_screens/edit_profile.dart';
 import 'package:tutoryall/left_drawer_screens/profile_screens/profile_info.dart';
 import 'package:tutoryall/utils/database.dart';
+import 'package:tutoryall/utils/tutoryall_user.dart';
 
 class Profile extends StatefulWidget {
   final String userID;
@@ -15,13 +16,24 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  List<String> aux;
-  bool isFav = true;
+  final int loggedUserIdx = 0;
+  final int windowUserIdx = 1;
+
+  Future<List<TutoryallUser>> _getdata() async {
+    List<TutoryallUser> users = [];
+    TutoryallUser loggedUser =
+        await Database.getUser(widget.auth.currentUser.uid);
+    TutoryallUser windowUser = await Database.getUser(widget.userID);
+    users.add(loggedUser);
+    users.add(windowUser);
+    return users;
+  }
+
   @override
   Widget build(BuildContext context) {
     print(widget.userID);
     return FutureBuilder(
-        future: Database.getUser(widget.userID),
+        future: _getdata(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.data == null) {
             return Scaffold(
@@ -66,35 +78,34 @@ class _ProfileState extends State<Profile> {
                           },
                         )
                       : IconButton(
-                          icon:
-                              true // snapshot.data.favUsersIDs.contains(widget.userID)
-                                  ? Icon(
-                                      Icons.favorite,
-                                      color: Colors.red,
-                                    )
-                                  : Icon(
-                                      Icons.favorite_outline,
-                                    ),
+                          icon: snapshot.data[loggedUserIdx].favUsersIDs
+                                  .contains(widget.userID)
+                              ? Icon(
+                                  Icons.favorite,
+                                  color: Colors.red,
+                                )
+                              : Icon(
+                                  Icons.favorite_outline,
+                                ),
                           onPressed: () {
-                            // setState(() {
-                              // if (snapshot.data.favUsersIDs
-                              //     .contains(widget.userID)) {
-                              //   print("removeu");
-                              //   snapshot.data.favUsersIDs.remove(widget.userID);
-                              //   // Database.updateUser(widget.userID,
-                              //   //     "favUsersIDs", snapshot.data.favUsersIDs);
-                              // } else {
-                              //   print("adicionou");
-                              //   snapshot.data.favUsersIDs.add(widget.userID);
-                              //   Database.updateUser(widget.userID,
-                              //       "favUsersIDs", snapshot.data.favUsersIDs);
-                              // }
-                            // }
-                            
+                            setState(() {
+                              if (snapshot.data[loggedUserIdx].favUsersIDs
+                                  .contains(widget.userID)) {
+                                snapshot.data[loggedUserIdx].favUsersIDs
+                                    .remove(widget.userID);
+                              } else {
+                                snapshot.data[loggedUserIdx].favUsersIDs
+                                    .add(widget.userID);
+                              }
+                              Database.updateUser(
+                                  widget.auth.currentUser.uid,
+                                  "favUsersIDs",
+                                  snapshot.data[loggedUserIdx].favUsersIDs);
+                            });
                           }),
                 ],
               ),
-              body: ProfileInfo(snapshot.data),
+              body: ProfileInfo(snapshot.data[windowUserIdx]),
             );
           }
         });

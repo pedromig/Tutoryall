@@ -53,6 +53,7 @@ class CustomTile extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => EventScreen(
                       TutoryallEvent(
+                        this.snapshot.data[this.index].eventID,
                         this.snapshot.data[this.index].name,
                         this.snapshot.data[this.index].description,
                         this.snapshot.data[this.index].date,

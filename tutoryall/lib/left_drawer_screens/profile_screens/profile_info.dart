@@ -195,7 +195,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ProfileEvent(widget.user)),
+                      builder: (context) => ProfileEvent(widget.user.id)),
                 );
               },
             ),
