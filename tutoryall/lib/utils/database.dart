@@ -42,6 +42,7 @@ class Database {
 
   static TutoryallEvent makeEventObj(Map dynamicEvent) {
     return TutoryallEvent(
+        dynamicEvent["id"] as String,
         dynamicEvent["name"] as String,
         dynamicEvent["description"] as String,
         DateTime(
@@ -93,6 +94,10 @@ class Database {
 
   static Future<void> updateUser(String uid, String key, dynamic value) async {
     await fb.reference().child("users").child(uid).child(key).set(value);
+  }
+
+  static Future<void> updateEvent(String eventID, String key, dynamic value) async {
+    await fb.reference().child("events").child(eventID).child(key).set(value);
   }
 
   static Future<List<TutoryallEvent>> getEventList() async {

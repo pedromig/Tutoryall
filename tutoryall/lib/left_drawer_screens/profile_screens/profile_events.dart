@@ -6,8 +6,8 @@ import 'package:tutoryall/utils/tutoryall_event.dart';
 import 'package:tutoryall/utils/tutoryall_user.dart';
 
 class ProfileEvent extends StatefulWidget {
-  final TutoryallUser user;
-  ProfileEvent(this.user);
+  final String userID;
+  ProfileEvent(this.userID);
   @override
   _ProfileEventState createState() => _ProfileEventState();
 }
@@ -17,10 +17,11 @@ class _ProfileEventState extends State<ProfileEvent> {
 
   Future<List<TutoryallEvent>> _getData() async {
     List<TutoryallEvent> eventList = await Database.getEventList();
+    TutoryallUser user = await Database.getUser(widget.userID);
     List<TutoryallEvent> filteredEvents = [];
     for (final ev in eventList) {
-      if ((ev.creatorID == widget.user.id) ||
-          (widget.user.goingEventsIDs.contains(ev.creatorID))) {
+      if ((ev.creatorID == widget.userID) ||
+          (user.goingEventsIDs.contains(ev.eventID))) {
         filteredEvents.add(ev);
       }
     }
@@ -59,7 +60,7 @@ class _ProfileEventState extends State<ProfileEvent> {
                   pageBuilder: (BuildContext context,
                       Animation<double> animation,
                       Animation<double> secondaryAnimation) {
-                    return ProfileEvent(widget.user);
+                    return ProfileEvent(widget.userID);
                   },
                   transitionDuration: Duration(seconds: 0),
                 ),

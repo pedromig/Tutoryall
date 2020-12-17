@@ -78,27 +78,29 @@ class _ProfileState extends State<Profile> {
                           },
                         )
                       : IconButton(
-                          icon:
-                              snapshot.data[loggedUserIdx].favUsersIDs.contains(widget.userID)
-                                  ? Icon(
-                                      Icons.favorite,
-                                      color: Colors.red,
-                                    )
-                                  : Icon(
-                                      Icons.favorite_outline,
-                                    ),
+                          icon: snapshot.data[loggedUserIdx].favUsersIDs
+                                  .contains(widget.userID)
+                              ? Icon(
+                                  Icons.favorite,
+                                  color: Colors.red,
+                                )
+                              : Icon(
+                                  Icons.favorite_outline,
+                                ),
                           onPressed: () {
                             setState(() {
                               if (snapshot.data[loggedUserIdx].favUsersIDs
                                   .contains(widget.userID)) {
-                                snapshot.data[loggedUserIdx].favUsersIDs.remove(widget.userID);
-                                Database.updateUser(widget.auth.currentUser.uid,
-                                    "favUsersIDs", snapshot.data[loggedUserIdx].favUsersIDs);
+                                snapshot.data[loggedUserIdx].favUsersIDs
+                                    .remove(widget.userID);
                               } else {
-                                snapshot.data[loggedUserIdx].favUsersIDs.add(widget.userID);
-                                Database.updateUser(widget.auth.currentUser.uid,
-                                    "favUsersIDs", snapshot.data[loggedUserIdx].favUsersIDs);
+                                snapshot.data[loggedUserIdx].favUsersIDs
+                                    .add(widget.userID);
                               }
+                              Database.updateUser(
+                                  widget.auth.currentUser.uid,
+                                  "favUsersIDs",
+                                  snapshot.data[loggedUserIdx].favUsersIDs);
                             });
                           }),
                 ],
