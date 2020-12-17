@@ -73,7 +73,8 @@ class _ProfileState extends State<Profile> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => EditProfile(snapshot.data[windowUserIdx])),
+                                  builder: (context) => EditProfile(
+                                      snapshot.data[windowUserIdx])),
                             );
                           },
                         )

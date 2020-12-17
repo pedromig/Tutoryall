@@ -16,12 +16,6 @@ class EditProfile extends StatefulWidget {
   _EditProfileState createState() => _EditProfileState();
 }
 
-class FormModel {
-  String name;
-  String email;
-  FormModel({this.name, this.email});
-}
-
 class _EditProfileState extends State<EditProfile> {
   final _formKey = GlobalKey<FormState>();
   final ImagePicker _imagePicker = ImagePicker();
@@ -108,15 +102,40 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   _returnButton() {
-    Navigator.pop(context);
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
+    if (_formKey.currentState.validate()) {
+      showDialog(
+        barrierDismissible: false,
+        context: context,
         builder: (BuildContext context) {
-          return Profile(Database.authenticatedUser().uid);
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            backgroundColor: Color(0xfff2f3f5),
+            content: new Row(
+              children: [
+                CircularProgressIndicator(value: null),
+                Container(
+                    margin: EdgeInsets.only(left: 7),
+                    child: Text("Updating...")),
+              ],
+            ),
+          );
         },
-      ),
-    );
+      );
+
+      Future.delayed(Duration(seconds: 3), () {
+        Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) {
+              return Profile(Database.authenticatedUser().uid);
+            },
+          ),
+        );
+      });
+    }
   }
 
   @override
@@ -319,6 +338,14 @@ class _EditProfileState extends State<EditProfile> {
                               if (value.isEmpty) {
                                 return 'Please enter some text';
                               }
+                              if (value.length > 30) {
+                                return "Max: 30 characters";
+                              }
+                              Database.updateUser(
+                                Database.authenticatedUser().uid,
+                                "name",
+                                value,
+                              );
                               return null;
                             },
                           ),
@@ -367,6 +394,10 @@ class _EditProfileState extends State<EditProfile> {
                               if (value.isEmpty) {
                                 return 'Please enter some text';
                               }
+                              Database.updateUser(
+                                  Database.authenticatedUser().uid,
+                                  "contact",
+                                  value);
                               return null;
                             },
                           ),
@@ -415,13 +446,19 @@ class _EditProfileState extends State<EditProfile> {
                               ),
                             ),
                             validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please enter some text';
-                              }
-                              if (int.parse(value) > 90 ||
+                              if (value.isEmpty) return null;
+
+                              int age = int.tryParse(value);
+                              if (age == null ||
+                                  int.parse(value) > 90 ||
                                   int.parse(value) < 10)
                                 return 'Please Insert a valid age';
-                              // Database.updateUser(Database., key, value);
+                              if (value.isNotEmpty) 
+                                Database.updateUser(
+                                    Database.authenticatedUser().uid,
+                                    "age",
+                                    age);
+                              return null;
                             },
                           ),
                         ),
@@ -468,14 +505,12 @@ class _EditProfileState extends State<EditProfile> {
                                   borderRadius: BorderRadius.circular(10)),
                             ),
                             validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please enter some text';
-                              }
-                              if (int.parse(value) > 90 ||
-                                  int.parse(value) < 10)
-                                return 'Please Insert a valid age';
-                              else
-                                return null;
+                              if (value.isNotEmpty)
+                                Database.updateUser(
+                                    Database.authenticatedUser().uid,
+                                    "location",
+                                    value);
+                              return null;
                             },
                           ),
                         ),
@@ -514,17 +549,22 @@ class _EditProfileState extends State<EditProfile> {
                       children: <Widget>[
                         Flexible(
                           child: TextFormField(
-                            initialValue: widget.user.bio,
+                            initialValue:
+                                widget.user.bio != "Tell us more about you!"
+                                    ? widget.user.bio
+                                    : "",
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10)),
                             ),
                             scrollPadding: EdgeInsets.only(bottom: 1000),
-                            maxLines: 5,
+                            maxLines: 7,
                             validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please enter some text';
-                              }
+                              if (value.isNotEmpty)
+                                Database.updateUser(
+                                    Database.authenticatedUser().uid,
+                                    "bio",
+                                    value);
                               return null;
                             },
                           ),
@@ -535,27 +575,7 @@ class _EditProfileState extends State<EditProfile> {
                 ],
               ),
             ),
-            InkWell(
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                    vertical: MediaQuery.of(context).size.width / 30),
-                alignment: Alignment.center,
-                child: RaisedButton(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width / 3),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0)),
-                  color: Color(0xff7ceccc),
-                  onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      Scaffold.of(context).showSnackBar(
-                          SnackBar(content: Text('Processing Data')));
-                    }
-                  },
-                  child: Text('Submit'),
-                ),
-              ),
-            ),
+            SizedBox(height: 20),
           ],
         ),
       ),
