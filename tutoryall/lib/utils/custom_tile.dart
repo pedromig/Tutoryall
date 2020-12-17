@@ -95,16 +95,24 @@ class _CustomTileState extends State<CustomTile> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => Profile(
-                            widget.snapshot.data[widget.index].creatorID,true)),
+                            widget.snapshot.data[widget.index].creatorID,
+                            true)),
                   )
                 },
                 child: FutureBuilder(
                   future: Database.getUserProfilePicture(
                       widget.snapshot.data[widget.index].creatorID),
                   builder: (context, snapshot) {
-                    return CircleAvatar(
-                      backgroundImage: snapshot.data,
-                    );
+                    if (snapshot.data != null) {
+                      return CircleAvatar(
+                        backgroundImage: snapshot.data,
+                      );
+                    } else {
+                      return CircleAvatar(
+                        backgroundImage:
+                            Image.asset("assets/images/default_user.png").image,
+                      );
+                    }
                   },
                 ),
               ),

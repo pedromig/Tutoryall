@@ -36,16 +36,22 @@ class _UserTileState extends State<UserTile> {
                   future: Database.getUserProfilePicture(
                       widget.snapshot.data[widget.index].id),
                   builder: (context, snapshot) {
-                    return CircleAvatar(
-                      backgroundImage: snapshot.data,
-                    );
+                    if (snapshot.data != null) {
+                      return CircleAvatar(
+                        backgroundImage: snapshot.data,
+                      );
+                    } else {
+                      return CircleAvatar(
+                        backgroundImage: Image.asset("assets/images/default_user.png").image,
+                      );
+                    }
                   },
                 ),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                        '${widget.snapshot.data[widget.index].location}, ${widget.snapshot.data[widget.index].age}'),
+                        '${widget.snapshot.data[widget.index].location}, ${widget.snapshot.data[widget.index].age == -1 ? "Age" : widget.snapshot.data[widget.index].age}'),
                     Text("${widget.snapshot.data[widget.index].contact}")
                   ],
                 ),
@@ -63,12 +69,12 @@ class _UserTileState extends State<UserTile> {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.only(top: 5),
-                          child:Text(
-                          widget.snapshot.data[widget.index].rating
-                              .toStringAsFixed(1),
-                          style: TextStyle(fontSize: 15),
-                        )),
+                            padding: EdgeInsets.only(top: 5),
+                            child: Text(
+                              widget.snapshot.data[widget.index].rating
+                                  .toStringAsFixed(1),
+                              style: TextStyle(fontSize: 15),
+                            )),
                       ],
                     ),
                   ),

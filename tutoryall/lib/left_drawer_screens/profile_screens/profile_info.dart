@@ -59,6 +59,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                             return CircleAvatar(
                               radius: 50.0,
                               backgroundColor: Colors.black,
+                              backgroundImage: Image.asset("assets/images/default_user.png").image,
                             );
                           }
                         },

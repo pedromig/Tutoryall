@@ -155,12 +155,13 @@ class _LeftDrawerState extends State<LeftDrawer> {
                   builder: (contex, snapshot) {
                     if (snapshot.data != null) {
                       return CircleAvatar(
-                        backgroundColor: Colors.black,
+                        backgroundColor: Colors.white,
                         backgroundImage: snapshot.data,
                       );
                     } else {
                       return CircleAvatar(
-                        backgroundColor: Colors.black,
+                        backgroundColor: Colors.white,
+                        backgroundImage: Image.asset("assets/images/default_user.png").image,
                       );
                     }
                   },
@@ -174,7 +175,50 @@ class _LeftDrawerState extends State<LeftDrawer> {
                 ),
               );
             } else {
-              return Text("Loading...");
+              return UserAccountsDrawerHeader(
+                accountName: DecoratedBox(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      color: Colors.white),
+                  child: Text(
+                          "Loading...",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'Minimo',
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        ),
+                ),
+                accountEmail: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    color: Colors.white,
+                  ),
+                  child: Text(
+                    " " + Database.authenticatedUser().email + " ",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontFamily: 'Minimo',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                currentAccountPicture: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        backgroundImage: Image.asset("assets/images/default_user.png").image,
+
+
+                ),
+                decoration: BoxDecoration(
+                  color: Color(0xff7ceccc),
+                  image: DecorationImage(
+                    image: Image.asset("assets/images/cover_pic.png").image,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              );
             }
           },
         ),
@@ -201,3 +245,8 @@ class _LeftDrawerState extends State<LeftDrawer> {
     );
   }
 }
+
+
+
+
+

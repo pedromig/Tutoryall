@@ -114,39 +114,62 @@ class _EventScreenState extends State<EventScreen> {
               ),
               body: WillPopScope(
                 onWillPop: () {
-                  Navigator.pop(context, snapshot.data[creatorUserIdx].id == widget.auth.currentUser.uid ? false :(widget.event.listGoingIDs.contains(widget.auth.currentUser.uid) ? false : true));
+                  Navigator.pop(
+                      context,
+                      snapshot.data[creatorUserIdx].id ==
+                              widget.auth.currentUser.uid
+                          ? false
+                          : (widget.event.listGoingIDs
+                                  .contains(widget.auth.currentUser.uid)
+                              ? false
+                              : true));
                   return null;
                 },
                 child: Column(
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  "https://cdn.record.pt/images/2019-03/img_920x518\$2019_03_06_21_25_15_1514388.jpg"),
-                              fit: BoxFit.cover)),
-                      child: Container(
-                        width: double.infinity,
-                        height: 150,
-                        child: GestureDetector(
-                            onTap: () {
-                              Navigator.push( 
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          Profile(widget.event.creatorID,true)));
-                            },
-                            child: Container(
-                              alignment: Alignment(-1.0, 2.5),
-                              //é suposto esta imagem ser a do criador do evento
-                              child: CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                    "https://tmssl.akamaized.net/images/portrait/header/283130-1542106491.png?lm=1542106523"),
-                                radius: 50.0,
-                                backgroundColor: Colors.white,
-                              ),
-                            )),
-                      ),
+                    FutureBuilder(
+                      future: Database.getUserBackgroundImage(widget.event.creatorID),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        return Container(
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: snapshot.data == null ? Image.asset("assets/images/cover_pic.png").image: snapshot.data,
+                                  fit: BoxFit.cover)),
+                          child: Container(
+                            width: double.infinity,
+                            height: 150,
+                            child: FutureBuilder(
+                              future: Database.getUserProfilePicture(
+                                 widget.event.creatorID),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                return GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Profile(
+                                                  widget.event.creatorID,
+                                                  true)));
+                                    },
+                                    child: Container(
+                                      alignment: Alignment(-1.0, 2.5),
+                                      //é suposto esta imagem ser a do criador do evento
+                                      child: CircleAvatar(
+                                        backgroundImage: snapshot.data == null
+                                            ? Image.asset(
+                                                    "assets/images/default_user.png")
+                                                .image
+                                            : snapshot.data,
+                                        radius: 50.0,
+                                        backgroundColor: Colors.white,
+                                      ),
+                                    ));
+                              },
+                            ),
+                          ),
+                        );
+                      },
                     ),
                     Container(
                         padding: EdgeInsets.symmetric(vertical: 15),
