@@ -80,7 +80,7 @@ class _ProfileEventState extends State<ProfileEvent> {
                 return ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return CustomTile(snapshot, index);
+                    return CustomTile(snapshot, index, "ProfileEvents");
                   },
                 );
               } else {
