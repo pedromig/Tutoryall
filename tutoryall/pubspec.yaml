@@ -39,7 +39,6 @@ dependencies:
   firebase_database: ^4.4.0
   firebase_storage: ^5.2.0
   image_picker: ^0.6.7+15
-  path_provider: ^1.6.24
 
 dev_dependencies:
   flutter_launcher_icons: "^0.8.0"

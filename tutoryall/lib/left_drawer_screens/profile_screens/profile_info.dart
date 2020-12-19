@@ -1,12 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
-/**
- * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
- * Projeto de PGI - Tutory'all 2020/2021
- * 
- * File Author: Duarte Manuel Bento Dias
- *   
-*/
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tutoryall/left_drawer_screens/profile_screens/profile_events.dart';
@@ -46,8 +37,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                     child: Container(
                       alignment: Alignment(-0.95, 2.1),
                       child: FutureBuilder(
-                        future: Database.getUserProfilePicture(
-                            widget.user.id),
+                        future: Database.getUserProfilePicture(widget.user.id),
                         builder: (context, snapshot) {
                           if (snapshot.data != null) {
                             return CircleAvatar(
@@ -153,12 +143,13 @@ class _ProfileInfoState extends State<ProfileInfo> {
               showDialog(
                 context: context,
                 builder: (_) => new AlertDialog(
-                    title: new Text("Bio"),
-                    content: SingleChildScrollView(
-                      child: new Text(
-                        "${widget.user.bio}",
-                      ),
-                    )),
+                  title: new Text("Bio"),
+                  content: SingleChildScrollView(
+                    child: new Text(
+                      "${widget.user.bio}",
+                    ),
+                  ),
+                ),
               );
             },
           ),

@@ -55,12 +55,14 @@ class _ProfileState extends State<Profile> {
                   color: Colors.black,
                 ),
                 backgroundColor: Color(0xff7ceccc),
-                title: Text("Profile",
-                    style: TextStyle(
-                        fontSize: 25,
-                        fontFamily: 'Minimo',
-                        fontWeight: FontWeight.w800,
-                        color: Colors.black)),
+                title: Text(
+                  "Profile",
+                  style: TextStyle(
+                      fontSize: 25,
+                      fontFamily: 'Minimo',
+                      fontWeight: FontWeight.w800,
+                      color: Colors.black),
+                ),
                 centerTitle: true,
                 actions: <Widget>[
                   widget.userID == widget.auth.currentUser.uid

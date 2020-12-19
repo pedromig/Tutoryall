@@ -144,12 +144,14 @@ class _EventScreenState extends State<EventScreen> {
                     ),
                   ),
                   Container(
-                      padding: EdgeInsets.symmetric(vertical: 15),
-                      child: Center(
-                          child: Text(
+                    padding: EdgeInsets.symmetric(vertical: 15),
+                    child: Center(
+                      child: Text(
                         "${widget.event.location}\n${widget.event.date.day}/${widget.event.date.month}/${widget.event.date.year}\n${widget.event.time.hour}h${widget.event.time.minute}m",
                         textAlign: TextAlign.center,
-                      ))),
+                      ),
+                    ),
+                  ),
                   ListTile(
                     title: Text(
                       "Rating",
