@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 /**
  * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
@@ -10,27 +12,37 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tutoryall/core_screens/event_screens/event_screen.dart';
 import 'package:tutoryall/left_drawer_screens/profile_screens/profile.dart';
+import 'package:tutoryall/left_drawer_screens/profile_screens/profile_events.dart';
 import 'package:tutoryall/utils/database.dart';
 import 'package:tutoryall/utils/tutoryall_event.dart';
 
-class CustomTile extends StatelessWidget {
+class CustomTile extends StatefulWidget {
   final AsyncSnapshot snapshot;
   final int index;
+  final String tileLocation;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  CustomTile(this.snapshot, this.index);
+  CustomTile(this.snapshot, this.index, this.tileLocation);
+  @override
+  _CustomTileState createState() => _CustomTileState();
+}
 
+class _CustomTileState extends State<CustomTile> {
+  bool delete = false;
   List<Widget> getTags() {
     List<Widget> tags = [];
-    for (int i = 0; i < this.snapshot.data[this.index].tags.length && i < 3; i++) {
+    for (int i = 0;
+        i < widget.snapshot.data[widget.index].tags.length && i < 3;
+        i++) {
       if (i == 0) {
         tags.add(Chip(
             avatar: CircleAvatar(
               backgroundColor: Colors.red,
               child: Icon(CupertinoIcons.flame),
             ),
-            label: Text(this.snapshot.data[this.index].tags[i])));
+            label: Text(widget.snapshot.data[widget.index].tags[i])));
       } else {
-        tags.add(Chip(label: Text(this.snapshot.data[this.index].tags[i])));
+        tags.add(Chip(label: Text(widget.snapshot.data[widget.index].tags[i])));
       }
     }
     return tags;
@@ -47,57 +59,73 @@ class CustomTile extends StatelessWidget {
         children: <Widget>[
           Container(
             child: ListTile(
-              onTap: () => {
-                Navigator.push(
+              onTap: () async {
+                bool update = await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => EventScreen(
                       TutoryallEvent(
-                        this.snapshot.data[this.index].eventID,
-                        this.snapshot.data[this.index].name,
-                        this.snapshot.data[this.index].description,
-                        this.snapshot.data[this.index].date,
-                        this.snapshot.data[this.index].time,
-                        this.snapshot.data[this.index].image,
-                        this.snapshot.data[this.index].creatorID,
-                        this.snapshot.data[this.index].listGoingIDs,
-                        this.snapshot.data[this.index].location,
-                        this.snapshot.data[this.index].lotation,
-                        this.snapshot.data[this.index].tags,
+                        widget.snapshot.data[widget.index].eventID,
+                        widget.snapshot.data[widget.index].name,
+                        widget.snapshot.data[widget.index].description,
+                        widget.snapshot.data[widget.index].date,
+                        widget.snapshot.data[widget.index].time,
+                        widget.snapshot.data[widget.index].image,
+                        widget.snapshot.data[widget.index].creatorID,
+                        widget.snapshot.data[widget.index].listGoingIDs,
+                        widget.snapshot.data[widget.index].location,
+                        widget.snapshot.data[widget.index].lotation,
+                        widget.snapshot.data[widget.index].tags,
                       ),
                     ),
                   ),
-                ),
+                );
+                if (update && widget.tileLocation != "HomeMenu") {
+                  Navigator.pop(context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ProfileEvent(widget._auth.currentUser.uid)));
+                }
               },
               leading: InkWell(
                 onTap: () => {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            Profile(this.snapshot.data[this.index].creatorID)),
+                        builder: (context) => Profile(
+                            widget.snapshot.data[widget.index].creatorID,
+                            true)),
                   )
                 },
                 child: FutureBuilder(
                   future: Database.getUserProfilePicture(
-                      this.snapshot.data[this.index].creatorID),
+                      widget.snapshot.data[widget.index].creatorID),
                   builder: (context, snapshot) {
-                    return CircleAvatar(
-                      backgroundImage: snapshot.data,
-                    );
+                    if (snapshot.data != null) {
+                      return CircleAvatar(
+                        backgroundImage: snapshot.data,
+                      );
+                    } else {
+                      return CircleAvatar(
+                        backgroundImage:
+                            Image.asset("assets/images/default_user.png").image,
+                      );
+                    }
                   },
                 ),
               ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(this.snapshot.data[this.index].name,
+                  Text(widget.snapshot.data[widget.index].name,
                       style: TextStyle(fontSize: 16, color: Colors.black)),
                   Text(
-                      '${this.snapshot.data[this.index].date.day}/${this.snapshot.data[this.index].date.month}/${this.snapshot.data[this.index].date.year} ${this.snapshot.data[this.index].time.hour}h${this.snapshot.data[this.index].time.minute}'),
-                  Text('${this.snapshot.data[this.index].location}'),
+                      '${widget.snapshot.data[widget.index].date.day}/${widget.snapshot.data[widget.index].date.month}/${widget.snapshot.data[widget.index].date.year} ${widget.snapshot.data[widget.index].time.hour}h${widget.snapshot.data[widget.index].time.minute}'),
+                  Text('${widget.snapshot.data[widget.index].location}'),
                   Text(
-                      "${this.snapshot.data[this.index].listGoingIDs.length}/${this.snapshot.data[this.index].lotation} people are going"),
+                      "${widget.snapshot.data[widget.index].listGoingIDs.length}/${widget.snapshot.data[widget.index].lotation} people are going"),
                   Wrap(spacing: 8.0, runSpacing: 1.0, children: getTags()),
                 ],
               ),
@@ -106,8 +134,8 @@ class CustomTile extends StatelessWidget {
                 size: 50,
               ),
               title: FutureBuilder(
-                future:
-                    Database.getUser(this.snapshot.data[this.index].creatorID),
+                future: Database.getUser(
+                    widget.snapshot.data[widget.index].creatorID),
                 builder: (BuildContext buildContext, AsyncSnapshot snapshot) {
                   if (snapshot.data == null) {
                     return Text("Loading");

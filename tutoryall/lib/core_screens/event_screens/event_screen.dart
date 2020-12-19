@@ -112,80 +112,108 @@ class _EventScreenState extends State<EventScreen> {
                   ),
                 ),
               ),
-              body: Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: NetworkImage(
-                                "https://cdn.record.pt/images/2019-03/img_920x518\$2019_03_06_21_25_15_1514388.jpg"),
-                            fit: BoxFit.cover)),
-                    child: Container(
-                      width: double.infinity,
-                      height: 150,
-                      child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        Profile(widget.event.creatorID)));
-                          },
-                          child: Container(
-                            alignment: Alignment(-1.0, 2.5),
-                            //é suposto esta imagem ser a do criador do evento
-                            child: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  "https://tmssl.akamaized.net/images/portrait/header/283130-1542106491.png?lm=1542106523"),
-                              radius: 50.0,
-                              backgroundColor: Colors.white,
-                            ),
-                          )),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    child: Center(
-                      child: Text(
-                        "${widget.event.location}\n${widget.event.date.day}/${widget.event.date.month}/${widget.event.date.year}\n${widget.event.time.hour}h${widget.event.time.minute}m",
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(
-                      "Rating",
-                    ),
-                    trailing: FutureBuilder(
-                      future: Database.getUser(widget.event.creatorID),
+              body: WillPopScope(
+                onWillPop: () {
+                  Navigator.pop(
+                      context,
+                      snapshot.data[creatorUserIdx].id ==
+                              widget.auth.currentUser.uid
+                          ? false
+                          : (widget.event.listGoingIDs
+                                  .contains(widget.auth.currentUser.uid)
+                              ? false
+                              : true));
+                  return null;
+                },
+                child: Column(
+                  children: [
+                    FutureBuilder(
+                      future: Database.getUserBackgroundImage(widget.event.creatorID),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.data == null) {
-                          return Text("Loading");
-                        } else {
-                          return Text(
-                            snapshot.data.rating.toStringAsFixed(1),
-                            style: TextStyle(fontSize: 15),
-                          );
-                        }
+                        return Container(
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: snapshot.data == null ? Image.asset("assets/images/cover_pic.png").image: snapshot.data,
+                                  fit: BoxFit.cover)),
+                          child: Container(
+                            width: double.infinity,
+                            height: 150,
+                            child: FutureBuilder(
+                              future: Database.getUserProfilePicture(
+                                 widget.event.creatorID),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                return GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Profile(
+                                                  widget.event.creatorID,
+                                                  true)));
+                                    },
+                                    child: Container(
+                                      alignment: Alignment(-1.0, 2.5),
+                                      //é suposto esta imagem ser a do criador do evento
+                                      child: CircleAvatar(
+                                        backgroundImage: snapshot.data == null
+                                            ? Image.asset(
+                                                    "assets/images/default_user.png")
+                                                .image
+                                            : snapshot.data,
+                                        radius: 50.0,
+                                        backgroundColor: Colors.white,
+                                      ),
+                                    ));
+                              },
+                            ),
+                          ),
+                        );
                       },
                     ),
-                  ),
-                  ListTile(
+                    Container(
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        child: Center(
+                            child: Text(
+                          "${widget.event.location}\n${widget.event.date.day}/${widget.event.date.month}/${widget.event.date.year}\n${widget.event.time.hour}h${widget.event.time.minute}m",
+                          textAlign: TextAlign.center,
+                        ))),
+                    ListTile(
                       title: Text(
-                        "Lotation",
+                        "Rating",
                       ),
-                      trailing: //Text("${widget.event.listGoing.length}/${widget.event.lotation}")),
-                          Text(
-                              "${widget.event.listGoingIDs.length}/${widget.event.lotation}")),
-                  Container(
-                    padding: EdgeInsets.only(
-                        left: 10, right: 10, top: 20, bottom: 20),
-                    child: Text(
-                      widget.event.description,
-                      textAlign: TextAlign.left,
+                      trailing: FutureBuilder(
+                        future: Database.getUser(widget.event.creatorID),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.data == null) {
+                            return Text("Loading");
+                          } else {
+                            return Text(
+                              snapshot.data.rating.toStringAsFixed(1),
+                              style: TextStyle(fontSize: 15),
+                            );
+                          }
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                    ListTile(
+                        title: Text(
+                          "Lotation",
+                        ),
+                        trailing: //Text("${widget.event.listGoing.length}/${widget.event.lotation}")),
+                            Text(
+                                "${widget.event.listGoingIDs.length}/${widget.event.lotation}")),
+                    Container(
+                      padding: EdgeInsets.only(
+                          left: 10, right: 10, top: 20, bottom: 20),
+                      child: Text(
+                        widget.event.description,
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           }
