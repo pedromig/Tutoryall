@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:tutoryall/utils/date_picker.dart';
 import 'package:tutoryall/utils/time_picker.dart';
 import 'package:tutoryall/utils/tutoryall_event.dart';
@@ -13,22 +14,100 @@ class CreateEventScreen extends StatefulWidget {
   _CreateEventScreenState createState() => _CreateEventScreenState();
 }
 
-class _CreateEventScreenState extends State<CreateEventScreen> {
-  TutoryallEvent event;
-  String eventID;
+class EventForm {
   String name;
   String description;
   DateTime date;
-  TimeOfDay time;
-  Image image;
+  DateTime time;
   String location;
-  double rating = 0;
   int lotation;
-  List<String> tags;
+  List<String> tags = [];
+}
 
-  DateTime now = DateTime.now();
-
+class _CreateEventScreenState extends State<CreateEventScreen> {
   final formKey = GlobalKey<FormState>();
+  final EventForm eventForm = EventForm();
+
+  _getChips() {
+    List<Widget> widgets = [];
+
+    for (int i = 0; i < eventForm.tags.length; ++i) {
+      widgets.add(
+        Chip(
+          label: Text(eventForm.tags[i]),
+          onDeleted: () {
+            setState(
+              () {
+                eventForm.tags.remove(eventForm.tags[i]);
+              },
+            );
+          },
+        ),
+      );
+    }
+    widgets.add(
+      ActionChip(
+        label: Text("+"),
+        onPressed: () => _addChip(widgets),
+      ),
+    );
+    return widgets;
+  }
+
+  _addChip(List<Widget> widgets) {
+    setState(
+      () {
+        TextEditingController _input = TextEditingController();
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              backgroundColor: Color(0xfff2f3f5),
+              title: Text("Tag"),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Expanded(
+                      child: TextField(
+                        autofocus: true,
+                        decoration: new InputDecoration(
+                          labelText: "Name",
+                        ),
+                        controller: _input,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    RaisedButton(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0)),
+                      child: Text('Add', style: TextStyle(color: Colors.black)),
+                      onPressed: () async {
+                        eventForm.tags.add(_input.text.trim());
+                        widgets.add(
+                          Chip(
+                            label: Text(_input.text.trim()),
+                          ),
+                        );
+                        Navigator.pop(context);
+                        setState(() {});
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,261 +134,313 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
               onPressed: () => {Navigator.pop(context)}),
         ),
       ),
-      body: Form(
-        key: formKey,
+      body: Container(
         child: ListView(
           children: [
-            // Event
-            Padding(
-              padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        'Event',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
+            Form(
+              key: formKey,
+              child: Column(
+                children: [
+                  // Event
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                              'Event',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Flexible(
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                      ),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter some text';
-                        }
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Flexible(
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                            ),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              eventForm.name = value;
+                              return null;
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
 
-                        return null;
+                  // Description
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                              'Description',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Flexible(
+                          child: TextFormField(
+                            maxLines: 7,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                            ),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              eventForm.description = value;
+                              return null;
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // Date
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                              'Date',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
+                    child: TextFieldDatePicker(
+                      prefixIcon: Icon(Icons.date_range),
+                      suffixIcon: Icon(Icons.arrow_drop_down),
+                      lastDate: DateTime.now().add(Duration(days: 366)),
+                      firstDate: DateTime.now(),
+                      initialDate: DateTime.now().add(Duration(days: 1)),
+                      onDateChanged: (selectedDate) {
+                        eventForm.date = selectedDate;
                       },
+                    ),
+                  ),
+
+                  // Time
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                              'Time',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
+                    child: TextFieldTimePicker(
+                      prefixIcon: Icon(Icons.timer),
+                      suffixIcon: Icon(Icons.arrow_drop_down),
+                      initialTime: DateTime.now(),
+                      onTimeChanged: (selectedTime) {
+                        eventForm.time = selectedTime;
+                      },
+                    ),
+                  ),
+
+                  // Location
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                              'Location',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Flexible(
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                            ),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              eventForm.location = value;
+                              return null;
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // Lotation
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                              'Lotation',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 25.0, right: 270.0, top: 10.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Flexible(
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                            ),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'required';
+                              }
+                              int lotation = int.tryParse(value);
+                              if (lotation == null) {
+                                return "Invalid lotation";
+                              }
+                              eventForm.lotation = lotation;
+                              return null;
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
 
-            // Description
+            // Tags:
             Padding(
               padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        'Description',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Flexible(
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                      ),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-
-                        return null;
-                      },
+                  Text(
+                    'Tags',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
               ),
             ),
 
-            // Date
             Padding(
-              padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        'Date',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            Padding(
-              padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
-              child: TextFieldDatePicker(
-                prefixIcon: Icon(Icons.date_range),
-                suffixIcon: Icon(Icons.arrow_drop_down),
-                lastDate: DateTime.now().add(Duration(days: 366)),
-                firstDate: DateTime.now(),
-                initialDate: DateTime.now().add(Duration(days: 1)),
-                onDateChanged: (selectedDate) {
-                  // Do something with the selected date
-                },
-              ),
-            ),
-
-            // Time
-            Padding(
-              padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        'Time',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            Padding(
-              padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
-              child: TextFieldTimePicker(
-                prefixIcon: Icon(Icons.timer),
-                suffixIcon: Icon(Icons.arrow_drop_down),
-                initialTime: DateTime.now(),
-                onTimeChanged: (selectedTime) {
-                  // Do something with the selected time
-                },
-              ),
-            ),
-
-            // Location
-            Padding(
-              padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        'Location',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Flexible(
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                      ),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Description
-            Padding(
-              padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        'Lotation',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 25.0, right: 280.0, top: 10.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Flexible(
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                      ),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                ],
+              padding: EdgeInsets.only(left: 25.0, right: 10.0, top: 10.0),
+              child: Wrap(
+                direction: Axis.horizontal,
+                spacing: 4.0,
+                runSpacing: 1.0,
+                children: _getChips(),
               ),
             ),
 
@@ -338,11 +469,20 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                 ),
                 onPressed: () {
                   if (formKey.currentState.validate()) {
-                    formKey.currentState.save();
+                    print(eventForm.name);
+                    print(eventForm.description);
+                    print(eventForm.date);
+                    print(eventForm.time);
+                    print(eventForm.location);
+                    print(eventForm.lotation);
+                    for (int i = 0; i < eventForm.tags.length; ++i) {
+                      print(eventForm.tags[i]);
+                    }
                   }
                 },
               ),
             ),
+            SizedBox(height: 20),
           ],
         ),
       ),

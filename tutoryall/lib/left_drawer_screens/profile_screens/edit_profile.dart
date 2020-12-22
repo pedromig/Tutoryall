@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tutoryall/core_screens/home_page.dart';
-import 'package:tutoryall/left_drawer_screens/profile_screens/profile.dart';
 import 'package:tutoryall/utils/database.dart';
 import 'package:tutoryall/utils/tutoryall_user.dart';
 
@@ -124,7 +123,6 @@ class _EditProfileState extends State<EditProfile> {
         },
       );
 
-      // TODO: This looks strange going back to the home page instead of the last menu
       Future.delayed(Duration(seconds: 3), () {
         Navigator.pop(context); // dialog
         Navigator.pop(context); // editprofile

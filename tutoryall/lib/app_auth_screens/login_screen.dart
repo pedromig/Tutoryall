@@ -242,6 +242,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _forgetPassword() {
+    TextEditingController _passwordRecovery = TextEditingController();
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -260,7 +261,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: new InputDecoration(
                       labelText: "Email",
                     ),
-                    onChanged: (value) => Database.recoverPassword(value),
+                    controller: _passwordRecovery,
                   ),
                 ),
                 SizedBox(
@@ -273,6 +274,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(30.0)),
                   child: Text('Submit', style: TextStyle(color: Colors.black)),
                   onPressed: () async {
+                    Database.recoverPassword(_passwordRecovery.text.trim());
                     Navigator.pop(context);
                     setState(() {});
                   },

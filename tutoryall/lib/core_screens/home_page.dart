@@ -28,6 +28,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   _HomePageState();
+  Future<List<TutoryallEvent>> _futureList;
 
   Future<List<TutoryallEvent>> _getData() async {
     List<TutoryallEvent> eventList = await Database.getEventList();
@@ -98,6 +99,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _futureList = _getData();
     WidgetsBinding.instance.addPostFrameCallback((_) => _newUserDialog());
   }
 
@@ -226,30 +228,45 @@ class _HomePageState extends State<HomePage> {
           );
         },
         child: Container(
-          child: FutureBuilder(
-            future: _getData(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.data == null) {
-                return Container(
-                  child: Center(
-                    child: Text("Loading"),
+          child: RefreshIndicator(
+            onRefresh: () async {
+              setState(() {
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) {
+                      return HomePage();
+                    },
+                    transitionDuration: Duration(milliseconds: 0),
                   ),
                 );
-              } else {
-                return ListView.separated(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return CustomTile(snapshot, index,"HomeMenu");
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return Divider(
-                      height: 2,
-                      thickness: 2,
-                    );
-                  },
-                );
-              }
+              });
             },
+            child: FutureBuilder(
+              future: _futureList,
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.data == null) {
+                  return Container(
+                    child: Center(
+                      child:CircularProgressIndicator(),
+                    ),
+                  );
+                } else {
+                  return ListView.separated(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CustomTile(snapshot, index, "HomeMenu");
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return Divider(
+                        height: 2,
+                        thickness: 2,
+                      );
+                    },
+                  );
+                }
+              },
+            ),
           ),
         ),
       ),
