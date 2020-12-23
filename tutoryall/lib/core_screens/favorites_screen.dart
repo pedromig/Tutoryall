@@ -74,7 +74,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             return ListView.separated(
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
-                return UserTile(snapshot, index);
+                return Card(child: UserTile(snapshot, index));
               },
               separatorBuilder: (BuildContext context, int index) {
                 return Divider(
