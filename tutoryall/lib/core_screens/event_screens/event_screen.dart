@@ -149,13 +149,14 @@ class _EventScreenState extends State<EventScreen> {
                               builder: (BuildContext context,
                                   AsyncSnapshot snapshot) {
                                 return GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
+                                    onTap: () async {
+                                      await Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => Profile(
                                                   widget.event.creatorID,
                                                   true)));
+                                      setState(() {});
                                     },
                                     child: Container(
                                       alignment: Alignment(-1.0, 2.5),
