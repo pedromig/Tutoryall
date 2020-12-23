@@ -82,7 +82,7 @@ class _SearchMenuState extends State<SearchMenu> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CreateEventScreen(null),
+                          builder: (context) => CreateEventScreen(),
                         ),
                       );
                     },

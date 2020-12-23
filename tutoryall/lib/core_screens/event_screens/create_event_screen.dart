@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:tutoryall/core_screens/home_page.dart';
+import 'package:tutoryall/utils/database.dart';
 import 'package:tutoryall/utils/date_picker.dart';
 import 'package:tutoryall/utils/time_picker.dart';
 import 'package:tutoryall/utils/tutoryall_event.dart';
 import 'package:tutoryall/utils/tutoryall_user.dart';
 
 class CreateEventScreen extends StatefulWidget {
-  final TutoryallUser user;
-
-  CreateEventScreen(this.user);
+  CreateEventScreen();
 
   @override
   _CreateEventScreenState createState() => _CreateEventScreenState();
@@ -467,16 +467,69 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     ),
                   ),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   if (formKey.currentState.validate()) {
-                    print(eventForm.name);
-                    print(eventForm.description);
-                    print(eventForm.date);
-                    print(eventForm.time);
-                    print(eventForm.location);
-                    print(eventForm.lotation);
-                    for (int i = 0; i < eventForm.tags.length; ++i) {
-                      print(eventForm.tags[i]);
+                    String uid = Database.authenticatedUser().uid;
+                    TutoryallUser user = await Database.getUser(uid);
+                    TutoryallEvent event;
+
+                    for (int i = 0; i < 50; ++i) {
+                      String hash = uid + "_$i";
+                      if (!user.createdEventsIDs.contains(hash)) {
+                        user.createdEventsIDs.add(hash);
+                        Database.updateUser(
+                            uid, "createdEventsIDs", user.createdEventsIDs);
+                        Database.newEvent(
+                          TutoryallEvent(
+                            hash,
+                            eventForm.name,
+                            eventForm.description,
+                            eventForm.date == null
+                                ? DateTime.now()
+                                : eventForm.date,
+                            eventForm.time == null
+                                ? TimeOfDay.now()
+                                : TimeOfDay.fromDateTime(eventForm.time),
+                            uid,
+                            [uid],
+                            eventForm.location,
+                            eventForm.lotation,
+                            eventForm.tags,
+                          ),
+                        );
+                        showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0))),
+                              backgroundColor: Color(0xfff2f3f5),
+                              content: new Row(
+                                children: [
+                                  CircularProgressIndicator(value: null),
+                                  Container(
+                                      margin: EdgeInsets.only(left: 7),
+                                      child: Text("Creating...")),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                        Future.delayed(
+                          Duration(seconds: 3),
+                          () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePage(),
+                              ),
+                            );
+                          },
+                        );
+                        break;
+                      }
                     }
                   }
                 },

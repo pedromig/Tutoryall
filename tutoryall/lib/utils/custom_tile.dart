@@ -62,7 +62,6 @@ class _CustomTileState extends State<CustomTile> {
                         widget.snapshot.data[widget.index].description,
                         widget.snapshot.data[widget.index].date,
                         widget.snapshot.data[widget.index].time,
-                        widget.snapshot.data[widget.index].image,
                         widget.snapshot.data[widget.index].creatorID,
                         widget.snapshot.data[widget.index].listGoingIDs,
                         widget.snapshot.data[widget.index].location,

@@ -46,13 +46,14 @@ class Database {
         dynamicEvent["name"] as String,
         dynamicEvent["description"] as String,
         DateTime(
-            dynamicEvent["date"]["year"] as int,
-            dynamicEvent["date"]["month"] as int,
-            dynamicEvent["date"]["day"] as int),
+          dynamicEvent["date"]["year"] as int,
+          dynamicEvent["date"]["month"] as int,
+          dynamicEvent["date"]["day"] as int,
+        ),
         TimeOfDay(
-            hour: dynamicEvent["time"]["hour"] as int,
-            minute: dynamicEvent["time"]["minute"] as int),
-        dynamicEvent["image"] == null ? null : dynamicEvent["image"] as Image,
+          hour: dynamicEvent["time"]["hour"] as int,
+          minute: dynamicEvent["time"]["minute"] as int,
+        ),
         dynamicEvent["creatorID"] as String,
         dynamicEvent["listGoingIDs"] == null
             ? []
@@ -90,6 +91,10 @@ class Database {
 
   static void newUser(TutoryallUser user) {
     fb.reference().child("users").child(user.id).set(user.toJson());
+  }
+
+  static void newEvent(TutoryallEvent event) {
+    fb.reference().child("events").child(event.eventID).set(event.toJson());
   }
 
   static Future<void> updateUser(String uid, String key, dynamic value) async {
