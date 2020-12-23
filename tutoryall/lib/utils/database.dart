@@ -99,6 +99,16 @@ class Database {
     await fb.reference().child("users").child(uid).child(key).set(value);
   }
 
+  static Future<void> updateUserRating(String uid, double rate) {
+    fb
+        .reference()
+        .child("users")
+        .child(uid)
+        .child("ratings")
+        .child(auth.currentUser.uid)
+        .set(rate);
+  }
+
   static Future<void> updateEvent(
       String eventID, String key, dynamic value) async {
     await fb.reference().child("events").child(eventID).child(key).set(value);

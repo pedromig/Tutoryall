@@ -63,10 +63,7 @@ class _EventScreenState extends State<EventScreen> {
                 actions: <Widget>[
                   snapshot.data[creatorUserIdx].id ==
                           widget.auth.currentUser.uid
-                      ? IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () {},
-                        )
+                      ? Container()
                       : IconButton(
                           icon: widget.event.listGoingIDs
                                   .contains(widget.auth.currentUser.uid)
@@ -128,29 +125,35 @@ class _EventScreenState extends State<EventScreen> {
                 child: Column(
                   children: [
                     FutureBuilder(
-                      future: Database.getUserBackgroundImage(widget.event.creatorID),
+                      future: Database.getUserBackgroundImage(
+                          widget.event.creatorID),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         return Container(
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image: snapshot.data == null ? Image.asset("assets/images/cover_pic.png").image: snapshot.data,
+                                  image: snapshot.data == null
+                                      ? Image.asset(
+                                              "assets/images/cover_pic.png")
+                                          .image
+                                      : snapshot.data,
                                   fit: BoxFit.cover)),
                           child: Container(
                             width: double.infinity,
                             height: 150,
                             child: FutureBuilder(
                               future: Database.getUserProfilePicture(
-                                 widget.event.creatorID),
+                                  widget.event.creatorID),
                               builder: (BuildContext context,
                                   AsyncSnapshot snapshot) {
                                 return GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
+                                    onTap: () async {
+                                      await Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => Profile(
                                                   widget.event.creatorID,
                                                   true)));
+                                      setState(() {});
                                     },
                                     child: Container(
                                       alignment: Alignment(-1.0, 2.5),

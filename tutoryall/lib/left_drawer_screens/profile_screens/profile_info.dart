@@ -4,6 +4,63 @@ import 'package:tutoryall/left_drawer_screens/profile_screens/profile_events.dar
 import 'package:tutoryall/utils/database.dart';
 import 'package:tutoryall/utils/tutoryall_user.dart';
 
+class _Dialog extends StatefulWidget {
+  final TutoryallUser user;
+  _Dialog(this.user);
+  @override
+  __DialogState createState() => __DialogState();
+}
+
+class __DialogState extends State<_Dialog> {
+  double _value = 0;
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0))),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: [
+            Center(
+                child: Text('Rating',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
+            Icon(Icons.star, size: 100, color: Colors.yellow),
+            widget.user.id == Database.authenticatedUser().uid
+                ? Center(child: Text("Your rating is ${widget.user.rating}"))
+                : ListBody(
+                    children: [
+                      Slider(
+                        value: _value,
+                        min: 0,
+                        max: 5,
+                        divisions: 50,
+                        label: _value.toStringAsFixed(1),
+                        onChanged: (double value) {
+                          setState(() {
+                            _value = value;
+                          });
+                        },
+                      ),
+                      RaisedButton(
+                        color: Color(0xff82E3C4),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context, _value);
+                        },
+                        child: Text('Rate!'),
+                      )
+                    ],
+                  )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class ProfileInfo extends StatefulWidget {
   final TutoryallUser user;
   ProfileInfo(this.user);
@@ -13,7 +70,18 @@ class ProfileInfo extends StatefulWidget {
 }
 
 class _ProfileInfoState extends State<ProfileInfo> {
-  bool isFav = true;
+
+  void _getRating() async {
+    final double rate = await showDialog(
+        context: context,
+        builder: (BuildContext context) => _Dialog(widget.user));
+    if (rate != null) {
+      await Database.updateUserRating(widget.user.id, rate);
+      widget.user.rating = (await Database.getUser(widget.user.id)).rating;
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenW = MediaQuery.of(context).size.width;
@@ -110,7 +178,8 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 Container(
                   child: Expanded(
                     child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal:0,vertical:10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 0, vertical: 10),
                       color: Color(0xff82E3C4),
                       child: Row(
                         children: [
@@ -120,13 +189,15 @@ class _ProfileInfoState extends State<ProfileInfo> {
                               color: Colors.yellow,
                             ),
                           ),
-                          Expanded(child: Text("${widget.user.rating}")),
+                          Expanded(
+                              child:
+                                  Text(widget.user.rating.toStringAsFixed(1)))
                         ],
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
-                      onPressed: () {},
+                      onPressed: _getRating,
                     ),
                   ),
                 ),

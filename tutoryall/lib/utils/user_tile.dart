@@ -24,14 +24,17 @@ class _UserTileState extends State<UserTile> {
         children: <Widget>[
           Container(
             child: ListTile(
-                onTap: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Profile(
-                                widget.snapshot.data[widget.index].id, true)),
-                      ),
-                    },
+                onTap: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Profile(
+                            widget.snapshot.data[widget.index].id, true)),
+                  );
+                  widget.snapshot.data[widget.index] =
+                      await Database.getUser(widget.snapshot.data[widget.index].id);
+                  setState(() {});
+                },
                 leading: FutureBuilder(
                   future: Database.getUserProfilePicture(
                       widget.snapshot.data[widget.index].id),
@@ -42,7 +45,8 @@ class _UserTileState extends State<UserTile> {
                       );
                     } else {
                       return CircleAvatar(
-                        backgroundImage: Image.asset("assets/images/default_user.png").image,
+                        backgroundImage:
+                            Image.asset("assets/images/default_user.png").image,
                       );
                     }
                   },
