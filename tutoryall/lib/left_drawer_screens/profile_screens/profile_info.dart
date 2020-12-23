@@ -49,7 +49,9 @@ class _ProfileInfoState extends State<ProfileInfo> {
                             return CircleAvatar(
                               radius: 50.0,
                               backgroundColor: Colors.black,
-                              backgroundImage: Image.asset("assets/images/default_user.png").image,
+                              backgroundImage:
+                                  Image.asset("assets/images/default_user.png")
+                                      .image,
                             );
                           }
                         },
@@ -106,22 +108,26 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 ),
                 SizedBox(width: screenW * 0.05),
                 Container(
-                  width: screenW * 0.20,
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.star,
-                        color: Colors.yellow,
+                  child: Expanded(
+                    child: RaisedButton(
+                      padding: EdgeInsets.symmetric(horizontal:0,vertical:10),
+                      color: Color(0xff82E3C4),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Icon(
+                              Icons.star,
+                              color: Colors.yellow,
+                            ),
+                          ),
+                          Expanded(child: Text("${widget.user.rating}")),
+                        ],
                       ),
-                      Text("${widget.user.rating}")
-                    ],
-                  ),
-                  decoration: BoxDecoration(
-                    color: Color(0xff82E3C4),
-                    borderRadius: BorderRadius.circular(20),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      onPressed: () {},
+                    ),
                   ),
                 ),
                 SizedBox(width: screenW * 0.05),
