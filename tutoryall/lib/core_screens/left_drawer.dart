@@ -11,7 +11,7 @@ import 'package:flutter/rendering.dart';
 import 'package:tutoryall/utils/database.dart';
 
 import '../left_drawer_screens/profile_screens/profile.dart';
-import '../left_drawer_screens/settings.dart';
+import '../left_drawer_screens/my_events.dart';
 import '../left_drawer_screens/about_us.dart';
 import '../left_drawer_screens/report_error.dart';
 import '../left_drawer_screens/suggestions.dart';
@@ -25,7 +25,7 @@ class LeftDrawer extends StatefulWidget {
 class _LeftDrawerState extends State<LeftDrawer> {
   final List<String> names = [
     "Profile",
-    "Settings",
+    "My Events",
     "About Us",
     "Report Bugs",
     "Suggestions",
@@ -34,7 +34,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
 
   final List<IconData> icons = [
     Icons.person,
-    Icons.settings_outlined,
+    Icons.event_note,
     Icons.help_outline,
     Icons.bug_report_outlined,
     Icons.inbox_outlined,
@@ -47,7 +47,8 @@ class _LeftDrawerState extends State<LeftDrawer> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Profile(Database.authenticatedUser().uid,false),
+            builder: (context) =>
+                Profile(Database.authenticatedUser().uid, false),
           ),
         );
         break;
@@ -55,7 +56,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Settings(),
+            builder: (context) => MyEvents(),
           ),
         );
         break;
@@ -161,7 +162,8 @@ class _LeftDrawerState extends State<LeftDrawer> {
                     } else {
                       return CircleAvatar(
                         backgroundColor: Colors.white,
-                        backgroundImage: Image.asset("assets/images/default_user.png").image,
+                        backgroundImage:
+                            Image.asset("assets/images/default_user.png").image,
                       );
                     }
                   },
@@ -181,14 +183,14 @@ class _LeftDrawerState extends State<LeftDrawer> {
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       color: Colors.white),
                   child: Text(
-                          "Loading...",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'Minimo',
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
+                    "Loading...",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'Minimo',
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
+                  ),
                 ),
                 accountEmail: DecoratedBox(
                   decoration: BoxDecoration(
@@ -206,10 +208,9 @@ class _LeftDrawerState extends State<LeftDrawer> {
                   ),
                 ),
                 currentAccountPicture: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        backgroundImage: Image.asset("assets/images/default_user.png").image,
-
-
+                  backgroundColor: Colors.white,
+                  backgroundImage:
+                      Image.asset("assets/images/default_user.png").image,
                 ),
                 decoration: BoxDecoration(
                   color: Color(0xff7ceccc),
@@ -228,7 +229,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
         ListView.builder(
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
-          itemCount: 6,
+          itemCount: 2,
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
               leading: Icon(icons[index]),
@@ -241,12 +242,26 @@ class _LeftDrawerState extends State<LeftDrawer> {
             );
           },
         ),
+        Divider(
+          thickness: 1,
+        ),
+        ListView.builder(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemCount: 4,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              leading: Icon(icons[index + 2]),
+              title: Text(
+                names[index + 2],
+              ),
+              onTap: () {
+                _selectTab(index + 2);
+              },
+            );
+          },
+        ),
       ],
     );
   }
 }
-
-
-
-
-

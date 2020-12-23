@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:tutoryall/left_drawer_screens/profile_screens/profile.dart';
 import 'package:tutoryall/utils/database.dart';
@@ -63,37 +62,38 @@ class _EventScreenState extends State<EventScreen> {
                 actions: <Widget>[
                   snapshot.data[creatorUserIdx].id ==
                           widget.auth.currentUser.uid
-                      ? IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () {},
-                        )
+                      ? Container()
                       : IconButton(
                           icon: widget.event.listGoingIDs
                                   .contains(widget.auth.currentUser.uid)
                               ? Icon(Icons.close)
                               : Icon(Icons.check),
                           onPressed: () {
-                            setState(() {
-                              if (widget.event.listGoingIDs
-                                  .contains(widget.auth.currentUser.uid)) {
-                                widget.event.listGoingIDs
-                                    .remove(widget.auth.currentUser.uid);
-                                snapshot.data[loggedUserIdx].goingEventsIDs
-                                    .remove(widget.event.eventID);
-                              } else {
-                                widget.event.listGoingIDs
-                                    .add(widget.auth.currentUser.uid);
-                                snapshot.data[loggedUserIdx].goingEventsIDs
-                                    .add(widget.event.eventID);
-                              }
-                              Database.updateEvent(widget.event.eventID,
-                                  "listGoingIDs", widget.event.listGoingIDs);
-                              Database.updateUser(
-                                  widget.auth.currentUser.uid,
-                                  "goingEventsIDs",
-                                  snapshot.data[loggedUserIdx].goingEventsIDs);
-                            });
-                          })
+                            setState(
+                              () {
+                                if (widget.event.listGoingIDs
+                                    .contains(widget.auth.currentUser.uid)) {
+                                  widget.event.listGoingIDs
+                                      .remove(widget.auth.currentUser.uid);
+                                  snapshot.data[loggedUserIdx].goingEventsIDs
+                                      .remove(widget.event.eventID);
+                                } else {
+                                  widget.event.listGoingIDs
+                                      .add(widget.auth.currentUser.uid);
+                                  snapshot.data[loggedUserIdx].goingEventsIDs
+                                      .add(widget.event.eventID);
+                                }
+                                Database.updateEvent(widget.event.eventID,
+                                    "listGoingIDs", widget.event.listGoingIDs);
+                                Database.updateUser(
+                                    widget.auth.currentUser.uid,
+                                    "goingEventsIDs",
+                                    snapshot
+                                        .data[loggedUserIdx].goingEventsIDs);
+                              },
+                            );
+                          },
+                        )
                 ],
                 centerTitle: true,
                 iconTheme: IconThemeData(
@@ -128,19 +128,24 @@ class _EventScreenState extends State<EventScreen> {
                 child: Column(
                   children: [
                     FutureBuilder(
-                      future: Database.getUserBackgroundImage(widget.event.creatorID),
+                      future: Database.getUserBackgroundImage(
+                          widget.event.creatorID),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         return Container(
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image: snapshot.data == null ? Image.asset("assets/images/cover_pic.png").image: snapshot.data,
+                                  image: snapshot.data == null
+                                      ? Image.asset(
+                                              "assets/images/cover_pic.png")
+                                          .image
+                                      : snapshot.data,
                                   fit: BoxFit.cover)),
                           child: Container(
                             width: double.infinity,
                             height: 150,
                             child: FutureBuilder(
                               future: Database.getUserProfilePicture(
-                                 widget.event.creatorID),
+                                  widget.event.creatorID),
                               builder: (BuildContext context,
                                   AsyncSnapshot snapshot) {
                                 return GestureDetector(

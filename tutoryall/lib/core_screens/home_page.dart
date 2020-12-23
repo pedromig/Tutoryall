@@ -248,20 +248,15 @@ class _HomePageState extends State<HomePage> {
                 if (snapshot.data == null) {
                   return Container(
                     child: Center(
-                      child:CircularProgressIndicator(),
+                      child: CircularProgressIndicator(),
                     ),
                   );
                 } else {
-                  return ListView.separated(
+                  return ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return CustomTile(snapshot, index, "HomeMenu");
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return Divider(
-                        height: 2,
-                        thickness: 2,
-                      );
+                      return Card(
+                          child: CustomTile(snapshot, index, "HomeMenu"));
                     },
                   );
                 }

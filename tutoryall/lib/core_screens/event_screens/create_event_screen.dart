@@ -471,7 +471,6 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   if (formKey.currentState.validate()) {
                     String uid = Database.authenticatedUser().uid;
                     TutoryallUser user = await Database.getUser(uid);
-                    TutoryallEvent event;
 
                     for (int i = 0; i < 50; ++i) {
                       String hash = uid + "_$i";
