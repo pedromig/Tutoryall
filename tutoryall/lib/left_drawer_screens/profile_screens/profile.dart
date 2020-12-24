@@ -34,86 +34,89 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     print(widget.userID);
     return FutureBuilder(
-        future: _getdata(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.data == null) {
-            return Scaffold(
-              resizeToAvoidBottomInset: false,
-              appBar: AppBar(
-                  iconTheme: IconThemeData(
-                    color: Colors.black,
-                  ),
-                  backgroundColor: Color(0xff7ceccc),
-                  title: Text("Loading", style: TextStyle(color: Colors.black)),
-                  centerTitle: true),
-              body: Center(child: Text("Loading")),
-            );
-          } else {
-            return Scaffold(
-              resizeToAvoidBottomInset: false,
-              appBar: AppBar(
+      future: _getdata(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.data == null) {
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
                 iconTheme: IconThemeData(
                   color: Colors.black,
                 ),
                 backgroundColor: Color(0xff7ceccc),
-                title: Text(
-                  "Profile",
-                  style: TextStyle(
-                      fontSize: 25,
-                      fontFamily: 'Minimo',
-                      fontWeight: FontWeight.w800,
-                      color: Colors.black),
-                ),
-                centerTitle: true,
-                actions: <Widget>[
-                  widget.userID == widget.auth.currentUser.uid
-                      ? (widget.readOnly
-                          ? Container()
-                          : IconButton(
-                              icon: Icon(
-                                Icons.edit,
-                                color: Colors.black,
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => EditProfile(
-                                          snapshot.data[windowUserIdx])),
-                                );
-                              },
-                            ))
-                      : IconButton(
-                          icon: snapshot.data[loggedUserIdx].favUsersIDs
-                                  .contains(widget.userID)
-                              ? Icon(
-                                  Icons.favorite,
-                                  color: Colors.red,
-                                )
-                              : Icon(
-                                  Icons.favorite_outline,
-                                ),
-                          onPressed: () {
-                            setState(() {
-                              if (snapshot.data[loggedUserIdx].favUsersIDs
-                                  .contains(widget.userID)) {
-                                snapshot.data[loggedUserIdx].favUsersIDs
-                                    .remove(widget.userID);
-                              } else {
-                                snapshot.data[loggedUserIdx].favUsersIDs
-                                    .add(widget.userID);
-                              }
-                              Database.updateUser(
-                                  widget.auth.currentUser.uid,
-                                  "favUsersIDs",
-                                  snapshot.data[loggedUserIdx].favUsersIDs);
-                            });
-                          }),
-                ],
+                title: Text("Loading", style: TextStyle(color: Colors.black)),
+                centerTitle: true),
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        } else {
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
+              iconTheme: IconThemeData(
+                color: Colors.black,
               ),
-              body: ProfileInfo(snapshot.data[windowUserIdx]),
-            );
-          }
-        });
+              backgroundColor: Color(0xff7ceccc),
+              title: Text(
+                "Profile",
+                style: TextStyle(
+                    fontSize: 25,
+                    fontFamily: 'Minimo',
+                    fontWeight: FontWeight.w800,
+                    color: Colors.black),
+              ),
+              centerTitle: true,
+              actions: <Widget>[
+                widget.userID == widget.auth.currentUser.uid
+                    ? (widget.readOnly
+                        ? Container()
+                        : IconButton(
+                            icon: Icon(
+                              Icons.edit,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EditProfile(
+                                        snapshot.data[windowUserIdx])),
+                              );
+                            },
+                          ))
+                    : IconButton(
+                        icon: snapshot.data[loggedUserIdx].favUsersIDs
+                                .contains(widget.userID)
+                            ? Icon(
+                                Icons.favorite,
+                                color: Colors.red,
+                              )
+                            : Icon(
+                                Icons.favorite_outline,
+                              ),
+                        onPressed: () {
+                          setState(() {
+                            if (snapshot.data[loggedUserIdx].favUsersIDs
+                                .contains(widget.userID)) {
+                              snapshot.data[loggedUserIdx].favUsersIDs
+                                  .remove(widget.userID);
+                            } else {
+                              snapshot.data[loggedUserIdx].favUsersIDs
+                                  .add(widget.userID);
+                            }
+                            Database.updateUser(
+                                widget.auth.currentUser.uid,
+                                "favUsersIDs",
+                                snapshot.data[loggedUserIdx].favUsersIDs);
+                          });
+                        }),
+              ],
+            ),
+            body: ProfileInfo(snapshot.data[windowUserIdx]),
+          );
+        }
+      },
+    );
   }
 }

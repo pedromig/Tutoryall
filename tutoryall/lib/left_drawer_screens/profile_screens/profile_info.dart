@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tutoryall/left_drawer_screens/profile_screens/profile_events.dart';
 import 'package:tutoryall/utils/database.dart';
 import 'package:tutoryall/utils/tutoryall_user.dart';
@@ -13,21 +14,35 @@ class _Dialog extends StatefulWidget {
 
 class __DialogState extends State<_Dialog> {
   double _value = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _value = widget.user.rating;
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20.0))),
+        borderRadius: BorderRadius.all(
+          Radius.circular(20.0),
+        ),
+      ),
       content: SingleChildScrollView(
         child: ListBody(
           children: [
             Center(
-                child: Text('Rating',
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
+              child: Text(
+                'Rating',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
             Icon(Icons.star, size: 100, color: Colors.yellow),
             widget.user.id == Database.authenticatedUser().uid
-                ? Center(child: Text("Your rating is ${widget.user.rating}"))
+                ? Center(
+                    child: Text("Your rating is ${widget.user.rating}"),
+                  )
                 : ListBody(
                     children: [
                       Slider(
@@ -53,7 +68,7 @@ class __DialogState extends State<_Dialog> {
                         child: Text('Rate!'),
                       )
                     ],
-                  )
+                  ),
           ],
         ),
       ),
@@ -70,7 +85,6 @@ class ProfileInfo extends StatefulWidget {
 }
 
 class _ProfileInfoState extends State<ProfileInfo> {
-
   void _getRating() async {
     final double rate = await showDialog(
         context: context,
@@ -128,7 +142,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                   ),
                 );
               } else {
-                return Text("Loading...");
+                return Center(child: CircularProgressIndicator());
               }
             },
           ),
@@ -143,67 +157,46 @@ class _ProfileInfoState extends State<ProfileInfo> {
           ),
           Container(
             child: Text(
-              "${widget.user.location}, ${widget.user.age == -1 ? "Age" : widget.user.age}",
+              "${widget.user.location != "City" ? widget.user.location : ""}${widget.user.location != "City" && widget.user.age != -1 ? "," : ""} ${widget.user.age == -1 ? "" : widget.user.age.toString()}",
               style: TextStyle(fontSize: 15),
               textAlign: TextAlign.center,
             ),
             width: double.infinity,
           ),
           Divider(),
-          Container(
-            child: Row(
-              children: [
-                SizedBox(width: screenW * 0.05),
-                Container(
-                  width: screenW * 0.65,
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                          flex: 20, child: Center(child: Icon(Icons.mail))),
-                      Expanded(
-                          flex: 100,
-                          child: Center(
-                              child: SelectableText(" ${widget.user.contact}")))
-                    ],
-                  ),
-                  decoration: BoxDecoration(
-                    color: Color(0xff82E3C4),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+          Wrap(
+            direction: Axis.horizontal,
+            spacing: 30,
+            runSpacing: 2,
+            children: [
+              FlatButton.icon(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                color: Color(0xff82E3C4),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
-                SizedBox(width: screenW * 0.05),
-                Container(
-                  child: Expanded(
-                    child: RaisedButton(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-                      color: Color(0xff82E3C4),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Icon(
-                              Icons.star,
-                              color: Colors.yellow,
-                            ),
-                          ),
-                          Expanded(
-                              child:
-                                  Text(widget.user.rating.toStringAsFixed(1)))
-                        ],
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      onPressed: _getRating,
-                    ),
-                  ),
+                onPressed: () {},
+                icon: Icon(Icons.mail),
+                label: SelectableText(
+                  "${widget.user.contact}",
                 ),
-                SizedBox(width: screenW * 0.05),
-              ],
-            ),
+              ),
+              RaisedButton.icon(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                color: Color(0xff82E3C4),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                onPressed: _getRating,
+                icon: Icon(
+                  Icons.star,
+                  color: Colors.yellow,
+                ),
+                label: Text(
+                  widget.user.rating.toStringAsFixed(1),
+                ),
+              ),
+            ],
           ),
           Divider(),
           InkWell(
@@ -221,7 +214,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
               showDialog(
                 context: context,
                 builder: (_) => new AlertDialog(
-                  title: new Text("Bio"),
+                  title: new Text("Biography"),
                   content: SingleChildScrollView(
                     child: new Text(
                       "${widget.user.bio}",
