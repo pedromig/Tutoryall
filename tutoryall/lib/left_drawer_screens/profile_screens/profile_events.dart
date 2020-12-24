@@ -80,7 +80,8 @@ class _ProfileEventState extends State<ProfileEvent> {
                 return ListView.separated(
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return CustomTile(snapshot, index, "ProfileEvents");
+                    return Card(
+                        child: CustomTile(snapshot, index, "ProfileEvents"));
                   },
                   separatorBuilder: (BuildContext context, int index) {
                     return Divider(

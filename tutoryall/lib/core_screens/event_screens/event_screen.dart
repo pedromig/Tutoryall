@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:tutoryall/left_drawer_screens/profile_screens/profile.dart';
 import 'package:tutoryall/utils/database.dart';
@@ -70,27 +69,31 @@ class _EventScreenState extends State<EventScreen> {
                               ? Icon(Icons.close)
                               : Icon(Icons.check),
                           onPressed: () {
-                            setState(() {
-                              if (widget.event.listGoingIDs
-                                  .contains(widget.auth.currentUser.uid)) {
-                                widget.event.listGoingIDs
-                                    .remove(widget.auth.currentUser.uid);
-                                snapshot.data[loggedUserIdx].goingEventsIDs
-                                    .remove(widget.event.eventID);
-                              } else {
-                                widget.event.listGoingIDs
-                                    .add(widget.auth.currentUser.uid);
-                                snapshot.data[loggedUserIdx].goingEventsIDs
-                                    .add(widget.event.eventID);
-                              }
-                              Database.updateEvent(widget.event.eventID,
-                                  "listGoingIDs", widget.event.listGoingIDs);
-                              Database.updateUser(
-                                  widget.auth.currentUser.uid,
-                                  "goingEventsIDs",
-                                  snapshot.data[loggedUserIdx].goingEventsIDs);
-                            });
-                          })
+                            setState(
+                              () {
+                                if (widget.event.listGoingIDs
+                                    .contains(widget.auth.currentUser.uid)) {
+                                  widget.event.listGoingIDs
+                                      .remove(widget.auth.currentUser.uid);
+                                  snapshot.data[loggedUserIdx].goingEventsIDs
+                                      .remove(widget.event.eventID);
+                                } else {
+                                  widget.event.listGoingIDs
+                                      .add(widget.auth.currentUser.uid);
+                                  snapshot.data[loggedUserIdx].goingEventsIDs
+                                      .add(widget.event.eventID);
+                                }
+                                Database.updateEvent(widget.event.eventID,
+                                    "listGoingIDs", widget.event.listGoingIDs);
+                                Database.updateUser(
+                                    widget.auth.currentUser.uid,
+                                    "goingEventsIDs",
+                                    snapshot
+                                        .data[loggedUserIdx].goingEventsIDs);
+                              },
+                            );
+                          },
+                        )
                 ],
                 centerTitle: true,
                 iconTheme: IconThemeData(

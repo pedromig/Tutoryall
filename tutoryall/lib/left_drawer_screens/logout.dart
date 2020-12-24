@@ -1,13 +1,4 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
-/**
- * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
- * Projeto de PGI - Tutory'all 2020/2021
- * 
- * File Author: Miguel André Lourenço Rabuge
- *   
-*/
 
 import 'package:flutter/material.dart';
 import 'package:tutoryall/core_screens/welcome_screen.dart';

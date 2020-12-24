@@ -7,7 +7,6 @@ class TutoryallEvent {
   String description;
   DateTime date;
   TimeOfDay time;
-  Image image;
   String location;
   int lotation;
   String creatorID;
@@ -22,7 +21,6 @@ class TutoryallEvent {
       String description,
       DateTime date,
       TimeOfDay time,
-      Image image,
       String creatorID,
       List<String> listGoingIDs,
       String location,
@@ -33,11 +31,32 @@ class TutoryallEvent {
     this.description = description;
     this.date = date;
     this.time = time;
-    this.image = image;
     this.creatorID = creatorID;
     this.listGoingIDs = listGoingIDs;
     this.location = location;
     this.lotation = lotation;
     this.tags = tags;
+  }
+
+  Map toJson() {
+    return {
+      "id": this.eventID,
+      "name": this.name,
+      "description": this.description,
+      "date": {
+        "day": this.date.day,
+        "month": this.date.month,
+        "year": this.date.year,
+      },
+      "time": {
+        "hour": this.time.hour,
+        "minute": this.time.minute,
+      },
+      "creatorID": this.creatorID,
+      "listGoingIDs": this.listGoingIDs,
+      "location": this.location,
+      "lotation": this.lotation,
+      "tags": this.tags,
+    };
   }
 }
