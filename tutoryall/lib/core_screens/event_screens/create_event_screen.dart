@@ -60,7 +60,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
         TextEditingController _input = TextEditingController();
         showDialog(
           context: context,
-          barrierDismissible: false,
+          barrierDismissible: true,
           builder: (BuildContext context) {
             return AlertDialog(
               shape: RoundedRectangleBorder(
