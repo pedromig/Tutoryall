@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:tutoryall/core_screens/event_screens/event_screen.dart';
+import 'package:tutoryall/core_screens/search_menu.dart';
 import 'package:tutoryall/left_drawer_screens/profile_screens/profile.dart';
 import 'package:tutoryall/left_drawer_screens/profile_screens/profile_events.dart';
 import 'package:tutoryall/utils/database.dart';
@@ -71,14 +72,15 @@ class _CustomTileState extends State<CustomTile> {
                     ),
                   ),
                 );
-                if (update && widget.tileLocation != "HomeMenu") {
+                if (update && widget.tileLocation == "ProfileEvents") {
+                  print("aqui");
                   Navigator.pop(context);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
                               ProfileEvent(widget._auth.currentUser.uid)));
-                }
+                } 
               },
               leading: InkWell(
                 onTap: () => {

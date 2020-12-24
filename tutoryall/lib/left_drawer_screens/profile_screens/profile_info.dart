@@ -27,7 +27,7 @@ class __DialogState extends State<_Dialog> {
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
             Icon(Icons.star, size: 100, color: Colors.yellow),
             widget.user.id == Database.authenticatedUser().uid
-                ? Center(child: Text("Your rating is ${widget.user.rating}"))
+                ? Center(child: Text("Your rating is ${widget.user.rating.toStringAsFixed(1)}"))
                 : ListBody(
                     children: [
                       Slider(

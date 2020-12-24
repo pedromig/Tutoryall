@@ -69,21 +69,14 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           if (snapshot.data == null) {
             return Center(child: Text("Loading"));
           } else if (snapshot.data.length == 0) {
-            return Center(child:Text("No Users to Display"));
+            return Center(child: Text("No Users to Display"));
           } else {
-            return ListView.separated(
+            return ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
                 return Card(child: UserTile(snapshot, index));
               },
-              separatorBuilder: (BuildContext context, int index) {
-                return Divider(
-                  height: 2,
-                  thickness: 2,
-                );
-              },
             );
-            ;
           }
         },
       ),

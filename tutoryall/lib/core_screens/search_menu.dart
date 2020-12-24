@@ -6,7 +6,9 @@
 */
 
 import 'package:flutter/material.dart';
+import 'package:tutoryall/utils/custom_tile.dart';
 import 'package:tutoryall/utils/database.dart';
+import 'package:tutoryall/utils/tutoryall_event.dart';
 import 'event_screens/create_event_screen.dart';
 import 'home_page.dart';
 
@@ -17,6 +19,20 @@ class SearchMenu extends StatefulWidget {
 
 class _SearchMenuState extends State<SearchMenu> {
   final List<String> searchTags = [];
+
+  Future<List<TutoryallEvent>> _getData() async {
+    List<TutoryallEvent> eventList = await Database.getEventList();
+    List<TutoryallEvent> filteredEvents = [];
+    for (final ev in eventList) {
+      for (final t in searchTags) {
+        if (ev.tags.contains(t)) {
+          filteredEvents.add(ev);
+          break;
+        }
+      }
+    }
+    return filteredEvents;
+  }
 
   _getChips() {
     List<Widget> widgets = [];
@@ -103,6 +119,9 @@ class _SearchMenuState extends State<SearchMenu> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
         title: Text(
           "Search",
           style: TextStyle(
@@ -177,50 +196,78 @@ class _SearchMenuState extends State<SearchMenu> {
           ),
         ),
       ),
-      body: WillPopScope(
-        onWillPop: () {
-          return Navigator.pushReplacement(
-            context,
-            PageRouteBuilder(
-              pageBuilder: (BuildContext context, Animation<double> animation,
-                  Animation<double> secondaryAnimation) {
-                return HomePage();
-              },
-              transitionDuration: Duration(seconds: 0),
-            ),
-          );
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Tags:
-            Padding(
-              padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Text(
-                    'Tags',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+      body: ListView(
+        physics: ScrollPhysics(),
+        children: [
+          WillPopScope(
+            onWillPop: () {
+              return Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (BuildContext context,
+                      Animation<double> animation,
+                      Animation<double> secondaryAnimation) {
+                    return HomePage();
+                  },
+                  transitionDuration: Duration(seconds: 0),
+                ),
+              );
+            },
+            child: Container(),
+          ),
+          // Tags:
+          Padding(
+            padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Text(
+                  'Tags',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
+          ),
 
-            Padding(
-              padding: EdgeInsets.only(left: 25.0, right: 10.0, top: 10.0),
-              child: Wrap(
-                direction: Axis.horizontal,
-                spacing: 4.0,
-                runSpacing: 1.0,
-                children: _getChips(),
-              ),
+          Padding(
+            padding: EdgeInsets.only(left: 25.0, right: 10.0, top: 10.0),
+            child: Wrap(
+              direction: Axis.horizontal,
+              spacing: 4.0,
+              runSpacing: 1.0,
+              children: _getChips(),
             ),
-          ],
-        ),
+          ),
+
+          FutureBuilder(
+            future: _getData(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.data == null) {
+                return Container(child: Center(child: Text("Loading")));
+              } else {
+                if (snapshot.data.length != 0) {
+                  return ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Card(
+                          child: CustomTile(snapshot, index, "SearchMenu"));
+                    },
+                  );
+                } else {
+                  return Center(
+                    child: Text("Add tags to get related Events!"),
+                  );
+                }
+              }
+            },
+          ),
+        ],
       ),
     );
   }

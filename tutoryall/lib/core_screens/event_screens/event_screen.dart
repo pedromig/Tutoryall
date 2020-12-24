@@ -122,7 +122,8 @@ class _EventScreenState extends State<EventScreen> {
                           : (widget.event.listGoingIDs
                                   .contains(widget.auth.currentUser.uid)
                               ? false
-                              : true));
+                              : true)
+                      );
                   return null;
                 },
                 child: Column(
