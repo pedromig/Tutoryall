@@ -37,25 +37,28 @@ class _EventScreenState extends State<EventScreen> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.data == null) {
             return Scaffold(
-                appBar: AppBar(
-                  centerTitle: true,
-                  iconTheme: IconThemeData(
-                    color: Colors.black,
-                  ),
-                  backgroundColor: Color(0xff7ceccc),
-                  title: FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Text(
-                      "Loading",
-                      style: TextStyle(
-                          fontSize: 25,
-                          fontFamily: 'Minimo',
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black),
-                    ),
+              appBar: AppBar(
+                centerTitle: true,
+                iconTheme: IconThemeData(
+                  color: Colors.black,
+                ),
+                backgroundColor: Color(0xff7ceccc),
+                title: FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: Text(
+                    "Loading",
+                    style: TextStyle(
+                        fontSize: 25,
+                        fontFamily: 'Minimo',
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black),
                   ),
                 ),
-                body: Center(child: Text("Loading")));
+              ),
+              body: Center(
+                child: Text("Loading"),
+              ),
+            );
           } else {
             return Scaffold(
               appBar: AppBar(
@@ -150,28 +153,27 @@ class _EventScreenState extends State<EventScreen> {
                               builder: (BuildContext context,
                                   AsyncSnapshot snapshot) {
                                 return GestureDetector(
-                                    onTap: () async {
-                                      await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => Profile(
-                                                  widget.event.creatorID,
-                                                  true)));
-                                      setState(() {});
-                                    },
-                                    child: Container(
-                                      alignment: Alignment(-1.0, 2.5),
-                                      //é suposto esta imagem ser a do criador do evento
-                                      child: CircleAvatar(
-                                        backgroundImage: snapshot.data == null
-                                            ? Image.asset(
-                                                    "assets/images/default_user.png")
-                                                .image
-                                            : snapshot.data,
-                                        radius: 50.0,
-                                        backgroundColor: Colors.white,
-                                      ),
-                                    ));
+                                  onTap: () async {
+                                    await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Profile(
+                                                widget.event.creatorID, true)));
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    alignment: Alignment(-1.0, 2.5),
+                                    child: CircleAvatar(
+                                      backgroundImage: snapshot.data == null
+                                          ? Image.asset(
+                                                  "assets/images/default_user.png")
+                                              .image
+                                          : snapshot.data,
+                                      radius: 50.0,
+                                      backgroundColor: Colors.white,
+                                    ),
+                                  ),
+                                );
                               },
                             ),
                           ),
@@ -179,15 +181,18 @@ class _EventScreenState extends State<EventScreen> {
                       },
                     ),
                     Container(
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        child: Center(
-                            child: Text(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      child: Center(
+                        child: Text(
                           "${widget.event.location}\n${widget.event.date.day}/${widget.event.date.month}/${widget.event.date.year}\n${widget.event.time.hour}h${widget.event.time.minute}m",
                           textAlign: TextAlign.center,
-                        ))),
+                        ),
+                      ),
+                    ),
+                    Divider(),
                     ListTile(
                       title: Text(
-                        "Rating",
+                        "Tutor Rating",
                       ),
                       trailing: FutureBuilder(
                         future: Database.getUser(widget.event.creatorID),
@@ -204,21 +209,41 @@ class _EventScreenState extends State<EventScreen> {
                         },
                       ),
                     ),
+                    Divider(),
                     ListTile(
-                        title: Text(
-                          "Lotation",
-                        ),
-                        trailing: //Text("${widget.event.listGoing.length}/${widget.event.lotation}")),
-                            Text(
-                                "${widget.event.listGoingIDs.length}/${widget.event.lotation}")),
-                    Container(
-                      padding: EdgeInsets.only(
-                          left: 10, right: 10, top: 20, bottom: 20),
-                      child: Text(
-                        widget.event.description,
-                        textAlign: TextAlign.left,
+                      title: Text(
+                        "Lotation",
                       ),
+                      trailing: Text(
+                          "${widget.event.listGoingIDs.length}/${widget.event.lotation}"),
                     ),
+                    Divider(),
+                    InkWell(
+                      child: Container(
+                        child: Text(
+                          "${widget.event.description}",
+                          style: TextStyle(fontSize: 15),
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.fade,
+                        ),
+                        padding: EdgeInsets.all(10),
+                        width: double.infinity,
+                      ),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) => new AlertDialog(
+                            title: new Text("Description"),
+                            content: SingleChildScrollView(
+                              child: new Text(
+                                "${widget.event.description}",
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    Divider(),
                   ],
                 ),
               ),

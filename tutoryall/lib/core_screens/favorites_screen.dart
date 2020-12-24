@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tutoryall/utils/database.dart';
-import 'package:tutoryall/utils/tutoryall_event.dart';
 import 'package:tutoryall/utils/tutoryall_user.dart';
 import 'package:tutoryall/utils/user_tile.dart';
 
