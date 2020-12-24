@@ -178,7 +178,7 @@ class _SearchMenuState extends State<SearchMenu> {
         title: Text(
           "Search",
           style: TextStyle(
-            fontSize: 35,
+            fontSize: 25,
             fontFamily: 'Minimo',
             fontWeight: FontWeight.w800,
             color: Colors.black,

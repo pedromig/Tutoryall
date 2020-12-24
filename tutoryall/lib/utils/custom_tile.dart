@@ -115,7 +115,7 @@ class _CustomTileState extends State<CustomTile> {
                   Text(widget.snapshot.data[widget.index].name,
                       style: TextStyle(fontSize: 16, color: Colors.black)),
                   Text(
-                      '${widget.snapshot.data[widget.index].date.day}/${widget.snapshot.data[widget.index].date.month}/${widget.snapshot.data[widget.index].date.year} ${widget.snapshot.data[widget.index].time.hour}h${widget.snapshot.data[widget.index].time.minute}'),
+                      '${widget.snapshot.data[widget.index].date.day}/${widget.snapshot.data[widget.index].date.month}/${widget.snapshot.data[widget.index].date.year} ${widget.snapshot.data[widget.index].time.hour}h${widget.snapshot.data[widget.index].time.minute == 0 ? "00":widget.snapshot.data[widget.index].time.minute}'),
                   Text('${widget.snapshot.data[widget.index].location}'),
                   Text(
                       "${widget.snapshot.data[widget.index].listGoingIDs.length}/${widget.snapshot.data[widget.index].lotation} people are going"),
