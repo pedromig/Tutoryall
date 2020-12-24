@@ -76,7 +76,7 @@ class _SearchMenuState extends State<SearchMenu> {
               content: SingleChildScrollView(
                 child: ListBody(
                   children: <Widget>[
-                    Expanded(
+                    Center(
                       child: TextField(
                         autofocus: true,
                         decoration: new InputDecoration(
@@ -142,7 +142,10 @@ class _SearchMenuState extends State<SearchMenu> {
                 builder: (BuildContext context) {
                   return AlertDialog(
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20.0),
+                      ),
+                    ),
                     title: Text("Available Tags"),
                     content: FutureBuilder(
                       future: _getAllTags(),

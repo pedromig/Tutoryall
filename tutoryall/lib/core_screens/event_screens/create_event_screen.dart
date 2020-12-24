@@ -70,7 +70,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
               content: SingleChildScrollView(
                 child: ListBody(
                   children: <Widget>[
-                    Expanded(
+                    Center(
                       child: TextField(
                         autofocus: true,
                         decoration: new InputDecoration(

@@ -25,6 +25,9 @@ class _EditProfileState extends State<EditProfile> {
 
   _editProfileImage() async {
     PickedFile image = await _imagePicker.getImage(
+      maxHeight: 480,
+      maxWidth: 640,
+      imageQuality: 50,
       source: ImageSource.gallery,
     );
     Database.updateProfileImage(
@@ -60,6 +63,9 @@ class _EditProfileState extends State<EditProfile> {
   _editBackgroundImage() async {
     PickedFile image = await _imagePicker.getImage(
       source: ImageSource.gallery,
+      maxHeight: 480,
+      maxWidth: 640,
+      imageQuality: 50,
     );
     Database.updateBackGroundImage(
       File(image.path),

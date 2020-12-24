@@ -43,8 +43,11 @@ class _MyEventsState extends State<MyEvents> {
               color: Colors.black,
               size: 25,
             ),
-            onPressed: () => Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => HomePage())),
+            onPressed: () => {
+              Navigator.pop(context),
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => HomePage())),
+            },
           ),
         ),
         iconTheme: IconThemeData(
