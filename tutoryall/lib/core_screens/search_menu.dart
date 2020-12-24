@@ -115,10 +115,63 @@ class _SearchMenuState extends State<SearchMenu> {
     );
   }
 
+  Future<List<dynamic>> _getAllTags() async {
+    List<dynamic> allTags = [];
+    List<TutoryallEvent> events = await Database.getEventList();
+    for (final ev in events) {
+      ev.tags.forEach((x) {
+        allTags.add(x);
+      });
+    }
+    allTags = Set.from(allTags).toList();
+    allTags.sort();
+    return allTags;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Icon(Icons.help_outline_outlined),
+            onPressed: () {
+              showDialog(
+                context: context,
+                barrierDismissible: true,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                    title: Text("Available Tags"),
+                    content: FutureBuilder(
+                      future: _getAllTags(),
+                      builder: (context, snapshot) {
+                        if (snapshot.data == null) {
+                          return Text("Loading");
+                        } else if (snapshot.data.length == 0) {
+                          return Text("No Tags available");
+                        } else {
+                          return SingleChildScrollView(
+                            child: ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Text(" - ${snapshot.data[index]}");
+                              },
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  );
+                },
+              );
+            },
+          )
+        ],
         iconTheme: IconThemeData(
           color: Colors.black,
         ),
@@ -241,12 +294,16 @@ class _SearchMenuState extends State<SearchMenu> {
               children: _getChips(),
             ),
           ),
-
+          Divider(),
           FutureBuilder(
             future: _getData(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.data == null) {
-                return Container(child: Center(child: Text("Loading")));
+                return Container(
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    child: Center(
+                      child: Text("Loading"),
+                    ));
               } else {
                 if (snapshot.data.length != 0) {
                   return ListView.builder(
@@ -260,9 +317,11 @@ class _SearchMenuState extends State<SearchMenu> {
                     },
                   );
                 } else {
-                  return Center(
-                    child: Text("Add tags to get related Events!"),
-                  );
+                  return Container(
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      child: Center(
+                        child: Text("Add tags to get related Events!"),
+                      ));
                 }
               }
             },
