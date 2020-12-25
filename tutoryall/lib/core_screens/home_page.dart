@@ -52,24 +52,22 @@ class _HomePageState extends State<HomePage> {
               content: SingleChildScrollView(
                 child: ListBody(
                   children: <Widget>[
-                    Expanded(
-                      child: TextField(
-                        autofocus: true,
-                        onChanged: (value) async {
-                          if (value.isEmpty) value = "Anonymous";
-                          await Database.authenticatedUser()
-                              .updateProfile(displayName: value);
-                          Database.newUser(TutoryallUser(
-                              Database.authenticatedUser().uid,
-                              Database.authenticatedUser().displayName,
-                              "City",
-                              -1,
-                              Database.authenticatedUser().email,
-                              "Tell us more about you!",
-                              0,
-                              null, [], [], []));
-                        },
-                      ),
+                    TextField(
+                      autofocus: true,
+                      onChanged: (value) async {
+                        if (value.isEmpty) value = "Anonymous";
+                        await Database.authenticatedUser()
+                            .updateProfile(displayName: value);
+                        Database.newUser(TutoryallUser(
+                            Database.authenticatedUser().uid,
+                            Database.authenticatedUser().displayName,
+                            "City",
+                            -1,
+                            Database.authenticatedUser().email,
+                            "Tell us more about you!",
+                            0,
+                            null, [], [], []));
+                      },
                     ),
                     SizedBox(
                       height: 10,

@@ -255,14 +255,12 @@ class _LoginScreenState extends State<LoginScreen> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Expanded(
-                  child: TextField(
-                    autofocus: true,
-                    decoration: new InputDecoration(
-                      labelText: "Email",
-                    ),
-                    controller: _passwordRecovery,
+                TextField(
+                  autofocus: true,
+                  decoration: new InputDecoration(
+                    labelText: "Email",
                   ),
+                  controller: _passwordRecovery,
                 ),
                 SizedBox(
                   height: 10,

@@ -81,14 +81,12 @@ class _EditEventScreenState extends State<EditEventScreen> {
               content: SingleChildScrollView(
                 child: ListBody(
                   children: <Widget>[
-                    Expanded(
-                      child: TextField(
-                        autofocus: true,
-                        decoration: new InputDecoration(
-                          labelText: "Name",
-                        ),
-                        controller: _input,
+                    TextField(
+                      autofocus: true,
+                      decoration: new InputDecoration(
+                        labelText: "Name",
                       ),
+                      controller: _input,
                     ),
                     SizedBox(
                       height: 10,

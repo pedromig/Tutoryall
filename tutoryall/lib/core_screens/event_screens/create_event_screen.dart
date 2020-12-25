@@ -402,7 +402,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                 return 'required';
                               }
                               int lotation = int.tryParse(value);
-                              if (lotation == null) {
+                              if (lotation <= 0 || lotation == null) {
                                 return "Invalid lotation";
                               }
                               eventForm.lotation = lotation;
