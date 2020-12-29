@@ -40,7 +40,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (_repeatPassword.text == _password.text) {
         _showLoaderDialog(context);
         await Database.register(
-          _email.text,
+          _email.text.trim(),
           _password.text,
         ).then(
           (value) => {

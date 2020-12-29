@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:tutoryall/core_screens/home_page.dart';
 import 'package:tutoryall/utils/database.dart';
 import 'package:tutoryall/utils/tutoryall_user.dart';
@@ -24,40 +25,42 @@ class _EditProfileState extends State<EditProfile> {
   Future _backgroundFuture;
 
   _editProfileImage() async {
-    PickedFile image = await _imagePicker.getImage(
-      maxHeight: 480,
-      maxWidth: 640,
-      imageQuality: 50,
-      source: ImageSource.gallery,
-    );
-    Database.updateProfileImage(
-      File(image.path),
-    );
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0))),
-          backgroundColor: Color(0xfff2f3f5),
-          content: new Row(
-            children: [
-              CircularProgressIndicator(value: null),
-              Container(
-                  margin: EdgeInsets.only(left: 7),
-                  child: Text("Uploading...")),
-            ],
-          ),
-        );
-      },
-    );
-    Future.delayed(const Duration(milliseconds: 3000), () {
-      setState(() {
-        _profileFuture = _getProfileImage();
+    PermissionStatus perm = await Permission.storage.request();
+    if (perm.isGranted) {
+      PickedFile image = await _imagePicker.getImage(
+        source: ImageSource.gallery,
+      );
+
+      if (image != null) {}
+      Database.updateProfileImage(
+        File(image.path),
+      );
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            backgroundColor: Color(0xfff2f3f5),
+            content: new Row(
+              children: [
+                CircularProgressIndicator(value: null),
+                Container(
+                    margin: EdgeInsets.only(left: 7),
+                    child: Text("Uploading...")),
+              ],
+            ),
+          );
+        },
+      );
+      Future.delayed(const Duration(milliseconds: 3000), () {
+        setState(() {
+          _profileFuture = _getProfileImage();
+        });
+        Navigator.pop(context);
       });
-      Navigator.pop(context);
-    });
+    }
   }
 
   _editBackgroundImage() async {

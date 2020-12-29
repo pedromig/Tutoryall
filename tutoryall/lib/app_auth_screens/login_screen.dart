@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _login() async {
     try {
       _showLoaderDialog(context);
-      await Database.signIn(_email.text, _password.text).then(
+      await Database.signIn(_email.text.trim(), _password.text).then(
         (value) => {
           setState(() {
             _passwordError = "";

@@ -81,10 +81,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    FirebaseAuth.instance.authStateChanges().listen(
-      (User user) {
+    FirebaseAuth.instance.authStateChanges().listen((User user) async {
         if (user != null) {
-          Navigator.pushReplacement(
+          await Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => HomePage()));
         }
       },
