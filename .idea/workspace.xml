@@ -2,15 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="10d27307-2c54-4388-9712-0c27b65d40b4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/Tutoryall.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Tutoryall.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tutoryall/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tutoryall/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tutoryall/android/app/src/main/kotlin/com/example/tutoryall/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/tutoryall/android/app/src/main/kotlin/com/example/tutoryall/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tutoryall/lib/app_auth_screens/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/tutoryall/lib/app_auth_screens/login_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tutoryall/lib/app_auth_screens/register_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/tutoryall/lib/app_auth_screens/register_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tutoryall/lib/core_screens/welcome_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/tutoryall/lib/core_screens/welcome_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tutoryall/lib/left_drawer_screens/profile_screens/edit_profile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/tutoryall/lib/left_drawer_screens/profile_screens/edit_profile.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tutoryall/lib/left_drawer_screens/report_error.dart" beforeDir="false" afterPath="$PROJECT_DIR$/tutoryall/lib/left_drawer_screens/report_error.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tutoryall/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/tutoryall/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tutoryall/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/tutoryall/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[R58MB1G0YRJ]" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -24,7 +35,11 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="io.flutter.reload.alreadyRun" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="dart.settings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
@@ -59,10 +74,15 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605739082180">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="193" y="54" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1609208635081">
+      <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1605739082180" />
+    <state x="193" y="54" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1609208635081" />
+    <state x="604" y="221" width="324" height="497" key="#com.intellij.openapi.roots.ui.configuration.libraryEditor.LibraryEditorDialog" timestamp="1609208148758">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="604" y="221" width="324" height="497" key="#com.intellij.openapi.roots.ui.configuration.libraryEditor.LibraryEditorDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1609208148757" />
     <state x="392" y="93" key="#widget_test.dart" timestamp="1605739130604">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -75,25 +95,38 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="466" y="159" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1605739125601" />
-    <state width="1323" height="178" key="GridCell.Tab.0.bottom" timestamp="1605739666993">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1874" height="275" key="GridCell.Tab.0.bottom" timestamp="1609210881351">
+      <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state width="1323" height="178" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1605739666993" />
-    <state width="1323" height="178" key="GridCell.Tab.0.center" timestamp="1605739666992">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1874" height="275" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1609210881351" />
+    <state width="1874" height="275" key="GridCell.Tab.0.center" timestamp="1609210881350">
+      <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state width="1323" height="178" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1605739666992" />
-    <state width="1323" height="178" key="GridCell.Tab.0.left" timestamp="1605739666991">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1874" height="275" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1609210881350" />
+    <state width="1874" height="275" key="GridCell.Tab.0.left" timestamp="1609210881350">
+      <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state width="1323" height="178" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1605739666991" />
-    <state width="1323" height="178" key="GridCell.Tab.0.right" timestamp="1605739666992">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1874" height="275" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1609210881350" />
+    <state width="1874" height="275" key="GridCell.Tab.0.right" timestamp="1609210881351">
+      <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state width="1323" height="178" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1605739666992" />
-    <state x="184" y="9" key="SettingsEditor" timestamp="1605739664565">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1874" height="275" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1609210881351" />
+    <state x="259" y="40" width="1024" height="852" key="SettingsEditor" timestamp="1609208643991">
+      <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="184" y="9" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1605739664565" />
+    <state x="259" y="40" width="1024" height="852" key="SettingsEditor/0.27.1920.1053@0.27.1920.1053" timestamp="1609208643991" />
+    <state x="641" y="141" width="638" height="825" key="find.popup" timestamp="1609209312357">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="641" y="141" width="638" height="825" key="find.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1609209312357" />
+    <state width="600" height="428" key="javadoc.popup" timestamp="1609210353786">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="600" height="428" key="javadoc.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1609210353786" />
   </component>
 </project>
