@@ -28,10 +28,10 @@ class _EditProfileState extends State<EditProfile> {
       source: ImageSource.gallery,
     );
 
-    if (image != null) {}
     Database.updateProfileImage(
       File(image.path),
     );
+
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -51,6 +51,7 @@ class _EditProfileState extends State<EditProfile> {
         );
       },
     );
+
     Future.delayed(const Duration(milliseconds: 3000), () {
       setState(() {
         _profileFuture = _getProfileImage();
