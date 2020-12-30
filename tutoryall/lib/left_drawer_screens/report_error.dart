@@ -1,14 +1,6 @@
-/**
- * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
- * Projeto de PGI - Tutory'all 2020/2021
- * 
- * File Author: Miguel André Lourenço Rabuge
- *   
-*/
-
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 class ReportError extends StatefulWidget {
   @override
@@ -18,7 +10,6 @@ class ReportError extends StatefulWidget {
 class _ReportErrorState extends State<ReportError> {
   @override
   Widget build(BuildContext context) {
-    double screenW = MediaQuery.of(context).size.width;
     double screenH = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
@@ -50,10 +41,7 @@ class _ReportErrorState extends State<ReportError> {
             Center(
               child: RaisedButton(
                 color: Color(0xff7ceccc),
-                onPressed: () => _launchURL(
-                    'tutoryall@gmail.com',
-                    '[ERROR REPORT]',
-                    '<B>Report</B><br><br><u>What Happened:</u><br><br><u>Where:</u><br><br><u>Short guide to reproduce the error:</u><br><br><br>(Feel free to attach any screenshots)<br><br>Thank you!<br><br> - <u>Tutory\'all Development Team</u><br>'),
+                onPressed: _sendBugReport,
                 child: Text('Reportar'),
               ),
             ),
@@ -63,12 +51,26 @@ class _ReportErrorState extends State<ReportError> {
     );
   }
 
-  _launchURL(String toMailId, String subject, String body) async {
-   var url = 'mailto:$toMailId?subject=$subject&body=$body';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
+  Future<void> _sendBugReport() async {
+    final Email email = Email(
+      body:
+          '<B>Report</B><br><br><u>What Happened:</u><br><br><u>Where:</u><br><br><u>Short guide to reproduce the error:</u><br><br><br>(Feel free to attach any screenshots)<br><br>Thank you!<br><br> - <u>Tutory\'all Development Team</u><br>',
+      subject: '[ERROR REPORT]',
+      recipients: ['tutoryall@gmail.com'],
+      isHTML: true,
+    );
+
+    String platformResponse;
+
+    try {
+      await FlutterEmailSender.send(email);
+      platformResponse = 'success';
+    } catch (error) {
+      platformResponse = error.toString();
     }
+
+    if (!mounted) return;
+
+    print("Email status: " + platformResponse);
   }
 }

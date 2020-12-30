@@ -1,14 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
-/**
- * Licenciatura em Engenharia Informática | Faculdade de Ciências e Tecnologia da Universidade de Coimbra
- * Projeto de PGI - Tutory'all 2020/2021
- * 
- * File Author: Miguel André Lourenço Rabuge
- *   
-*/
 
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 class Suggestion extends StatefulWidget {
   @override
@@ -51,10 +44,7 @@ class _SuggestionState extends State<Suggestion> {
             Center(
               child: RaisedButton(
                 color: Color(0xff7ceccc),
-                onPressed: () => _launchURL(
-                    'tutoryall@gmail.com',
-                    '[SUGGESTION]',
-                    '<B>Suggestion</B><br><br><u>Motive:</u><br><br><u>What\'s on your mind?</u><br><br><br>Thank you!<br><br> - <u>Tutory\'all Development Team</u><br>'),
+                onPressed: _sendSuggestion,
                 child: Text('Tenho uma ideia!'),
               ),
             ),
@@ -64,13 +54,26 @@ class _SuggestionState extends State<Suggestion> {
     );
   }
 
-  _launchURL(String toMailId, String subject, String body) async {
-    var url = 'mailto:$toMailId?subject=$subject&body=$body';
-    if (await canLaunch(url)) {
-      await launch(url);
-      print("enviou!!!!");
-    } else {
-      throw 'Could not launch $url';
+  Future<void> _sendSuggestion() async {
+    final Email email = Email(
+      body:
+          '<B>Suggestion</B><br><br><u>Motive:</u><br><br><u>What\'s on your mind?</u><br><br><br>Thank you!<br><br> - <u>Tutory\'all Development Team</u><br>',
+      subject: '[SUGGESTION]',
+      recipients: ['tutoryall@gmail.com'],
+      isHTML: true,
+    );
+
+    String platformResponse;
+
+    try {
+      await FlutterEmailSender.send(email);
+      platformResponse = 'success';
+    } catch (error) {
+      platformResponse = error.toString();
     }
+
+    if (!mounted) return;
+
+    print("Email status: " + platformResponse);
   }
 }
